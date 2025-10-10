@@ -1,3 +1,3 @@
 export default function Expertise(){
-	return(<></>);
+	return(<h1>Expertise</h1>);
 }

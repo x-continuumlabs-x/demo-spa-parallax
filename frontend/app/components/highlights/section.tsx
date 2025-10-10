@@ -1,3 +1,3 @@
 export default function Highlights(){
-	return(<></>);
+	return(<h1>Highlights</h1>);
 }

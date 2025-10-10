@@ -1,3 +1,3 @@
 export default function Hero(){
-	return(<></>);
+	return(<h1>Hero</h1>);
 }
