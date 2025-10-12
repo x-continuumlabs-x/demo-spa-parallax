@@ -15,8 +15,8 @@ export default function Expertise(){
 					}}
 					priority
 				/>
-				<div className="absolute top-0 left-0">
-					<h1>Amet</h1>
+				<div className="absolute top-0 left-0 w-full">
+					<h1 className="text-[30vw] text-[#b8bc92] uppercase font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">Amet</h1>
 				</div>
 			</div>
 		</>);

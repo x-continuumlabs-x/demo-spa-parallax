@@ -14,8 +14,8 @@ export default function Services(){
 					}}
 					priority
 				/>
-				<div className="absolute top-0 left-0">
-					<h1>$599 Ut architecto voluptatem</h1>
+				<div className="absolute top-0 left-0 w-full">
+					<h1 className="text-[30vw] text-[#b0f3ee] uppercase font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">Velit</h1>
 				</div>
 			</div>
 		</>);

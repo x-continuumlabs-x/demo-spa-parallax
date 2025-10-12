@@ -17,8 +17,8 @@ export default function Hero() {
 					priority
 				/>
 			</div>
-			<div className="absolute top-0 left-0">
-				<h1>Nomin</h1>
+			<div className="absolute top-0 left-0 w-full">
+				<h1 className="text-[30vw] text-[#b082db] uppercase font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">Nomin</h1>
 			</div>
 		</div>
 		</section>
