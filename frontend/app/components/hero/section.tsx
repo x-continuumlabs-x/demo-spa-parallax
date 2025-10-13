@@ -1,15 +1,18 @@
 import Image from "next/image";
 
 export default function Hero() {
+	const fullWidth = 3200;
+	const fullHeight = 2196;
+	const heightRatio = 2196 / 3200;
 	return (
 		<section className="relative w-full overflow-hidden">
-		<div className="relative w-full h-[100vh]">
+		<div className="relative w-full" style={{ height: `calc(${heightRatio} * 100vw)` }}>
 			<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] h-full">
 				<Image
 					src="/local-images/section-bg-hero.jpg"
 					alt="Photo portrait of a young woman"
-					width={3200}
-					height={2196}
+					width={fullWidth}
+					height={fullHeight}
 					style={{
 						width: '100%',
 						height: 'auto',
