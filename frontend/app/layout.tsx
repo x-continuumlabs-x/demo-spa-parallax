@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { nominee } from "./fonts";
+import { nominee, albertSans } from "./fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,8 +15,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${nominee.variable} antialiased`}
-        style={{ fontFamily: 'var(--font-nominee)' }}
+        className={`${albertSans.variable} ${nominee.variable} antialiased`}
+        style={{ fontFamily: 'var(--font-albert-sans)' }}
       >
         {children}
       </body>
