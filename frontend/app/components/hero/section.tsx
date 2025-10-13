@@ -20,6 +20,9 @@ export default function Hero() {
 			<div className="absolute top-0 left-0 w-full">
 				<h1 className="text-[30vw] text-[#b082db] uppercase font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">Nomin</h1>
 			</div>
+			<div className="absolute top-[30vw] left-0 w-1/2">
+				<p className="text-[16px] text-[#b082db] leading-[1.0em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
+			</div>
 		</div>
 		</section>
 	);
