@@ -14,8 +14,8 @@ export default function Hero() {
 	useGSAP(() => {
 		gsap.fromTo(
 			imageContainerRef.current,
-			{ width: "110vw" },
-			{ width: "100vw", duration: 3.5, ease: "power4.out" }
+			{ width: "107vw" },
+			{ width: "100vw", duration: 3.5, ease: "expo.out" }
 		);
 	});
 
