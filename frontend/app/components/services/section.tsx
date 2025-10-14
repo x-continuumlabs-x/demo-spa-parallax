@@ -2,10 +2,10 @@ import Image from "next/image";
 export default function Services(){
 	return(
 		<section className="relative w-full overflow-hidden">
-			<div data-speed="0.9">
+			<div data-speed="1.0">
 				<Image
 					src="/local-images/section-bg-services.jpg"
-					alt="Photo portrait of an old woman"
+					alt="Photo portrait of an old man"
 					width={2235}
 					height={1468}
 					style={{

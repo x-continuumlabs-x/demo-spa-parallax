@@ -14,7 +14,7 @@ export default function Hero() {
 	useGSAP(() => {
 		gsap.fromTo(
 			imageContainerRef.current,
-			{ width: "107vw" },
+			{ width: "107vw", },
 			{ width: "100vw", duration: 3.5, ease: "expo.out" }
 		);
 	});
@@ -35,11 +35,11 @@ export default function Hero() {
 						priority
 					/>
 				</div>
-				<div className="absolute top-0 left-0 w-full">
+				<div className="absolute top-[-3.3vh] left-0 w-full" data-speed="0.9">
 					<h1 className="text-[30vw] text-[#b082db] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">Nomin</h1>
 				</div>
-				<div className="absolute top-[30vw] left-[10vw] w-1/5">
-					<p className="text-[16px] text-[#b082db] leading-[1.0em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
+				<div className="absolute top-[30vw] left-[10vw] w-1/5" data-speed="0.8">
+					<p className="text-[16px] text-[#b082db] leading-[1.0em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.</p>
 				</div>
 			</div>
 		</section>
