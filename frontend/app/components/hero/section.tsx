@@ -6,9 +6,12 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
 export default function Hero() {
-	const fullWidth = 3200;
-	const fullHeight = 2196;
-	const heightRatio = fullHeight / fullWidth;
+	const imgWidthLandscape = 3200;
+	const imgHeightLandscape = 2196;
+	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
+	const imgWidthPortrait = 3200;
+	const imgHeightPortrait = 5803;
+	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 	const imageContainerRef = useRef<HTMLDivElement>(null);
 
 	useGSAP(() => {
@@ -21,17 +24,38 @@ export default function Hero() {
 
 	return (
 		<section className="relative w-full overflow-hidden">
-			<div className="relative w-full" style={{ height: `calc(${heightRatio} * 100vw)` }}>
+			<div
+				className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
+				style={{
+					'--height-landscape': `calc(${heightRatioLandscape} * 100vw)`,
+					'--height-portrait': `calc(${heightRatioPortrait} * 100vw)`,
+				} as React.CSSProperties}
+			>
 				<div ref={imageContainerRef} className="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] h-full">
+					{/* Landscape image */}
 					<Image
 						src="/local-images/section-bg-hero.jpg"
 						alt="Photo portrait of a young woman"
-						width={fullWidth}
-						height={fullHeight}
+						width={imgWidthLandscape}
+						height={imgHeightLandscape}
 						style={{
 							width: '100%',
 							height: 'auto',
 						}}
+						className="portrait:hidden"
+						priority
+					/>
+					{/* Portrait image */}
+					<Image
+						src="/local-images/section-bg-hero-portrait.jpg"
+						alt="Photo portrait of a young woman"
+						width={imgWidthPortrait}
+						height={imgHeightPortrait}
+						style={{
+							width: '100%',
+							height: 'auto',
+						}}
+						className="hidden portrait:block"
 						priority
 					/>
 				</div>

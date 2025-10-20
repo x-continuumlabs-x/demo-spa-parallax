@@ -7,6 +7,18 @@ export default function About(){
 						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
 						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
 					</div>
+					<div>
+						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
+						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
+					</div>
+					<div>
+						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
+						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
+					</div>
+					<div>
+						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
+						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
+					</div>
 				</div>
 				<div className="w-1/3">
 					<h1 className="text-[5vw] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] mb-[15px]">Ut enim <br />ad minim <br />veniam</h1>
