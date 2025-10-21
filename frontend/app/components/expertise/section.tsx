@@ -1,7 +1,7 @@
 import Image from "next/image";
 export default function Expertise(){
 	return(
-		<section className="z-10 relative w-full overflow-hidden top-[-1vh] sm:top-[-32vh]" data-speed="1.2">
+		<section className="z-10 relative w-full overflow-hidden top-[-20vw] sm:top-[-12vw]" data-speed="1.2">
 			<div>
 				<Image
 					src="/local-images/section-bg-expertise.jpg"
