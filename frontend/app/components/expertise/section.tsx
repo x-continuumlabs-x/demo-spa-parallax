@@ -3,16 +3,30 @@ export default function Expertise(){
 	return(
 		<section className="z-10 relative w-full overflow-hidden top-[-20vw] sm:top-[-12vw]" data-speed="1.2">
 			<div>
+				{/* Landscape image */}
 				<Image
 					src="/local-images/section-bg-expertise.jpg"
 					alt="Photo portrait of a young man"
 					width={3200}
 					height={2863}
-
 					style={{
 						width: '100%',
 						height: 'auto',
 					}}
+					className="portrait:hidden"
+					priority
+				/>
+				{/* Portrait image */}
+				<Image
+					src="/local-images/section-bg-expertise-portrait.jpg"
+					alt="Photo portrait of a young man"
+					width={3200}
+					height={6197}
+					style={{
+						width: '100%',
+						height: 'auto',
+					}}
+					className="hidden portrait:block"
 					priority
 				/>
 			</div>
