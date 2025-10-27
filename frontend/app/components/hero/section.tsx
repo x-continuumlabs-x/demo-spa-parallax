@@ -7,7 +7,8 @@ import { useGSAP } from "@gsap/react";
 
 export default function Hero() {
 	const imgWidthLandscape = 3200;
-	const imgHeightLandscape = 2196;
+	// const imgHeightLandscape = 2196;
+	const imgHeightLandscape = 2883;
 	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
 	const imgWidthPortrait = 3200;
 	const imgHeightPortrait = 5803;
@@ -59,10 +60,10 @@ export default function Hero() {
 						priority
 					/>
 				</div>
-				<div className="absolute top-[-3.3vh] left-0 w-full" data-speed="0.9">
+				<div className="absolute top-[-13vh] left-0 w-full" data-speed="0.7">
 					<h1 className="text-[30vw] text-[#b082db] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">Nomin</h1>
 				</div>
-				<div className="absolute top-[30vw] left-[10vw] w-1/5" data-speed="0.8">
+				<div className="absolute top-[30vw] left-[10vw] w-1/5" data-speed="0.5">
 					<p className="text-[15px] text-[#b082db] leading-[1.0em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.</p>
 				</div>
 			</div>

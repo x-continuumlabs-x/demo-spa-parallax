@@ -8,14 +8,14 @@ export default function Expertise(){
 	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 	return(
 		<section className="z-10 relative w-full overflow-hidden top-[-20vw]">
-			<div data-speed="1.3"
+			<div data-speed="1.2"
 				className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
 				style={{
 					'--height-landscape': `calc(${heightRatioLandscape} * 100vw)`,
 					'--height-portrait': `calc(${heightRatioPortrait} * 100vw)`,
 				} as React.CSSProperties}
 			>
-				<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] h-full">
+				<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] h-full overflow-hidden">
 					{/* Landscape image */}
 					<Image
 						src="/local-images/section-bg-expertise.jpg"
@@ -42,10 +42,11 @@ export default function Expertise(){
 						className="hidden portrait:block"
 						priority
 					/>
+					<div className="absolute top-[-11vw] left-1/2 -translate-x-1/2 w-[100vw]" data-speed="0.7">
+						<h1 className="text-[30vw] text-[#b8bc92] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] text-center m-0 ml-[-0.08em]">Amet</h1>
+					</div>
 				</div>
-				<div className="w-full" data-speed="0.7">
-					<h1 className="text-[30vw] text-[#b8bc92] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] text-center m-0 ml-[-0.08em]">Amet</h1>
-				</div>
+				
 				<div className="absolute top-[25vw] right-[10vw] w-1/5" data-speed="0.6">
 						<p className="text-[15px] text-[#b8bc92] leading-[1.0em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
 				</div>
