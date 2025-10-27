@@ -2,11 +2,9 @@
 
 import { useRef, ReactNode } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 interface SmoothScrollProps {
 	children: ReactNode;
@@ -17,19 +15,21 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 	const smoothContent = useRef<HTMLDivElement>(null);
 
 	useGSAP(() => {
-		// Create ScrollSmoother instance
+		// Register plugins inside hook to ensure window exists
+		gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
 		const smoother = ScrollSmoother.create({
 			wrapper: smoothWrapper.current!,
 			content: smoothContent.current!,
-			smooth: 1.0, // seconds it takes to "catch up" to native scroll position
-			effects: true, // look for data-speed and data-lag attributes on elements
-			smoothTouch: 0.1, // smooth scrolling on touch devices
+			smooth: 1.0,
+			effects: true,
+			smoothTouch: 0.1,
 		});
 
 		return () => {
 			smoother.kill();
 		};
-	});
+	}, []);
 
 	return (
 		<div ref={smoothWrapper} id="smooth-wrapper">
