@@ -33,51 +33,6 @@ export default function Expertise(){
 			return;
 			}
 
-			gsap.fromTo(card3Ref.current,
-				{ scale: 0.8 },
-				{
-					scale: 1,
-					ease: "back.out(1.7)",
-					scrollTrigger: {
-						trigger: cards.current,
-						start: "top bottom-=700px",
-						end: "top bottom-=300px",
-						scrub: 1,
-						markers: true,
-					}
-				}
-			);
-
-
-			gsap.fromTo(card2Ref.current,
-				{ scale: 0.8 },
-				{
-					scale: 1,
-					ease: "back.out(1.7)",
-					scrollTrigger: {
-						trigger: cards.current,
-						start: "top bottom-=650px",
-						end: "top bottom-=250px",
-						scrub: 1,
-					}
-				}
-			);
-
-
-			gsap.fromTo(card1Ref.current,
-				{ scale: 0.8 },
-				{
-					scale: 1,
-					ease: "back.out(1.7)",
-					scrollTrigger: {
-						trigger: cards.current,
-						start: "top bottom-=600px",
-						end: "top bottom-=200px",
-						scrub: 1,
-					}
-				}
-			);
-
 			// Pin animation for the container
 			ScrollTrigger.create({
 				trigger: cards.current,
