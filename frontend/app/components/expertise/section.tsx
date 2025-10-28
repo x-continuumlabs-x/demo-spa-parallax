@@ -5,6 +5,7 @@ import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { Card, CardHeader, CardBody } from "@heroui/react";
 
 export default function Expertise(){
 	const cards = useRef<HTMLDivElement>(null);
@@ -128,10 +129,54 @@ export default function Expertise(){
 			</div>
 			<div
 				ref={cards}
-				className="absolute top-[30vw] right-[10vw] w-1/5" 
+				className="absolute top-[30vw] right-[10vw] flex flex-row gap-4"
 				// data-speed="0.5"
 			>
-				<div className="bg-black">TEST</div>
+				<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
+					<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
+						<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Image Enhancement</h4>
+						<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+					</CardHeader>
+					<CardBody className="p-0">
+						<Image
+							src="/local-images/temp-card-1.jpg"
+							alt="Card 2"
+							width={400}
+							height={300}
+							className="w-full h-auto object-cover"
+						/>
+					</CardBody>
+				</Card>
+				<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
+					<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
+						<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Casting</h4>
+						<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+					</CardHeader>
+					<CardBody className="p-0">
+						<Image
+							src="/local-images/temp-card-1.jpg"
+							alt="Card 3"
+							width={400}
+							height={300}
+							className="w-full h-auto object-cover"
+						/>
+					</CardBody>
+				</Card>
+				<Card className="min-w-[180px] max-w-[300px] rounded-xl" style={{ backgroundColor: '#2b2827' }}>
+					<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
+						<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Lighting 101</h4>
+						<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+					</CardHeader>
+					<CardBody className="p-0">
+						<Image
+							src="/local-images/temp-card-1.jpg"
+							alt="Card 1"
+							width={400}
+							height={300}
+							className="w-full h-auto object-cover"
+						/>
+					</CardBody>
+				</Card>
 			</div>
 		</section>
 	);
