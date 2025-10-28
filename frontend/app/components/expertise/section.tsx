@@ -34,10 +34,10 @@ export default function Expertise(){
 			}
 
 			gsap.fromTo(card3Ref.current,
-				{ opacity: 0 },
+				{ scale: 0.8 },
 				{
-					opacity: 1,
-					ease: "power1.inOut",
+					scale: 1,
+					ease: "back.out(1.7)",
 					scrollTrigger: {
 						trigger: cards.current,
 						start: "top bottom-=700px",
@@ -48,12 +48,12 @@ export default function Expertise(){
 				}
 			);
 
-			
+
 			gsap.fromTo(card2Ref.current,
-				{ opacity: 0 },
+				{ scale: 0.8 },
 				{
-					opacity: 1,
-					ease: "power1.inOut",
+					scale: 1,
+					ease: "back.out(1.7)",
 					scrollTrigger: {
 						trigger: cards.current,
 						start: "top bottom-=650px",
@@ -63,12 +63,12 @@ export default function Expertise(){
 				}
 			);
 
-			
+
 			gsap.fromTo(card1Ref.current,
-				{ opacity: 0 },
+				{ scale: 0.8 },
 				{
-					opacity: 1,
-					ease: "power1.inOut",
+					scale: 1,
+					ease: "back.out(1.7)",
 					scrollTrigger: {
 						trigger: cards.current,
 						start: "top bottom-=600px",
