@@ -9,6 +9,9 @@ import { Card, CardHeader, CardBody } from "@heroui/react";
 
 export default function Expertise(){
 	const cards = useRef<HTMLDivElement>(null);
+	const card1Ref = useRef<HTMLDivElement>(null); // Lighting 101
+	const card2Ref = useRef<HTMLDivElement>(null); // Image Enhancement
+	const card3Ref = useRef<HTMLDivElement>(null); // Casting
 	const sectionRef = useRef<HTMLElement>(null);
 	const expertiseImgRef = useRef<HTMLDivElement>(null);
 	const imgWidthLandscape = 3200;
@@ -30,44 +33,55 @@ export default function Expertise(){
 			return;
 			}
 
-
-			// Single timeline for fade in/out to avoid conflicts
-			const fadeTimeline = gsap.timeline({
+			const card3Timeline = gsap.timeline({
 				scrollTrigger: {
 					trigger: cards.current,
-					start: "top bottom",              // Start when myDiv enters viewport
+					start: "top bottom-=700px",
 					endTrigger: expertiseImgRef.current,
-					end: "bottom center",             // End when expertiseImg bottom hits center
+					end: "bottom center",
 					scrub: 0.5,
 					markers: true,
 				}
 			});
+			card3Timeline.fromTo(card3Ref.current, { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" });
+			card3Timeline.to(card3Ref.current, { opacity: 1, duration: 0.65, ease: "none" });
+			card3Timeline.to(card3Ref.current, { opacity: 0, duration: 0.2, ease: "none" });
 
-			// Fade in quickly at the start
-			fadeTimeline.fromTo(
-				cards.current,
-				{ opacity: 0 },
-				{ opacity: 1, duration: 0.2, ease: "none" }
-			);
+			
+			const card2Timeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: cards.current,
+					start: "top bottom-=600px",
+					endTrigger: expertiseImgRef.current,
+					end: "bottom center",
+					scrub: 0.5,
+				}
+			});
+			card2Timeline.fromTo(card2Ref.current, { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" });
+			card2Timeline.to(card2Ref.current, { opacity: 1, duration: 0.65, ease: "none" });
+			card2Timeline.to(card2Ref.current, { opacity: 0, duration: 0.2, ease: "none" });
 
-			// Stay visible for most of the scroll
-			fadeTimeline.to(
-				cards.current,
-				{ opacity: 1, duration: 0.6, ease: "none" }
-			);
+			
+			const card1Timeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: cards.current,
+					// start: "top bottom",
+					start: "top bottom-=500px",
+					endTrigger: expertiseImgRef.current,
+					end: "bottom center",
+					scrub: 0.5,
+				}
+			});
+			card1Timeline.fromTo(card1Ref.current, { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" });
+			card1Timeline.to(card1Ref.current, { opacity: 1, duration: 0.65, ease: "none" });
+			card1Timeline.to(card1Ref.current, { opacity: 0, duration: 0.2, ease: "none" });
 
-			// Fade out at the end
-			fadeTimeline.to(
-				cards.current,
-				{ opacity: 0, duration: 0.2, ease: "none" }
-			);
-
-			// Pin animation
+			// Pin animation for the container
 			ScrollTrigger.create({
 				trigger: cards.current,
 				start: "top center",
 				endTrigger: expertiseImgRef.current,
-				end: "bottom-=250px center",
+				end: "bottom-=450px center",
 				pin: true,
 				pinSpacing: false,
 				markers: true,
@@ -132,51 +146,57 @@ export default function Expertise(){
 				className="absolute top-[30vw] right-[10vw] flex flex-row gap-4"
 				// data-speed="0.5"
 			>
-				<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
-					<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
-						<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Image Enhancement</h4>
-						<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-					</CardHeader>
-					<CardBody className="p-0">
-						<Image
-							src="/local-images/temp-card-1.jpg"
-							alt="Card 2"
-							width={400}
-							height={300}
-							className="w-full h-auto object-cover"
-						/>
-					</CardBody>
-				</Card>
-				<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
-					<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
-						<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Casting</h4>
-						<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-					</CardHeader>
-					<CardBody className="p-0">
-						<Image
-							src="/local-images/temp-card-1.jpg"
-							alt="Card 3"
-							width={400}
-							height={300}
-							className="w-full h-auto object-cover"
-						/>
-					</CardBody>
-				</Card>
-				<Card className="min-w-[180px] max-w-[300px] rounded-xl" style={{ backgroundColor: '#2b2827' }}>
-					<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
-						<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Lighting 101</h4>
-						<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-					</CardHeader>
-					<CardBody className="p-0">
-						<Image
-							src="/local-images/temp-card-1.jpg"
-							alt="Card 1"
-							width={400}
-							height={300}
-							className="w-full h-auto object-cover"
-						/>
-					</CardBody>
-				</Card>
+				<div ref={card3Ref}>
+					<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
+						<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
+							<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Image Enhancement</h4>
+							<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+						</CardHeader>
+						<CardBody className="p-0">
+							<Image
+								src="/local-images/temp-card-1.jpg"
+								alt="Card 2"
+								width={400}
+								height={300}
+								className="w-full h-auto object-cover"
+							/>
+						</CardBody>
+					</Card>
+				</div>
+				<div ref={card2Ref}>
+					<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
+						<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
+							<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Casting</h4>
+							<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+						</CardHeader>
+						<CardBody className="p-0">
+							<Image
+								src="/local-images/temp-card-1.jpg"
+								alt="Card 3"
+								width={400}
+								height={300}
+								className="w-full h-auto object-cover"
+							/>
+						</CardBody>
+					</Card>
+				</div>
+				<div ref={card1Ref}>
+					<Card className="min-w-[180px] max-w-[300px] rounded-xl" style={{ backgroundColor: '#2b2827' }}>
+						<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
+							<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Lighting 101</h4>
+							<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+						</CardHeader>
+						<CardBody className="p-0">
+							<Image
+								src="/local-images/temp-card-1.jpg"
+								alt="Card 1"
+								width={400}
+								height={300}
+								className="w-full h-auto object-cover"
+							/>
+						</CardBody>
+					</Card>
+				</div>
 			</div>
 		</section>
 	);
