@@ -30,35 +30,35 @@ export default function Expertise(){
 			}
 
 
-			// Fade in animation
-			gsap.fromTo(
+			// Single timeline for fade in/out to avoid conflicts
+			const fadeTimeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: myDivRef.current,
+					start: "top bottom",              // Start when myDiv enters viewport
+					endTrigger: expertiseImgRef.current,
+					end: "bottom center",             // End when expertiseImg bottom hits center
+					scrub: 0.5,
+					markers: true,
+				}
+			});
+
+			// Fade in quickly at the start
+			fadeTimeline.fromTo(
 				myDivRef.current,
 				{ opacity: 0 },
-				{
-					opacity: 1,
-					scrollTrigger: {
-						trigger: myDivRef.current,
-						start: "top bottom",
-						end: "top center",
-						scrub: 0.5,
-						markers: true,
-					}
-				}
+				{ opacity: 1, duration: 0.2, ease: "none" }
 			);
 
-			// Fade out animation (aligned with unpin)
-			gsap.to(
+			// Stay visible for most of the scroll
+			fadeTimeline.to(
 				myDivRef.current,
-				{
-					opacity: 0,
-					scrollTrigger: {
-						trigger: expertiseImgRef.current,
-						start: "bottom-=250px center",  // Start fading when unpin begins
-						end: "bottom center",           // Fully faded when expertiseImg bottom hits center
-						scrub: 0.5,
-						markers: true,
-					}
-				}
+				{ opacity: 1, duration: 0.6, ease: "none" }
+			);
+
+			// Fade out at the end
+			fadeTimeline.to(
+				myDivRef.current,
+				{ opacity: 0, duration: 0.2, ease: "none" }
 			);
 
 			// Pin animation

@@ -65,7 +65,7 @@ export default function Hero() {
           </h1>
         </div>
 
-		<div className="absolute top-[30vw] left-[10vw] w-1/5" data-speed="0.5">
+		<div className="absolute top-[35vw] left-[10vw] w-1/5" data-speed="0.5">
 			<p className="text-[15px] text-[#b082db] leading-[1.0em]">
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit,
 				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
