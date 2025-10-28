@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 export default function Expertise(){
-	const myDivRef = useRef<HTMLDivElement>(null);
+	const cards = useRef<HTMLDivElement>(null);
 	const sectionRef = useRef<HTMLElement>(null);
 	const expertiseImgRef = useRef<HTMLDivElement>(null);
 	const imgWidthLandscape = 3200;
@@ -33,7 +33,7 @@ export default function Expertise(){
 			// Single timeline for fade in/out to avoid conflicts
 			const fadeTimeline = gsap.timeline({
 				scrollTrigger: {
-					trigger: myDivRef.current,
+					trigger: cards.current,
 					start: "top bottom",              // Start when myDiv enters viewport
 					endTrigger: expertiseImgRef.current,
 					end: "bottom center",             // End when expertiseImg bottom hits center
@@ -44,26 +44,26 @@ export default function Expertise(){
 
 			// Fade in quickly at the start
 			fadeTimeline.fromTo(
-				myDivRef.current,
+				cards.current,
 				{ opacity: 0 },
 				{ opacity: 1, duration: 0.2, ease: "none" }
 			);
 
 			// Stay visible for most of the scroll
 			fadeTimeline.to(
-				myDivRef.current,
+				cards.current,
 				{ opacity: 1, duration: 0.6, ease: "none" }
 			);
 
 			// Fade out at the end
 			fadeTimeline.to(
-				myDivRef.current,
+				cards.current,
 				{ opacity: 0, duration: 0.2, ease: "none" }
 			);
 
 			// Pin animation
 			ScrollTrigger.create({
-				trigger: myDivRef.current,
+				trigger: cards.current,
 				start: "top center",
 				endTrigger: expertiseImgRef.current,
 				end: "bottom-=250px center",
@@ -127,8 +127,7 @@ export default function Expertise(){
 				</div>
 			</div>
 			<div
-				ref={myDivRef}
-				id="myDiv" 
+				ref={cards}
 				className="absolute top-[30vw] right-[10vw] w-1/5" 
 				// data-speed="0.5"
 			>
