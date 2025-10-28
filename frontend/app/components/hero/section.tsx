@@ -3,56 +3,26 @@
 import Image from "next/image";
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 export default function Hero() {
-  const imageContainerRef = useRef<HTMLDivElement>(null);
-  const myDivRef = useRef<HTMLDivElement>(null);
+	const imageContainerRef = useRef<HTMLDivElement>(null);
+	const imgWidthLandscape = 3200;
+	const imgHeightLandscape = 2883;
+	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
+	const imgWidthPortrait = 3200;
+	const imgHeightPortrait = 5803;
+	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 
-  const imgWidthLandscape = 3200;
-  const imgHeightLandscape = 2883;
-  const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
-  const imgWidthPortrait = 3200;
-  const imgHeightPortrait = 5803;
-  const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
-    // Wait until ScrollSmoother exists
-    const checkSmoother = () => {
-      const smoother = ScrollSmoother.get();
-      if (!smoother) {
-        // try again on next frame
-        requestAnimationFrame(checkSmoother);
-        return;
-      }
-
-      gsap.fromTo(
-        imageContainerRef.current,
-        { width: "107vw" },
-        { width: "100vw", duration: 3.5, ease: "expo.out" }
-      );
-
-      ScrollTrigger.create({
-        trigger: myDivRef.current,
-        start: "top 20%",
-  		end: "+=50%",
-        pin: true,
-        pinSpacing: false,
-        markers: true,
-      });
-
-      // Refresh ScrollTrigger after everything is ready
-      ScrollTrigger.refresh();
-    };
-
-    checkSmoother();
-  }, []);
+	useEffect(() => {
+		gsap.fromTo(
+		imageContainerRef.current,
+		{ width: "107vw" },
+		{ width: "100vw", duration: 3.5, ease: "expo.out" }
+		);
+	}, []);
 
   return (
-    <section className="relative w-full overflow-hidden">
+    <section className="relative w-full overflow-hidden" data-speed="0.9">
       <div
         className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
         style={
@@ -95,17 +65,11 @@ export default function Hero() {
           </h1>
         </div>
 
-		<div
-		ref={myDivRef}
-		id="myDiv"
-		className="absolute top-[30vw] left-[10vw] w-1/5"
-		// data-speed="0.5" // Removed: conflicts with pinning
-		// data-lag="0"
-		>
-		<p className="text-[15px] text-[#b082db] leading-[1.0em]">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-		</p>
+		<div className="absolute top-[30vw] left-[10vw] w-1/5" data-speed="0.5">
+			<p className="text-[15px] text-[#b082db] leading-[1.0em]">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+			</p>
 		</div>
       </div>
     </section>
