@@ -33,53 +33,56 @@ export default function Expertise(){
 			return;
 			}
 
-			const card3Timeline = gsap.timeline({
-				scrollTrigger: {
-					trigger: cards.current,
-					start: "top bottom-=700px",
-					endTrigger: expertiseImgRef.current,
-					end: "bottom center",
-					scrub: 0.5,
-					markers: true,
+			gsap.fromTo(card3Ref.current,
+				{ opacity: 0 },
+				{
+					opacity: 1,
+					ease: "power1.inOut",
+					scrollTrigger: {
+						trigger: cards.current,
+						start: "top bottom-=700px",
+						end: "top bottom-=300px",
+						scrub: 1,
+						markers: true,
+					}
 				}
-			});
-			card3Timeline.fromTo(card3Ref.current, { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" });
-			card3Timeline.to(card3Ref.current, { opacity: 1, duration: 0.65, ease: "none" });
-			card3Timeline.to(card3Ref.current, { opacity: 0, duration: 0.2, ease: "none" });
+			);
 
 			
-			const card2Timeline = gsap.timeline({
-				scrollTrigger: {
-					trigger: cards.current,
-					start: "top bottom-=600px",
-					endTrigger: expertiseImgRef.current,
-					end: "bottom center",
-					scrub: 0.5,
+			gsap.fromTo(card2Ref.current,
+				{ opacity: 0 },
+				{
+					opacity: 1,
+					ease: "power1.inOut",
+					scrollTrigger: {
+						trigger: cards.current,
+						start: "top bottom-=650px",
+						end: "top bottom-=250px",
+						scrub: 1,
+					}
 				}
-			});
-			card2Timeline.fromTo(card2Ref.current, { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" });
-			card2Timeline.to(card2Ref.current, { opacity: 1, duration: 0.65, ease: "none" });
-			card2Timeline.to(card2Ref.current, { opacity: 0, duration: 0.2, ease: "none" });
+			);
 
 			
-			const card1Timeline = gsap.timeline({
-				scrollTrigger: {
-					trigger: cards.current,
-					// start: "top bottom",
-					start: "top bottom-=500px",
-					endTrigger: expertiseImgRef.current,
-					end: "bottom center",
-					scrub: 0.5,
+			gsap.fromTo(card1Ref.current,
+				{ opacity: 0 },
+				{
+					opacity: 1,
+					ease: "power1.inOut",
+					scrollTrigger: {
+						trigger: cards.current,
+						start: "top bottom-=600px",
+						end: "top bottom-=200px",
+						scrub: 1,
+					}
 				}
-			});
-			card1Timeline.fromTo(card1Ref.current, { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" });
-			card1Timeline.to(card1Ref.current, { opacity: 1, duration: 0.65, ease: "none" });
-			card1Timeline.to(card1Ref.current, { opacity: 0, duration: 0.2, ease: "none" });
+			);
 
 			// Pin animation for the container
 			ScrollTrigger.create({
 				trigger: cards.current,
-				start: "top center",
+				// start: "top center",
+				start: "top bottom-=450px", 
 				endTrigger: expertiseImgRef.current,
 				end: "bottom-=450px center",
 				pin: true,
