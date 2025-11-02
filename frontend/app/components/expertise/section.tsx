@@ -33,20 +33,39 @@ export default function Expertise(){
 			return;
 			}
 
-			// Pin animation for the container
-			ScrollTrigger.create({
-				trigger: cards.current,
-				// start: "top center",
-				start: "top bottom-=450px", 
-				endTrigger: expertiseImgRef.current,
-				end: "bottom-=300px center",
-				pin: true,
-				pinSpacing: false,
-				markers: true,
-			});
+			// Slide up animation when coming into view
+			// Using a wrapper approach to avoid conflicts with data-speed
+			const cardsInner = cards.current?.querySelector('.cards-inner');
+			if (cardsInner) {
+				gsap.fromTo(cardsInner,
+					{ y: 200, },
+					{
+						y: 0,
+						ease: "power4.out",
+						scrollTrigger: {
+							trigger: cards.current,
+							start: "top bottom-=100px",
+							end: "top bottom-=1200px",
+							scrub: 1,
+						}
+					}
+				);
+			}
 
-			// Refresh ScrollTrigger after everything is ready
-			ScrollTrigger.refresh();
+			// // Pin animation for the container
+			// ScrollTrigger.create({
+			// 	trigger: cards.current,
+			// 	// start: "top center",
+			// 	start: "top bottom-=450px",
+			// 	endTrigger: expertiseImgRef.current,
+			// 	end: "bottom-=300px center",
+			// 	pin: true,
+			// 	pinSpacing: false,
+			// 	markers: true,
+			// });
+
+			// // Refresh ScrollTrigger after everything is ready
+			// ScrollTrigger.refresh();
 		};
 
 		checkSmoother();
@@ -103,59 +122,61 @@ export default function Expertise(){
 
 			<div
 				ref={cards}
-				className="absolute top-[65vw] right-[10vw] flex flex-row gap-4"
-				// data-speed="0.5"
+				className="absolute top-[68vw] w-full"
+				data-speed="0.7"
 			>
-				<div ref={card3Ref}>
-					<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
-						<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
-							<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Image Enhancement</h4>
-							<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-						</CardHeader>
-						<CardBody className="p-0">
-							<Image
-								src="/local-images/temp-card-1.jpg"
-								alt="Card 2"
-								width={400}
-								height={300}
-								className="w-full h-auto object-cover"
-							/>
-						</CardBody>
-					</Card>
-				</div>
-				<div ref={card2Ref}>
-					<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
-						<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
-							<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Casting</h4>
-							<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-						</CardHeader>
-						<CardBody className="p-0">
-							<Image
-								src="/local-images/temp-card-1.jpg"
-								alt="Card 3"
-								width={400}
-								height={300}
-								className="w-full h-auto object-cover"
-							/>
-						</CardBody>
-					</Card>
-				</div>
-				<div ref={card1Ref}>
-					<Card className="min-w-[180px] max-w-[300px] rounded-xl" style={{ backgroundColor: '#2b2827' }}>
-						<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
-							<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Lighting 101</h4>
-							<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-						</CardHeader>
-						<CardBody className="p-0">
-							<Image
-								src="/local-images/temp-card-1.jpg"
-								alt="Card 1"
-								width={400}
-								height={300}
-								className="w-full h-auto object-cover"
-							/>
-						</CardBody>
-					</Card>
+				<div className="cards-inner flex flex-row gap-4 justify-center">
+					<div ref={card3Ref}>
+						<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
+							<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
+								<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Image Enhancement</h4>
+								<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+							</CardHeader>
+							<CardBody className="p-0">
+								<Image
+									src="/local-images/temp-card-1.jpg"
+									alt="Card 2"
+									width={400}
+									height={300}
+									className="w-full h-auto object-cover"
+								/>
+							</CardBody>
+						</Card>
+					</div>
+					<div ref={card2Ref}>
+						<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
+							<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
+								<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Casting</h4>
+								<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+							</CardHeader>
+							<CardBody className="p-0">
+								<Image
+									src="/local-images/temp-card-1.jpg"
+									alt="Card 3"
+									width={400}
+									height={300}
+									className="w-full h-auto object-cover"
+								/>
+							</CardBody>
+						</Card>
+					</div>
+					<div ref={card1Ref}>
+						<Card className="min-w-[180px] max-w-[300px] rounded-xl" style={{ backgroundColor: '#2b2827' }}>
+							<CardHeader className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
+								<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Lighting 101</h4>
+								<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+							</CardHeader>
+							<CardBody className="p-0">
+								<Image
+									src="/local-images/temp-card-1.jpg"
+									alt="Card 1"
+									width={400}
+									height={300}
+									className="w-full h-auto object-cover"
+								/>
+							</CardBody>
+						</Card>
+					</div>
 				</div>
 			</div>
 		</section>
