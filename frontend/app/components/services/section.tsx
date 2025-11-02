@@ -1,15 +1,18 @@
 import Image from "next/image";
 export default function Services(){
-	const fullWidth = 2665;
-	const fullHeight = 1468;
+	const imgWidthLandscape = 2665;
+	const imgHeightLandscape = 1468;
+	const imgWidthPortrait = 2235;
+	const imgHeightPortrait = 1468;
 	return(
 		<section className="top-[-30vh] relative w-full overflow-hidden flex justify-end" >
 			<div className="relative mr-[-5vw]">
+				{/* Landscape image */}
 				<Image
 					src="/local-images/section-bg-services-desktop.jpg"
 					alt="Photo portrait of an old man"
-					width={fullWidth}
-					height={fullHeight}
+					width={imgWidthLandscape}
+					height={imgHeightLandscape}
 					style={{
 						width: 'auto',
 						height: 'auto',
@@ -17,6 +20,23 @@ export default function Services(){
 						maxHeight: '80vh',
 						opacity: '0.5',
 					}}
+					className="portrait:hidden"
+					priority
+				/>
+				{/* Portrait image */}
+				<Image
+					src="/local-images/section-bg-services.jpg"
+					alt="Photo portrait of an old man"
+					width={imgWidthPortrait}
+					height={imgHeightPortrait}
+					style={{
+						width: 'auto',
+						height: 'auto',
+						maxWidth: '80vw',
+						maxHeight: '80vh',
+						opacity: '0.5',
+					}}
+					className="hidden portrait:block"
 					priority
 				/>
 				<div className="absolute top-[25vh] left-[-9vw]" data-speed="0.9">
