@@ -45,7 +45,7 @@ export default function Expertise(){
 						scrollTrigger: {
 							trigger: cards.current,
 							start: "top bottom-=100px",
-							end: "top bottom-=1200px",
+							end: "top bottom-=500px",
 							scrub: 1,
 						}
 					}
@@ -122,7 +122,7 @@ export default function Expertise(){
 
 			<div
 				ref={cards}
-				className="absolute top-[68vw] w-full"
+				className="absolute top-[130vw] sm:top-[72vw] w-full"
 				data-speed="0.7"
 			>
 				<div className="cards-inner flex flex-row gap-4 justify-center">
