@@ -15,7 +15,7 @@ export default function Expertise(){
 	const sectionRef = useRef<HTMLElement>(null);
 	const expertiseImgRef = useRef<HTMLDivElement>(null);
 	const imgWidthLandscape = 3200;
-	const imgHeightLandscape = 3100;
+	const imgHeightLandscape = 3274;
 	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
 	const imgWidthPortrait = 3200;
 	const imgHeightPortrait = 6197;
@@ -39,7 +39,7 @@ export default function Expertise(){
 				// start: "top center",
 				start: "top bottom-=450px", 
 				endTrigger: expertiseImgRef.current,
-				end: "bottom-=450px center",
+				end: "bottom-=300px center",
 				pin: true,
 				pinSpacing: false,
 				markers: true,
@@ -54,7 +54,7 @@ export default function Expertise(){
 
 	return(
 		<section ref={sectionRef} className="z-10 relative w-full overflow-hidden top-[-20vw]">
-			<div data-speed="1.1"
+			<div data-speed="1"
 				className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
 				style={{
 					'--height-landscape': `calc(${heightRatioLandscape} * 100vw)`,
@@ -90,18 +90,20 @@ export default function Expertise(){
 							priority
 						/>
 					</div>
-					<div className="absolute top-[-11vw] left-1/2 -translate-x-1/2 w-[100vw]" data-speed="0.7">
-						<h1 className="text-[30vw] text-[#b8bc92] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] text-center m-0 ml-[-0.08em]">Amet</h1>
-					</div>
 				</div>
 				
 				<div className="absolute top-[45vw] left-[10vw] w-1/5" data-speed="0.6">
 					<p className="text-[15px] text-[#b8bc92] leading-[1.0em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
 				</div>
 			</div>
+			
+			<div className="absolute top-[-11vw] left-1/2 -translate-x-1/2 w-[100vw]" data-speed="0.7">
+				<h1 className="text-[30vw] text-[#b8bc92] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] text-center m-0 ml-[-0.08em]">Amet</h1>
+			</div>
+
 			<div
 				ref={cards}
-				className="absolute top-[30vw] right-[10vw] flex flex-row gap-4"
+				className="absolute top-[65vw] right-[10vw] flex flex-row gap-4"
 				// data-speed="0.5"
 			>
 				<div ref={card3Ref}>
