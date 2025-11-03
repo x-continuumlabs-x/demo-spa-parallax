@@ -4,76 +4,115 @@ export default function Services(){
 	const imgHeightLandscape = 1468;
 	const imgWidthPortrait = 2235;
 	const imgHeightPortrait = 1468;
+	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
+	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 	return(
 		<section className="top-[-30vh] relative w-full overflow-hidden flex justify-end">
-			<div className="relative w-full h-[800px]">
-				<div id="img1" className="absolute top-0 right-0 w-auto h-auto py-[50px]">
-					{/* Landscape image */}
-					<Image
-						src="/local-images/section-bg-services-desktop.jpg"
-						alt="Photo portrait of an old man"
-						width={imgWidthLandscape}
-						height={imgHeightLandscape}
-						style={{
-							width: 'auto',
-							height: 'auto',
-							maxWidth: '80vw',
-							maxHeight: '70vh',
-							opacity: '0.5',
-						}}
-						className="portrait:hidden"
-						priority
-					/>
-					{/* Portrait image */}
-					<Image
-						src="/local-images/section-bg-services.jpg"
-						alt="Photo portrait of an old man"
-						width={imgWidthPortrait}
-						height={imgHeightPortrait}
-						style={{
-							width: 'auto',
-							height: 'auto',
-							maxWidth: '80vw',
-							maxHeight: '80vh',
-							opacity: '0.5',
-						}}
-						className="hidden portrait:block"
-						priority
-					/>
-				{/* </div>
-				<div id="img2" className="absolute top-0 right-0 w-auto h-auto  py-[50px]"> */}
-					{/* Landscape image */}
-					<Image
-						src="/local-images/section-bg-services-desktop.jpg"
-						alt="Photo portrait of an old man"
-						width={imgWidthLandscape}
-						height={imgHeightLandscape}
-						style={{
-							width: 'auto',
-							height: 'auto',
-							maxWidth: '80vw',
-							maxHeight: '70vh',
-							opacity: '0.5',
-						}}
-						className="portrait:hidden"
-						priority
-					/>
-					{/* Portrait image */}
-					<Image
-						src="/local-images/section-bg-services.jpg"
-						alt="Photo portrait of an old man"
-						width={imgWidthPortrait}
-						height={imgHeightPortrait}
-						style={{
-							width: 'auto',
-							height: 'auto',
-							maxWidth: '80vw',
-							maxHeight: '80vh',
-							opacity: '0.5',
-						}}
-						className="hidden portrait:block"
-						priority
-					/>
+			<div
+				id="img-wrapper"
+				className="relative w-[70vw] h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
+				style={{
+					'--height-landscape': `calc(${heightRatioLandscape} * 70vw)`,
+					'--height-portrait': `calc(${heightRatioPortrait} * 70vw)`,
+				} as React.CSSProperties}
+			>
+				<div id="img-container" className="absolute top-0 right-0">
+					<div id="img1">
+						{/* Landscape image */}
+						<Image
+							src="/local-images/section-bg-services-desktop.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthLandscape}
+							height={imgHeightLandscape}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								// maxWidth: '80vw',
+								// maxHeight: '70vh',
+								opacity: '0.5',
+							}}
+							className="portrait:hidden"
+							priority
+						/>
+						{/* Portrait image */}
+						<Image
+							src="/local-images/section-bg-services.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthPortrait}
+							height={imgHeightPortrait}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								// maxWidth: '80vw',
+								// maxHeight: '70vh',
+								opacity: '0.5',
+							}}
+							className="hidden portrait:block"
+							priority
+						/>
+					</div>
+				
+					<div id="img2">
+						{/* Landscape image */}
+						<Image
+							src="/local-images/section-bg-services-desktop.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthLandscape}
+							height={imgHeightLandscape}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								opacity: '0.5',
+							}}
+							className="portrait:hidden"
+							priority
+						/>
+						{/* Portrait image */}
+						<Image
+							src="/local-images/section-bg-services.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthPortrait}
+							height={imgHeightPortrait}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								opacity: '0.5',
+							}}
+							className="hidden portrait:block"
+							priority
+						/>
+					</div>
+
+					<div id="img3">
+						{/* Landscape image */}
+						<Image
+							src="/local-images/section-bg-services-desktop.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthLandscape}
+							height={imgHeightLandscape}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								opacity: '0.5',
+							}}
+							className="portrait:hidden"
+							priority
+						/>
+						{/* Portrait image */}
+						<Image
+							src="/local-images/section-bg-services.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthPortrait}
+							height={imgHeightPortrait}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								opacity: '0.5',
+							}}
+							className="hidden portrait:block"
+							priority
+						/>
+					</div>
 				</div>
 				
 				<div className="absolute top-[25vh]" data-speed="0.9">
