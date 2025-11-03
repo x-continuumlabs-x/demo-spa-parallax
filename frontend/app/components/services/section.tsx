@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { Tabs, Tab } from "@heroui/react";
 
 export default function Services(){
+	const [selectedTab, setSelectedTab] = useState("img1");
 	const sectionRef = useRef<HTMLElement>(null);
 	const imgWrapperRef = useRef<HTMLDivElement>(null);
 	const imgContainerRef = useRef<HTMLDivElement>(null);
@@ -81,9 +83,41 @@ export default function Services(){
 		checkSmoother();
 	}, []);
 
+	// Handle tab selection and scroll to the selected image
+	useEffect(() => {
+		if (!sectionRef.current) return;
+
+		const smoother = ScrollSmoother.get();
+		if (!smoother) return;
+
+		const scrollToImage = () => {
+			const wrapperHeight = imgWrapperRef.current?.offsetHeight || 2000;
+			const animationDuration = wrapperHeight / 2;
+
+			// Calculate scroll position based on selected tab
+			let scrollPosition = 0;
+
+			if (selectedTab === "img1") {
+				// Scroll to start of Services section
+				scrollPosition = smoother.offset(sectionRef.current, "top top");
+			} else if (selectedTab === "img2") {
+				// Scroll to middle (where img2 is fully revealed)
+				scrollPosition = smoother.offset(sectionRef.current, "top top") + animationDuration;
+			} else if (selectedTab === "img3") {
+				// Scroll to end (where img3 is fully revealed)
+				scrollPosition = smoother.offset(sectionRef.current, "top top") + (animationDuration * 2);
+			}
+
+			// Smooth scroll to the calculated position
+			smoother.scrollTo(scrollPosition, true, "power2.inOut");
+		};
+
+		scrollToImage();
+	}, [selectedTab]);
+
 	return(
 		<section ref={sectionRef} className="top-[-20.5vw] relative w-full overflow-hidden flex justify-end">
-			<div className="relative h-[100vh] py-[50px]">
+			<div className="relative flex justify-end w-full h-[100vh] py-[50px]">
 				<div
 					ref={imgWrapperRef}
 					id="img-wrapper"
@@ -195,6 +229,19 @@ export default function Services(){
 				<div className="absolute top-[20vh] left-[15vw]" data-speed="0.9">
 					<h1 className="text-[3vw] uppercase font-nominee font-black tracking-[-0.08em] leading-[1.0em] mb-[15px]">$599 Ut <br />architecto <br />voluptatem</h1>
 					<p className="w-[25vw] max-w-[410px] text-[15px] leading-[1.0em] opacity-60">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.</p>
+				</div>
+
+				<div className="absolute bottom-[5vh] left-[15vw]">
+					<Tabs
+						selectedKey={selectedTab}
+						onSelectionChange={(key) => setSelectedTab(key as string)}
+						variant="underlined"
+						aria-label="Service options"
+					>
+						<Tab key="img1" title="Service 1" />
+						<Tab key="img2" title="Service 2" />
+						<Tab key="img3" title="Service 3" />
+					</Tabs>
 				</div>
 			</div>
 		</section>
