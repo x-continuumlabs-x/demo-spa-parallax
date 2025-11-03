@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { nominee, albertSans } from "./fonts";
 import "./globals.css";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +19,9 @@ export default function RootLayout({
         className={`${albertSans.variable} ${nominee.variable} antialiased`}
         style={{ fontFamily: 'var(--font-albert-sans)' }}
       >
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

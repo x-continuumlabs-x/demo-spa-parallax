@@ -116,7 +116,26 @@ export default function Services(){
 	}, [selectedTab]);
 
 	return(
-		<section ref={sectionRef} className="top-[-20.5vw] relative w-full overflow-hidden flex justify-end">
+		<section ref={sectionRef} className="top-[-20.5vw] relative w-full overflow-hidden flex flex-col">
+			<div className="px-[15vw] py-[3vh]">
+				<Tabs
+					selectedKey={selectedTab}
+					onSelectionChange={(key) => setSelectedTab(key as string)}
+					variant="light"
+					aria-label="Service options"
+					classNames={{
+						base: "w-full",
+						// tabList: "gap-2 w-full relative rounded-none p-0",
+						cursor: "w-full bg-[#b7b0a8]",
+						// tab: "max-w-fit px-4 h-12 text-left data-[hover-unselected=true]:opacity-80",
+						tabContent: "group-data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black"
+					}}
+				>
+					<Tab key="img1" title="Service 1" />
+					<Tab key="img2" title="Service 2" />
+					<Tab key="img3" title="Service 3" />
+				</Tabs>
+			</div>
 			<div className="relative flex justify-end w-full h-[100vh] py-[50px]">
 				<div
 					ref={imgWrapperRef}
@@ -229,19 +248,6 @@ export default function Services(){
 				<div className="absolute top-[20vh] left-[15vw]" data-speed="0.9">
 					<h1 className="text-[3vw] uppercase font-nominee font-black tracking-[-0.08em] leading-[1.0em] mb-[15px]">$599 Ut <br />architecto <br />voluptatem</h1>
 					<p className="w-[25vw] max-w-[410px] text-[15px] leading-[1.0em] opacity-60">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.</p>
-				</div>
-
-				<div className="absolute bottom-[5vh] left-[15vw]">
-					<Tabs
-						selectedKey={selectedTab}
-						onSelectionChange={(key) => setSelectedTab(key as string)}
-						variant="underlined"
-						aria-label="Service options"
-					>
-						<Tab key="img1" title="Service 1" />
-						<Tab key="img2" title="Service 2" />
-						<Tab key="img3" title="Service 3" />
-					</Tabs>
 				</div>
 			</div>
 		</section>
