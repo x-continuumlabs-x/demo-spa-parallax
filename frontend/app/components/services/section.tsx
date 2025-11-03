@@ -82,8 +82,8 @@ export default function Services(){
 	}, []);
 
 	return(
-		<section ref={sectionRef} className="top-[-20.5vw] relative w-full overflow-hidden flex justify-end py-[50px]">
-			<div className="relative h-[100vh]">
+		<section ref={sectionRef} className="top-[-20.5vw] relative w-full overflow-hidden flex justify-end">
+			<div className="relative h-[100vh] py-[50px]">
 				<div
 					ref={imgWrapperRef}
 					id="img-wrapper"
