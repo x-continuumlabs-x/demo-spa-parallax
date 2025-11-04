@@ -90,29 +90,28 @@ export default function Services(){
 		const smoother = ScrollSmoother.get();
 		if (!smoother) return;
 
-		const scrollToImage = () => {
-			const wrapperHeight = imgWrapperRef.current?.offsetHeight || 2000;
-			const animationDuration = wrapperHeight / 2;
+		// Wait for cursor animation to start and progress before scrolling
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				setTimeout(() => {
+					const wrapperHeight = imgWrapperRef.current?.offsetHeight || 2000;
+					const animationDuration = wrapperHeight / 2;
 
-			// Calculate scroll position based on selected tab
-			let scrollPosition = 0;
+					// Calculate scroll position based on selected tab
+					let scrollPosition = 0;
 
-			if (selectedTab === "img1") {
-				// Scroll to start of Services section
-				scrollPosition = smoother.offset(sectionRef.current, "top top");
-			} else if (selectedTab === "img2") {
-				// Scroll to middle (where img2 is fully revealed)
-				scrollPosition = smoother.offset(sectionRef.current, "top top") + animationDuration;
-			} else if (selectedTab === "img3") {
-				// Scroll to end (where img3 is fully revealed)
-				scrollPosition = smoother.offset(sectionRef.current, "top top") + (animationDuration * 2);
-			}
+					if (selectedTab === "img1") {
+						scrollPosition = smoother.offset(sectionRef.current, "top top");
+					} else if (selectedTab === "img2") {
+						scrollPosition = smoother.offset(sectionRef.current, "top top") + animationDuration;
+					} else if (selectedTab === "img3") {
+						scrollPosition = smoother.offset(sectionRef.current, "top top") + (animationDuration * 2);
+					}
 
-			// Smooth scroll to the calculated position
-			smoother.scrollTo(scrollPosition, true, "power2.inOut");
-		};
-
-		scrollToImage();
+					smoother.scrollTo(scrollPosition, true, "power2.inOut");
+				}, 200);
+			});
+		});
 	}, [selectedTab]);
 
 	return(
@@ -126,9 +125,9 @@ export default function Services(){
 					classNames={{
 						base: "w-full flex justify-center",
 						tabList: "gap-2 rounded-xl p-3 bg-[#1e1c1b]",
-						cursor: "w-full bg-[#b7b0a8] rounded-xl",
-						tab: "w-auto px-6 h-12 text-left data-[hover-unselected=true]:opacity-80 text-left",
-						tabContent: "w-[160px] group-data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black text-[13px] text-left"
+						cursor: "bg-[#b7b0a8] rounded-xl",
+						tab: "px-6 h-12 text-left data-[hover-unselected=true]:opacity-80",
+						tabContent: "group-data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black text-[13px]"
 					}}
 				>
 					<Tab key="img1" title="Service 1" />
