@@ -117,18 +117,18 @@ export default function Services(){
 
 	return(
 		<section ref={sectionRef} className="top-[-20.5vw] relative w-full overflow-hidden flex flex-col">
-			<div className="px-[15vw] py-[3vh]">
+			<div className="pt-[50px]">
 				<Tabs
 					selectedKey={selectedTab}
 					onSelectionChange={(key) => setSelectedTab(key as string)}
 					variant="light"
 					aria-label="Service options"
 					classNames={{
-						base: "w-full",
-						// tabList: "gap-2 w-full relative rounded-none p-0",
-						cursor: "w-full bg-[#b7b0a8]",
-						// tab: "max-w-fit px-4 h-12 text-left data-[hover-unselected=true]:opacity-80",
-						tabContent: "group-data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black"
+						base: "w-full flex justify-center",
+						tabList: "gap-2 rounded-xl p-3 bg-[#1e1c1b]",
+						cursor: "w-full bg-[#b7b0a8] rounded-xl",
+						tab: "w-auto px-6 h-12 text-left data-[hover-unselected=true]:opacity-80 text-left",
+						tabContent: "w-[160px] group-data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black text-[13px] text-left"
 					}}
 				>
 					<Tab key="img1" title="Service 1" />
