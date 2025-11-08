@@ -9,6 +9,8 @@ import { Tabs, Tab } from "@heroui/react";
 
 export default function Services(){
 	const [selectedTab, setSelectedTab] = useState("img1");
+	const isUserClickingTab = useRef(false);
+	const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 	const sectionRef = useRef<HTMLElement>(null);
 	const imgWrapperRef = useRef<HTMLDivElement>(null);
 	const imgContainerRef = useRef<HTMLDivElement>(null);
@@ -77,6 +79,36 @@ export default function Services(){
 				pinSpacing: true,
 			});
 
+			// Update selected tab based on scroll position
+			ScrollTrigger.create({
+				trigger: sectionRef.current,
+				start: "top top",
+				end: () => `+=${totalDuration}`,
+				onUpdate: (self) => {
+					// Don't update tab if user is manually clicking
+					if (isUserClickingTab.current) return;
+
+					const progress = self.progress;
+
+					console.log(progress);
+
+					// Determine which tab should be selected based on scroll progress
+					let newTab;
+					if (progress < 0.35) {
+						newTab = "img1";
+					} else if (progress < 0.68) {
+						newTab = "img2";
+					} else {
+						newTab = "img3";
+					}
+
+					// Only update if tab actually changes
+					if (newTab !== selectedTab) {
+						setSelectedTab(newTab);
+					}
+				},
+			});
+
 			ScrollTrigger.refresh();
 		};
 
@@ -90,10 +122,18 @@ export default function Services(){
 		const smoother = ScrollSmoother.get();
 		if (!smoother) return;
 
+		// Clear any pending timeout from previous clicks
+		if (scrollTimeoutRef.current) {
+			clearTimeout(scrollTimeoutRef.current);
+		}
+
+		// Set flag to prevent scroll-based tab updates during manual click
+		isUserClickingTab.current = true;
+
 		// Wait for cursor animation to start and progress before scrolling
 		requestAnimationFrame(() => {
 			requestAnimationFrame(() => {
-				setTimeout(() => {
+				scrollTimeoutRef.current = setTimeout(() => {
 					const wrapperHeight = imgWrapperRef.current?.offsetHeight || 2000;
 					const animationDuration = wrapperHeight / 2;
 
@@ -109,6 +149,12 @@ export default function Services(){
 					}
 
 					smoother.scrollTo(scrollPosition, true, "power2.inOut");
+
+					// Reset flag after scroll animation completes
+					scrollTimeoutRef.current = setTimeout(() => {
+						isUserClickingTab.current = false;
+						scrollTimeoutRef.current = null;
+					}, 1200);
 				}, 200);
 			});
 		});
@@ -124,7 +170,7 @@ export default function Services(){
 					aria-label="Service options"
 					classNames={{
 						base: "w-full flex justify-center",
-						tabList: "gap-2 rounded-xl p-3 bg-[#1e1c1b]",
+						tabList: "gap-2 rounded-2xl p-3 bg-[#1e1c1b]",
 						cursor: "bg-[#b7b0a8] rounded-xl",
 						tab: "px-6 h-12 text-left data-[hover-unselected=true]:opacity-80",
 						tabContent: "group-data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black text-[13px]"

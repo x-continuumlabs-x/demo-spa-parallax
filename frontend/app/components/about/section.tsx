@@ -2,7 +2,26 @@ export default function About(){
 	return(
 		<section className="relative w-full overflow-hidden">
 			<div className="flex justify-evenly">
-				<div className="w-1/3">
+				<div className="w-1/3 flex items-center flex-col">
+					<div className="w-[30%]">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 234 1474"
+							width="100%"
+							// height="1474"
+							>
+							<path
+								fillRule="evenodd"
+								d="M3 0.8v255.2s0.7 26.8 26 26.8h176s26 0.1 26 26.2v472s0 25.8-26 25.8H55s-26 1.1-26 26.2v322s1 25.8 26 25.8h176s26 0.8 26 26.2v267"
+								style={{
+								fill: "none",
+								stroke: "#959493",
+								strokeMiterlimit: 100,
+								strokeWidth: 5,
+								}}
+							/>
+						</svg>
+					</div>
 					<div>
 						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
 						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
