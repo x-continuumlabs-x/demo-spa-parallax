@@ -1,6 +1,37 @@
+"use client";
+
+import { useRef, useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { DrawSVGPlugin } from "gsap/dist/DrawSVGPlugin";
+
+gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+
 export default function About(){
+	const pathRef = useRef<SVGPathElement>(null);
+	const sectionRef = useRef<HTMLElement>(null);
+
+	useEffect(() => {
+		if (!pathRef.current || !sectionRef.current) return;
+
+		// Start with path not drawn
+		gsap.set(pathRef.current, { drawSVG: "0%" });
+
+		// Animate the path drawing as user scrolls
+		gsap.to(pathRef.current, {
+			drawSVG: "100%",
+			ease: "none",
+			scrollTrigger: {
+				trigger: sectionRef.current,
+				start: "top bottom",
+				end: "bottom top",
+				scrub: 1,
+			}
+		});
+	}, []);
+
 	return(
-		<section className="relative w-full overflow-hidden">
+		<section ref={sectionRef} className="relative w-full overflow-hidden">
 			<div className="flex justify-evenly">
 				<div className="w-1/3 flex items-center flex-col">
 					<div className="w-[30%]">
@@ -11,6 +42,7 @@ export default function About(){
 							// height="1474"
 							>
 							<path
+								ref={pathRef}
 								fillRule="evenodd"
 								d="M3 0.8v255.2s0.7 26.8 26 26.8h176s26 0.1 26 26.2v472s0 25.8-26 25.8H55s-26 1.1-26 26.2v322s1 25.8 26 25.8h176s26 0.8 26 26.2v267"
 								style={{
