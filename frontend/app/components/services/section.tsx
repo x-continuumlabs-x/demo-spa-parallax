@@ -161,7 +161,7 @@ export default function Services(){
 	// }, [selectedTab]);
 
 	return(
-		<section ref={sectionRef} className="top-[-20.5vw] relative w-full overflow-hidden flex flex-col">
+		<section ref={sectionRef} className="w-full overflow-hidden flex flex-col">
 			<div className="pt-[50px]">
 				<Tabs
 					selectedKey={selectedTab}
