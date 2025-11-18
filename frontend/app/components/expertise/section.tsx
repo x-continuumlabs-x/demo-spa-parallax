@@ -1,13 +1,17 @@
 "use client";
+type Props = {
+	wrapperRef: React.RefObject<HTMLDivElement>;
+}
 
 import Image from "next/image";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { useGSAP } from "@gsap/react";
 import { Card, CardHeader, CardBody } from "@heroui/react";
 
-export default function Expertise(){
+export default function Expertise({ wrapperRef }: Props){
 	const cards = useRef<HTMLDivElement>(null);
 	const card1Ref = useRef<HTMLDivElement>(null); // Lighting 101
 	const card2Ref = useRef<HTMLDivElement>(null); // Image Enhancement
@@ -20,6 +24,17 @@ export default function Expertise(){
 	const imgWidthPortrait = 3200;
 	const imgHeightPortrait = 6197;
 	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
+
+	useGSAP( () => {
+		gsap.registerPlugin(ScrollTrigger);
+		ScrollTrigger.create({
+			trigger: '#cardsID',
+			pin: true,
+			start: 'center center',
+			end: '+=600',
+			markers: true,
+		});
+	});
 
 	// useEffect(() => {
 	// 	gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
@@ -106,9 +121,9 @@ export default function Expertise(){
 			</div>
 
 			<div
-				ref={cards}
+				ref={cards} id="cardsID"
 				className="absolute top-[130vw] sm:top-[72vw] w-full"
-				data-speed="0.7"
+				data-speed="0.6"
 			>
 				<div className="cards-inner flex flex-row gap-4 justify-center">
 					<div ref={card3Ref}>
