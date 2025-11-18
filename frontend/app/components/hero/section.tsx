@@ -1,10 +1,11 @@
 "use client";
 
+import { Props } from "@/types";
 import Image from "next/image";
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 
-export default function Hero() {
+export default function Hero({ wrapperRef }: Props) {
 	const imageContainerRef = useRef<HTMLDivElement>(null);
 	const imgWidthLandscape = 3200;
 	const imgHeightLandscape = 2883;

@@ -1,5 +1,6 @@
 "use client";
 
+import { Props } from "@/types";
 import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
@@ -7,7 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { Tabs, Tab } from "@heroui/react";
 
-export default function Services(){
+export default function Services({ wrapperRef }: Props) {
 	const [selectedTab, setSelectedTab] = useState("img1");
 	const isUserClickingTab = useRef(false);
 	const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);

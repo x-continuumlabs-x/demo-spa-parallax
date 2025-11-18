@@ -14,11 +14,11 @@ export default function Home() {
 	return (
 		<div ref={wRef}>
 		{/* <SmoothScroll> */}
-			<Hero />
+			<Hero wrapperRef={wRef} />
 			<Expertise wrapperRef={wRef} />
-			<Services />
-			<About />
-			<Highlights />
+			<Services wrapperRef={wRef} />
+			<About wrapperRef={wRef} />
+			<Highlights wrapperRef={wRef} />
 			<Footer />
 		{/* </SmoothScroll> */}
 		</div>

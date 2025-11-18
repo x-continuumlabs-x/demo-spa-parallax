@@ -1,13 +1,10 @@
 "use client";
-type Props = {
-	wrapperRef: React.RefObject<HTMLDivElement>;
-}
 
+import { Props } from "@/types";
 import Image from "next/image";
 import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { useGSAP } from "@gsap/react";
 import { Card, CardHeader, CardBody } from "@heroui/react";
 
@@ -31,10 +28,13 @@ export default function Expertise({ wrapperRef }: Props){
 			trigger: '#cardsID',
 			pin: true,
 			start: 'center center',
-			end: '+=600',
-			markers: true,
+			end: '+=450',
 		});
-	});
+		},
+		{
+			scope: wrapperRef,// Check if this is needed
+		}
+	);
 
 	// useEffect(() => {
 	// 	gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
