@@ -22,7 +22,7 @@ export default function Hero() {
 	}, []);
 
   return (
-    <section className="relative w-full overflow-hidden" data-speed="0.9">
+    <section className="w-full overflow-hidden" data-speed="0.9">
       <div
         className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
         style={

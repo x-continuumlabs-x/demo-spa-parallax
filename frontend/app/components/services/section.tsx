@@ -24,141 +24,141 @@ export default function Services(){
 	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
 	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 
-	useEffect(() => {
-		gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+	// useEffect(() => {
+	// 	gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-		// Wait until ScrollSmoother exists
-		const checkSmoother = () => {
-			const smoother = ScrollSmoother.get();
-			if (!smoother) {
-				requestAnimationFrame(checkSmoother);
-				return;
-			}
+	// 	// Wait until ScrollSmoother exists
+	// 	const checkSmoother = () => {
+	// 		const smoother = ScrollSmoother.get();
+	// 		if (!smoother) {
+	// 			requestAnimationFrame(checkSmoother);
+	// 			return;
+	// 		}
 
-			// Calculate animation durations
-			const wrapperHeight = imgWrapperRef.current?.offsetHeight || 2000;
-			const animationDuration = wrapperHeight / 2; // Each image animates over half the wrapper height
-			const totalDuration = animationDuration * 2; // Total pin duration for both animations
+	// 		// Calculate animation durations
+	// 		const wrapperHeight = imgWrapperRef.current?.offsetHeight || 2000;
+	// 		const animationDuration = wrapperHeight / 2; // Each image animates over half the wrapper height
+	// 		const totalDuration = animationDuration * 2; // Total pin duration for both animations
 
-			// Animate img2 scrolling up to reveal
-			gsap.fromTo(img2Ref.current,
-				{ y: "100%" },
-				{
-					y: "0%",
-					ease: "none",
-					scrollTrigger: {
-						trigger: sectionRef.current,
-						start: "top top",
-						end: () => `+=${animationDuration}`,
-						scrub: 1,
-					}
-				}
-			);
+	// 		// Animate img2 scrolling up to reveal
+	// 		gsap.fromTo(img2Ref.current,
+	// 			{ y: "100%" },
+	// 			{
+	// 				y: "0%",
+	// 				ease: "none",
+	// 				scrollTrigger: {
+	// 					trigger: sectionRef.current,
+	// 					start: "top top",
+	// 					end: () => `+=${animationDuration}`,
+	// 					scrub: 1,
+	// 				}
+	// 			}
+	// 		);
 
-			// Animate img3 scrolling up to reveal
-			gsap.fromTo(img3Ref.current,
-				{ y: "100%" },
-				{
-					y: "0%",
-					ease: "none",
-					scrollTrigger: {
-						trigger: sectionRef.current,
-						start: () => `top+=${animationDuration} top`,
-						end: () => `+=${animationDuration}`,
-						scrub: 1,
-					}
-				}
-			);
+	// 		// Animate img3 scrolling up to reveal
+	// 		gsap.fromTo(img3Ref.current,
+	// 			{ y: "100%" },
+	// 			{
+	// 				y: "0%",
+	// 				ease: "none",
+	// 				scrollTrigger: {
+	// 					trigger: sectionRef.current,
+	// 					start: () => `top+=${animationDuration} top`,
+	// 					end: () => `+=${animationDuration}`,
+	// 					scrub: 1,
+	// 				}
+	// 			}
+	// 		);
 
-			// Pin the Services section until img3 finishes
-			ScrollTrigger.create({
-				trigger: sectionRef.current,
-				start: "top top",
-				end: () => `+=${totalDuration}`,
-				pin: true,
-				pinSpacing: true,
-			});
+	// 		// Pin the Services section until img3 finishes
+	// 		ScrollTrigger.create({
+	// 			trigger: sectionRef.current,
+	// 			start: "top top",
+	// 			end: () => `+=${totalDuration}`,
+	// 			pin: true,
+	// 			pinSpacing: true,
+	// 		});
 
-			// Update selected tab based on scroll position
-			ScrollTrigger.create({
-				trigger: sectionRef.current,
-				start: "top top",
-				end: () => `+=${totalDuration}`,
-				onUpdate: (self) => {
-					// Don't update tab if user is manually clicking
-					if (isUserClickingTab.current) return;
+	// 		// Update selected tab based on scroll position
+	// 		ScrollTrigger.create({
+	// 			trigger: sectionRef.current,
+	// 			start: "top top",
+	// 			end: () => `+=${totalDuration}`,
+	// 			onUpdate: (self) => {
+	// 				// Don't update tab if user is manually clicking
+	// 				if (isUserClickingTab.current) return;
 
-					const progress = self.progress;
+	// 				const progress = self.progress;
 
-					console.log(progress);
+	// 				console.log(progress);
 
-					// Determine which tab should be selected based on scroll progress
-					let newTab;
-					if (progress < 0.35) {
-						newTab = "img1";
-					} else if (progress < 0.68) {
-						newTab = "img2";
-					} else {
-						newTab = "img3";
-					}
+	// 				// Determine which tab should be selected based on scroll progress
+	// 				let newTab;
+	// 				if (progress < 0.35) {
+	// 					newTab = "img1";
+	// 				} else if (progress < 0.68) {
+	// 					newTab = "img2";
+	// 				} else {
+	// 					newTab = "img3";
+	// 				}
 
-					// Only update if tab actually changes
-					if (newTab !== selectedTab) {
-						setSelectedTab(newTab);
-					}
-				},
-			});
+	// 				// Only update if tab actually changes
+	// 				if (newTab !== selectedTab) {
+	// 					setSelectedTab(newTab);
+	// 				}
+	// 			},
+	// 		});
 
-			ScrollTrigger.refresh();
-		};
+	// 		ScrollTrigger.refresh();
+	// 	};
 
-		checkSmoother();
-	}, []);
+	// 	checkSmoother();
+	// }, []);
 
-	// Handle tab selection and scroll to the selected image
-	useEffect(() => {
-		if (!sectionRef.current) return;
+	// // Handle tab selection and scroll to the selected image
+	// useEffect(() => {
+	// 	if (!sectionRef.current) return;
 
-		const smoother = ScrollSmoother.get();
-		if (!smoother) return;
+	// 	const smoother = ScrollSmoother.get();
+	// 	if (!smoother) return;
 
-		// Clear any pending timeout from previous clicks
-		if (scrollTimeoutRef.current) {
-			clearTimeout(scrollTimeoutRef.current);
-		}
+	// 	// Clear any pending timeout from previous clicks
+	// 	if (scrollTimeoutRef.current) {
+	// 		clearTimeout(scrollTimeoutRef.current);
+	// 	}
 
-		// Set flag to prevent scroll-based tab updates during manual click
-		isUserClickingTab.current = true;
+	// 	// Set flag to prevent scroll-based tab updates during manual click
+	// 	isUserClickingTab.current = true;
 
-		// Wait for cursor animation to start and progress before scrolling
-		requestAnimationFrame(() => {
-			requestAnimationFrame(() => {
-				scrollTimeoutRef.current = setTimeout(() => {
-					const wrapperHeight = imgWrapperRef.current?.offsetHeight || 2000;
-					const animationDuration = wrapperHeight / 2;
+	// 	// Wait for cursor animation to start and progress before scrolling
+	// 	requestAnimationFrame(() => {
+	// 		requestAnimationFrame(() => {
+	// 			scrollTimeoutRef.current = setTimeout(() => {
+	// 				const wrapperHeight = imgWrapperRef.current?.offsetHeight || 2000;
+	// 				const animationDuration = wrapperHeight / 2;
 
-					// Calculate scroll position based on selected tab
-					let scrollPosition = 0;
+	// 				// Calculate scroll position based on selected tab
+	// 				let scrollPosition = 0;
 
-					if (selectedTab === "img1") {
-						scrollPosition = smoother.offset(sectionRef.current, "top top");
-					} else if (selectedTab === "img2") {
-						scrollPosition = smoother.offset(sectionRef.current, "top top") + animationDuration;
-					} else if (selectedTab === "img3") {
-						scrollPosition = smoother.offset(sectionRef.current, "top top") + (animationDuration * 2);
-					}
+	// 				if (selectedTab === "img1") {
+	// 					scrollPosition = smoother.offset(sectionRef.current, "top top");
+	// 				} else if (selectedTab === "img2") {
+	// 					scrollPosition = smoother.offset(sectionRef.current, "top top") + animationDuration;
+	// 				} else if (selectedTab === "img3") {
+	// 					scrollPosition = smoother.offset(sectionRef.current, "top top") + (animationDuration * 2);
+	// 				}
 
-					smoother.scrollTo(scrollPosition, true, "power2.inOut");
+	// 				smoother.scrollTo(scrollPosition, true, "power2.inOut");
 
-					// Reset flag after scroll animation completes
-					scrollTimeoutRef.current = setTimeout(() => {
-						isUserClickingTab.current = false;
-						scrollTimeoutRef.current = null;
-					}, 1200);
-				}, 200);
-			});
-		});
-	}, [selectedTab]);
+	// 				// Reset flag after scroll animation completes
+	// 				scrollTimeoutRef.current = setTimeout(() => {
+	// 					isUserClickingTab.current = false;
+	// 					scrollTimeoutRef.current = null;
+	// 				}, 1200);
+	// 			}, 200);
+	// 		});
+	// 	});
+	// }, [selectedTab]);
 
 	return(
 		<section ref={sectionRef} className="top-[-20.5vw] relative w-full overflow-hidden flex flex-col">

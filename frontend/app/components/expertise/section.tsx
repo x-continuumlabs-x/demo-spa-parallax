@@ -21,58 +21,43 @@ export default function Expertise(){
 	const imgHeightPortrait = 6197;
 	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 
-	useEffect(() => {
-		gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+	// useEffect(() => {
+	// 	gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-		// Wait until ScrollSmoother exists
-		const checkSmoother = () => {
-			const smoother = ScrollSmoother.get();
-			if (!smoother) {
-			// try again on next frame
-			requestAnimationFrame(checkSmoother);
-			return;
-			}
+	// 	// Wait until ScrollSmoother exists
+	// 	const checkSmoother = () => {
+	// 		const smoother = ScrollSmoother.get();
+	// 		if (!smoother) {
+	// 		// try again on next frame
+	// 		requestAnimationFrame(checkSmoother);
+	// 		return;
+	// 		}
 
-			// Slide up animation when coming into view
-			// Using a wrapper approach to avoid conflicts with data-speed
-			const cardsInner = cards.current?.querySelector('.cards-inner');
-			if (cardsInner) {
-				gsap.fromTo(cardsInner,
-					{ y: 200, },
-					{
-						y: 0,
-						ease: "power4.out",
-						scrollTrigger: {
-							trigger: cards.current,
-							start: "top bottom-=100px",
-							end: "top bottom-=500px",
-							scrub: 1,
-						}
-					}
-				);
-			}
+	// 		// Slide up animation when coming into view
+	// 		// Using a wrapper approach to avoid conflicts with data-speed
+	// 		const cardsInner = cards.current?.querySelector('.cards-inner');
+	// 		if (cardsInner) {
+	// 			gsap.fromTo(cardsInner,
+	// 				{ y: 200, },
+	// 				{
+	// 					y: 0,
+	// 					ease: "power4.out",
+	// 					scrollTrigger: {
+	// 						trigger: cards.current,
+	// 						start: "top bottom-=100px",
+	// 						end: "top bottom-=500px",
+	// 						scrub: 1,
+	// 					}
+	// 				}
+	// 			);
+	// 		}
+	// 	};
 
-			// // Pin animation for the container
-			// ScrollTrigger.create({
-			// 	trigger: cards.current,
-			// 	// start: "top center",
-			// 	start: "top bottom-=450px",
-			// 	endTrigger: expertiseImgRef.current,
-			// 	end: "bottom-=300px center",
-			// 	pin: true,
-			// 	pinSpacing: false,
-			// 	markers: true,
-			// });
-
-			// // Refresh ScrollTrigger after everything is ready
-			// ScrollTrigger.refresh();
-		};
-
-		checkSmoother();
-	}, []);
+	// 	checkSmoother();
+	// }, []);
 
 	return(
-		<section ref={sectionRef} className="z-10 relative w-full overflow-hidden top-[-20vw]">
+		<section ref={sectionRef} className="z-10 relative w-full overflow-hidden">
 			<div data-speed="1"
 				className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
 				style={{
