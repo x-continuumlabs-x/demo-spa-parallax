@@ -2,28 +2,46 @@
 
 import { Props } from "@/types";
 import Image from "next/image";
+import { useGSAP } from "@gsap/react";
 import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { Tabs, Tab } from "@heroui/react";
+import { useViewportHeight } from "@/app/utils/useViewportHeight";
 
 export default function Services({ wrapperRef }: Props) {
+	const vh: number = useViewportHeight();
+	console.log("VH:", vh);
+
 	const [selectedTab, setSelectedTab] = useState("img1");
 	const isUserClickingTab = useRef(false);
 	const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 	const sectionRef = useRef<HTMLElement>(null);
 	const imgWrapperRef = useRef<HTMLDivElement>(null);
-	const imgContainerRef = useRef<HTMLDivElement>(null);
 	const img2Ref = useRef<HTMLDivElement>(null);
 	const img3Ref = useRef<HTMLDivElement>(null);
 
-	const imgWidthLandscape = 2665;
-	const imgHeightLandscape = 1468;
-	const imgWidthPortrait = 2235;
-	const imgHeightPortrait = 1468;
-	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
-	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
+	const imgWidthLandscape: number = 2665;
+	const imgHeightLandscape: number = 1468;
+	const imgWidthPortrait: number = 2235;
+	const imgHeightPortrait: number = 1468;
+	const heightRatioLandscape: number = imgHeightLandscape / imgWidthLandscape;
+	const heightRatioPortrait: number = imgHeightPortrait / imgWidthPortrait;
+
+	useGSAP( () => {
+		gsap.registerPlugin(ScrollTrigger);
+		ScrollTrigger.create({
+			trigger: '#services',
+			pin: true,
+			start: 'center center',
+			end: '+=800',
+		});
+		},
+		{
+			scope: wrapperRef,// Check if this is needed
+		}
+	);
 
 	// useEffect(() => {
 	// 	gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
@@ -162,7 +180,7 @@ export default function Services({ wrapperRef }: Props) {
 	// }, [selectedTab]);
 
 	return(
-		<section ref={sectionRef} className="w-full overflow-hidden flex flex-col">
+		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
 			<div className="pt-[50px]">
 				<Tabs
 					selectedKey={selectedTab}
@@ -182,114 +200,109 @@ export default function Services({ wrapperRef }: Props) {
 					<Tab key="img3" title="Service 3" />
 				</Tabs>
 			</div>
-			<div className="relative flex justify-end w-full h-[100vh] py-[50px]">
+			<div className="relative flex justify-end w-full py-[50px]">
 				<div
 					ref={imgWrapperRef}
 					id="img-wrapper"
-					className="relative w-[70vw] h-[var(--height-landscape)] portrait:h-[var(--height-portrait)] overflow-hidden"
+					className="relative w-[60vw] h-[var(--height-landscape)] portrait:h-[var(--height-portrait)] overflow-hidden"
 					style={{
-						'--height-landscape': `calc(${heightRatioLandscape} * 70vw)`,
-						'--height-portrait': `calc(${heightRatioPortrait} * 70vw)`,
+						'--height-landscape': `calc(${heightRatioLandscape} * 60vw)`,
+						'--height-portrait': `calc(${heightRatioPortrait} * 60vw)`,
 					} as React.CSSProperties}
 				>
-					<div ref={imgContainerRef} id="img-container" className="absolute top-0 right-0 w-full h-full">
-						<div id="img1">
-							{/* Landscape image */}
-							<Image
-								src="/local-images/section-bg-services-desktop.jpg"
-								alt="Photo portrait of an old man"
-								width={imgWidthLandscape}
-								height={imgHeightLandscape}
-								style={{
-									width: 'auto',
-									height: 'auto',
-									// maxWidth: '80vw',
-									// maxHeight: '70vh',
-									opacity: '0.5',
-								}}
-								className="portrait:hidden"
-								priority
-							/>
-							{/* Portrait image */}
-							<Image
-								src="/local-images/section-bg-services.jpg"
-								alt="Photo portrait of an old man"
-								width={imgWidthPortrait}
-								height={imgHeightPortrait}
-								style={{
-									width: 'auto',
-									height: 'auto',
-									// maxWidth: '80vw',
-									// maxHeight: '70vh',
-									opacity: '0.5',
-								}}
-								className="hidden portrait:block"
-								priority
-							/>
-						</div>
-					
-						<div ref={img2Ref} id="img2" className="absolute top-0 left-0 w-full h-full">
-							{/* Landscape image */}
-							<Image
-								src="/local-images/section-bg-services-desktop.jpg"
-								alt="Photo portrait of an old man"
-								width={imgWidthLandscape}
-								height={imgHeightLandscape}
-								style={{
-									width: 'auto',
-									height: 'auto',
-									opacity: '0.5',
-								}}
-								className="portrait:hidden"
-								priority
-							/>
-							{/* Portrait image */}
-							<Image
-								src="/local-images/section-bg-services.jpg"
-								alt="Photo portrait of an old man"
-								width={imgWidthPortrait}
-								height={imgHeightPortrait}
-								style={{
-									width: 'auto',
-									height: 'auto',
-									opacity: '0.5',
-								}}
-								className="hidden portrait:block"
-								priority
-							/>
-						</div>
-
-						<div ref={img3Ref} id="img3" className="absolute top-0 left-0 w-full h-full">
-							{/* Landscape image */}
-							<Image
-								src="/local-images/section-bg-services-desktop.jpg"
-								alt="Photo portrait of an old man"
-								width={imgWidthLandscape}
-								height={imgHeightLandscape}
-								style={{
-									width: 'auto',
-									height: 'auto',
-									opacity: '0.5',
-								}}
-								className="portrait:hidden"
-								priority
-							/>
-							{/* Portrait image */}
-							<Image
-								src="/local-images/section-bg-services.jpg"
-								alt="Photo portrait of an old man"
-								width={imgWidthPortrait}
-								height={imgHeightPortrait}
-								style={{
-									width: 'auto',
-									height: 'auto',
-									opacity: '0.5',
-								}}
-								className="hidden portrait:block"
-								priority
-							/>
-						</div>
+					<div ref={img2Ref} id="img1" className="absolute top-0 left-0 w-full h-full">
+						{/* Landscape image */}
+						<Image
+							src="/local-images/section-bg-services-desktop.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthLandscape}
+							height={imgHeightLandscape}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								opacity: '0.5',
+							}}
+							className="portrait:hidden"
+							priority
+						/>
+						{/* Portrait image */}
+						<Image
+							src="/local-images/section-bg-services.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthPortrait}
+							height={imgHeightPortrait}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								opacity: '0.5',
+							}}
+							className="hidden portrait:block"
+							priority
+						/>
 					</div>
+				
+					<div ref={img2Ref} id="img2" className="absolute top-0 left-0 w-full h-full">
+						{/* Landscape image */}
+						<Image
+							src="/local-images/section-bg-services-desktop.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthLandscape}
+							height={imgHeightLandscape}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								opacity: '0.5',
+							}}
+							className="portrait:hidden"
+							priority
+						/>
+						{/* Portrait image */}
+						<Image
+							src="/local-images/section-bg-services.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthPortrait}
+							height={imgHeightPortrait}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								opacity: '0.5',
+							}}
+							className="hidden portrait:block"
+							priority
+						/>
+					</div>
+
+					<div ref={img3Ref} id="img3" className="absolute top-0 left-0 w-full h-full">
+						{/* Landscape image */}
+						<Image
+							src="/local-images/section-bg-services-desktop.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthLandscape}
+							height={imgHeightLandscape}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								opacity: '0.5',
+							}}
+							className="portrait:hidden"
+							priority
+						/>
+						{/* Portrait image */}
+						<Image
+							src="/local-images/section-bg-services.jpg"
+							alt="Photo portrait of an old man"
+							width={imgWidthPortrait}
+							height={imgHeightPortrait}
+							style={{
+								width: 'auto',
+								height: 'auto',
+								opacity: '0.5',
+							}}
+							className="hidden portrait:block"
+							priority
+						/>
+					</div>
+					
 				</div>
 				<div className="absolute top-[20vh] left-[15vw]" data-speed="0.9">
 					<h1 className="text-[3vw] uppercase font-nominee font-black tracking-[-0.08em] leading-[1.0em] mb-[15px]">$599 Ut <br />architecto <br />voluptatem</h1>
