@@ -1,5 +1,6 @@
 "use client";
 
+import { Props } from "@/types";
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
@@ -7,7 +8,7 @@ import { DrawSVGPlugin } from "gsap/dist/DrawSVGPlugin";
 
 gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
 
-export default function About(){
+export default function About({ wrapperRef }: Props) {
 	const pathRef = useRef<SVGPathElement>(null);
 	const sectionRef = useRef<HTMLElement>(null);
 

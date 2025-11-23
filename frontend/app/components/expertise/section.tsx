@@ -1,13 +1,14 @@
 "use client";
 
+import { Props } from "@/types";
 import Image from "next/image";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { useGSAP } from "@gsap/react";
 import { Card, CardHeader, CardBody } from "@heroui/react";
 
-export default function Expertise(){
+export default function Expertise({ wrapperRef }: Props){
 	const cards = useRef<HTMLDivElement>(null);
 	const card1Ref = useRef<HTMLDivElement>(null); // Lighting 101
 	const card2Ref = useRef<HTMLDivElement>(null); // Image Enhancement
@@ -21,58 +22,57 @@ export default function Expertise(){
 	const imgHeightPortrait = 6197;
 	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 
-	useEffect(() => {
-		gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+	useGSAP( () => {
+		gsap.registerPlugin(ScrollTrigger);
+		ScrollTrigger.create({
+			trigger: '#cardsID',
+			pin: true,
+			start: 'center center',
+			end: '+=450',
+		});
+		},
+		{
+			scope: wrapperRef,// Check if this is needed
+		}
+	);
 
-		// Wait until ScrollSmoother exists
-		const checkSmoother = () => {
-			const smoother = ScrollSmoother.get();
-			if (!smoother) {
-			// try again on next frame
-			requestAnimationFrame(checkSmoother);
-			return;
-			}
+	// useEffect(() => {
+	// 	gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-			// Slide up animation when coming into view
-			// Using a wrapper approach to avoid conflicts with data-speed
-			const cardsInner = cards.current?.querySelector('.cards-inner');
-			if (cardsInner) {
-				gsap.fromTo(cardsInner,
-					{ y: 200, },
-					{
-						y: 0,
-						ease: "power4.out",
-						scrollTrigger: {
-							trigger: cards.current,
-							start: "top bottom-=100px",
-							end: "top bottom-=500px",
-							scrub: 1,
-						}
-					}
-				);
-			}
+	// 	// Wait until ScrollSmoother exists
+	// 	const checkSmoother = () => {
+	// 		const smoother = ScrollSmoother.get();
+	// 		if (!smoother) {
+	// 		// try again on next frame
+	// 		requestAnimationFrame(checkSmoother);
+	// 		return;
+	// 		}
 
-			// // Pin animation for the container
-			// ScrollTrigger.create({
-			// 	trigger: cards.current,
-			// 	// start: "top center",
-			// 	start: "top bottom-=450px",
-			// 	endTrigger: expertiseImgRef.current,
-			// 	end: "bottom-=300px center",
-			// 	pin: true,
-			// 	pinSpacing: false,
-			// 	markers: true,
-			// });
+	// 		// Slide up animation when coming into view
+	// 		// Using a wrapper approach to avoid conflicts with data-speed
+	// 		const cardsInner = cards.current?.querySelector('.cards-inner');
+	// 		if (cardsInner) {
+	// 			gsap.fromTo(cardsInner,
+	// 				{ y: 200, },
+	// 				{
+	// 					y: 0,
+	// 					ease: "power4.out",
+	// 					scrollTrigger: {
+	// 						trigger: cards.current,
+	// 						start: "top bottom-=100px",
+	// 						end: "top bottom-=500px",
+	// 						scrub: 1,
+	// 					}
+	// 				}
+	// 			);
+	// 		}
+	// 	};
 
-			// // Refresh ScrollTrigger after everything is ready
-			// ScrollTrigger.refresh();
-		};
-
-		checkSmoother();
-	}, []);
+	// 	checkSmoother();
+	// }, []);
 
 	return(
-		<section ref={sectionRef} className="z-10 relative w-full overflow-hidden top-[-20vw]">
+		<section ref={sectionRef} className="z-10 relative w-full overflow-hidden">
 			<div data-speed="1"
 				className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
 				style={{
@@ -121,9 +121,9 @@ export default function Expertise(){
 			</div>
 
 			<div
-				ref={cards}
+				ref={cards} id="cardsID"
 				className="absolute top-[130vw] sm:top-[72vw] w-full"
-				data-speed="0.7"
+				data-speed="0.6"
 			>
 				<div className="cards-inner flex flex-row gap-4 justify-center">
 					<div ref={card3Ref}>

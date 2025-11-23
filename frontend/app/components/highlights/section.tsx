@@ -1,5 +1,7 @@
+import { Props } from "@/types";
 import Image from "next/image";
-export default function Highlights(){
+
+export default function Highlights({ wrapperRef }: Props) {
 	return(
 		<section className="relative w-full overflow-hidden">
 			<div data-speed="1.2">
