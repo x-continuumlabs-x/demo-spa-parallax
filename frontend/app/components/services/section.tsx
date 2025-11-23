@@ -12,7 +12,6 @@ import { useViewportHeight } from "@/app/utils/useViewportHeight";
 
 export default function Services({ wrapperRef }: Props) {
 	const vh: number = useViewportHeight();
-	console.log("VH:", vh);
 
 	const [selectedTab, setSelectedTab] = useState("img1");
 	const isUserClickingTab = useRef(false);
@@ -26,6 +25,8 @@ export default function Services({ wrapperRef }: Props) {
 	const imgHeightLandscape: number = 1468;
 	const imgWidthPortrait: number = 2235;
 	const imgHeightPortrait: number = 1468;
+	const widthRatioLandscape: number = imgWidthLandscape /imgHeightLandscape;
+	const widthRatioPortrait: number = imgWidthPortrait / imgHeightPortrait;
 	const heightRatioLandscape: number = imgHeightLandscape / imgWidthLandscape;
 	const heightRatioPortrait: number = imgHeightPortrait / imgWidthPortrait;
 
@@ -204,11 +205,11 @@ export default function Services({ wrapperRef }: Props) {
 				<div
 					ref={imgWrapperRef}
 					id="img-wrapper"
-					className="relative w-[60vw] h-[var(--height-landscape)] portrait:h-[var(--height-portrait)] overflow-hidden"
 					style={{
 						'--height-landscape': `calc(${heightRatioLandscape} * 60vw)`,
 						'--height-portrait': `calc(${heightRatioPortrait} * 60vw)`,
 					} as React.CSSProperties}
+					className="relative w-[60vw] h-[var(--height-landscape)] portrait:h-[var(--height-portrait)] overflow-hidden"
 				>
 					<div ref={img2Ref} id="img1" className="absolute top-0 left-0 w-full h-full">
 						{/* Landscape image */}
