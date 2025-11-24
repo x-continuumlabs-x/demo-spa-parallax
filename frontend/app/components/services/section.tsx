@@ -29,51 +29,8 @@ export default function Services({ wrapperRef }: Props) {
 	const widthRatioPortrait: number = imgWidthPortrait / imgHeightPortrait;
 	const heightRatioLandscape: number = imgHeightLandscape / imgWidthLandscape;
 	const heightRatioPortrait: number = imgHeightPortrait / imgWidthPortrait;
-
-	// Required spacing: 30px (top) + 72px (tabs) + 30px (spacing) + 50px (bottom)
-	const requiredSpacing = 182;
-	const availableHeight = vh - requiredSpacing;
-
-	// Calculate container dimensions based on viewport and aspect ratio
-	// Start with 76vw width, but scale down if height would exceed available space
-	const [containerDimensions, setContainerDimensions] = useState({
-		widthLandscape: 76,
-		heightLandscape: 76 * heightRatioLandscape,
-		widthPortrait: 76,
-		heightPortrait: 76 * heightRatioPortrait,
-	});
-
-	useEffect(() => {
-		if (typeof window === 'undefined') return;
-
-		const calculateContainerSize = (heightRatio: number) => {
-			const idealWidth = 76; // 76vw
-			const idealHeight = idealWidth * heightRatio; // in vw units
-
-			// Convert available height from px to vw
-			const availableHeightVw = (availableHeight / window.innerWidth) * 100;
-
-			if (idealHeight <= availableHeightVw) {
-				// Image fits at 76vw width
-				return { width: idealWidth, height: idealHeight };
-			} else {
-				// Scale down to fit available height
-				const scaledWidth = availableHeightVw / heightRatio;
-				return { width: scaledWidth, height: availableHeightVw };
-			}
-		};
-
-		const landscape = calculateContainerSize(heightRatioLandscape);
-		const portrait = calculateContainerSize(heightRatioPortrait);
-
-		setContainerDimensions({
-			widthLandscape: landscape.width,
-			heightLandscape: landscape.height,
-			widthPortrait: portrait.width,
-			heightPortrait: portrait.height,
-		});
-	}, [vh, availableHeight, heightRatioLandscape, heightRatioPortrait]);
-
+	const minGallerySpacing: string = '182px';
+	
 	useGSAP( () => {
 		gsap.registerPlugin(ScrollTrigger);
 		ScrollTrigger.create({
@@ -226,7 +183,7 @@ export default function Services({ wrapperRef }: Props) {
 
 	return(
 		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
-			<div className="pt-[30px]">
+			<div className="py-[30px]">
 				<Tabs
 					selectedKey={selectedTab}
 					onSelectionChange={(key) => setSelectedTab(key as string)}
@@ -245,112 +202,49 @@ export default function Services({ wrapperRef }: Props) {
 					<Tab key="img3" title="Service 3" />
 				</Tabs>
 			</div>
-			<div className="relative flex justify-end w-full pt-[30px] pb-[50px]">
+			<div 
+				className="relative w-full"
+				style={{ height: `calc(100vh - ${minGallerySpacing})` }}
+			>
 				<div
-					ref={imgWrapperRef}
-					id="img-wrapper"
+					className="absolute right-0 top-0 overflow-hidden"
 					style={{
-						'--width-landscape': `${containerDimensions.widthLandscape}vw`,
-						'--height-landscape': `${containerDimensions.heightLandscape}vw`,
-						'--width-portrait': `${containerDimensions.widthPortrait}vw`,
-						'--height-portrait': `${containerDimensions.heightPortrait}vw`,
-					} as React.CSSProperties}
-					className="relative w-[var(--width-landscape)] h-[var(--height-landscape)] portrait:w-[var(--width-portrait)] portrait:h-[var(--height-portrait)] overflow-hidden"
+						maxWidth: `76vw`,
+						height: `100%`,
+						aspectRatio: `1.8154 / 1`,
+					}}
 				>
-					<div ref={img2Ref} id="img1" className="absolute top-0 left-0 w-full h-full">
-						{/* Landscape image */}
-						<Image
-							src="/local-images/section-bg-services-desktop.jpg"
-							alt="Photo portrait of an old man"
-							width={imgWidthLandscape}
-							height={imgHeightLandscape}
+					<div className="relative w-full h-full">
+						<div
+							className="absolute right-0 top-0 overflow-hidden"
 							style={{
-								width: 'auto',
-								height: 'auto',
-								opacity: '0.5',
+								height: `calc(100vh - ${minGallerySpacing})`,
+								width: `calc((100vh - ${minGallerySpacing}) * 1.8154)`,
+								maxWidth: "76vw",
+								maxHeight: "calc(76vw / 1.8154)",
 							}}
-							className="portrait:hidden"
-							priority
-						/>
-						{/* Portrait image */}
-						<Image
-							src="/local-images/section-bg-services.jpg"
-							alt="Photo portrait of an old man"
-							width={imgWidthPortrait}
-							height={imgHeightPortrait}
-							style={{
-								width: 'auto',
-								height: 'auto',
-								opacity: '0.5',
-							}}
-							className="hidden portrait:block"
-							priority
-						/>
+						>
+							<img
+								src="/local-images/section-bg-services-desktop.jpg"
+								alt="Photo portrait of an old man"
+								className="absolute top-0 left-0 h-full w-full object-cover"
+							/>
+							<img
+								src="/local-images/section-bg-services-desktop.jpg"
+								alt="Photo portrait of an old man"
+								className="absolute top-0 left-0 h-full w-full object-cover"
+							/>
+							<img
+								src="/local-images/section-bg-services-desktop.jpg"
+								alt="Photo portrait of an old man"
+								className="absolute top-0 left-0 h-full w-full object-cover"
+							/>
+						</div>
+						
+						
 					</div>
-				
-					<div ref={img2Ref} id="img2" className="absolute top-0 left-0 w-full h-full">
-						{/* Landscape image */}
-						<Image
-							src="/local-images/section-bg-services-desktop.jpg"
-							alt="Photo portrait of an old man"
-							width={imgWidthLandscape}
-							height={imgHeightLandscape}
-							style={{
-								width: 'auto',
-								height: 'auto',
-								opacity: '0.5',
-							}}
-							className="portrait:hidden"
-							priority
-						/>
-						{/* Portrait image */}
-						<Image
-							src="/local-images/section-bg-services.jpg"
-							alt="Photo portrait of an old man"
-							width={imgWidthPortrait}
-							height={imgHeightPortrait}
-							style={{
-								width: 'auto',
-								height: 'auto',
-								opacity: '0.5',
-							}}
-							className="hidden portrait:block"
-							priority
-						/>
-					</div>
-
-					<div ref={img3Ref} id="img3" className="absolute top-0 left-0 w-full h-full">
-						{/* Landscape image */}
-						<Image
-							src="/local-images/section-bg-services-desktop.jpg"
-							alt="Photo portrait of an old man"
-							width={imgWidthLandscape}
-							height={imgHeightLandscape}
-							style={{
-								width: 'auto',
-								height: 'auto',
-								opacity: '0.5',
-							}}
-							className="portrait:hidden"
-							priority
-						/>
-						{/* Portrait image */}
-						<Image
-							src="/local-images/section-bg-services.jpg"
-							alt="Photo portrait of an old man"
-							width={imgWidthPortrait}
-							height={imgHeightPortrait}
-							style={{
-								width: 'auto',
-								height: 'auto',
-								opacity: '0.5',
-							}}
-							className="hidden portrait:block"
-							priority
-						/>
-					</div>
-					
 				</div>
+				
 				<div className="absolute top-[20vh] left-[15vw]" data-speed="0.9">
 					<h1 className="text-[3vw] uppercase font-nominee font-black tracking-[-0.08em] leading-[1.0em] mb-[15px]">$599 Ut <br />architecto <br />voluptatem</h1>
 					<p className="w-[25vw] max-w-[410px] text-[15px] leading-[1.0em] opacity-60">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.</p>
