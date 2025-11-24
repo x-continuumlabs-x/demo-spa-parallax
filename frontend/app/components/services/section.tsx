@@ -1,7 +1,6 @@
 "use client";
 
 import { Props } from "@/types";
-import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
@@ -31,72 +30,50 @@ export default function Services({ wrapperRef }: Props) {
 	const heightRatioPortrait: number = imgHeightPortrait / imgWidthPortrait;
 	const minGallerySpacing: string = '182px';
 	
-	useGSAP( () => {
+	useGSAP(() => {
 		gsap.registerPlugin(ScrollTrigger);
-		ScrollTrigger.create({
-			trigger: '#services',
-			pin: true,
-			start: 'center center',
-			end: '+=800',
+
+		const galleryContainer = sectionRef.current?.querySelector<HTMLElement>(
+		"#galleryContainer"
+		);
+		const images = galleryContainer?.querySelectorAll<HTMLImageElement>("img");
+
+		if (!galleryContainer || !images || images.length < 2) return;
+
+		const galleryHeight = galleryContainer.getBoundingClientRect().height;
+		const numImages = images.length;
+
+		const smoother = ScrollSmoother.get ? ScrollSmoother.get() : null;
+
+		// Total scroll distance for pinning: each image scrolls one full container height
+		const totalScroll = galleryHeight * (numImages - 1);
+
+		// Timeline for sequential image animation
+		const tl = gsap.timeline({
+			scrollTrigger: {
+				trigger: sectionRef.current,
+				pin: true,
+				start: "top top",
+				end: `+=${totalScroll}`,
+				scroller: smoother?.content(),
+				scrub: true,
+			},
 		});
 
-		// TODO: Call then again on window resize
-		const galleryContainer = document.querySelector('#galleryContainer');
-		if (galleryContainer) {
-			const height = galleryContainer.getBoundingClientRect().height;
-			console.log('Gallery container height:', height);
-		}
-		},
-		{
-			scope: wrapperRef,// Check if this is needed
-		}
-	);
-
-	// // Handle tab selection and scroll to the selected image
-	// useEffect(() => {
-	// 	if (!sectionRef.current) return;
-
-	// 	const smoother = ScrollSmoother.get();
-	// 	if (!smoother) return;
-
-	// 	// Clear any pending timeout from previous clicks
-	// 	if (scrollTimeoutRef.current) {
-	// 		clearTimeout(scrollTimeoutRef.current);
-	// 	}
-
-	// 	// Set flag to prevent scroll-based tab updates during manual click
-	// 	isUserClickingTab.current = true;
-
-	// 	// Wait for cursor animation to start and progress before scrolling
-	// 	requestAnimationFrame(() => {
-	// 		requestAnimationFrame(() => {
-	// 			scrollTimeoutRef.current = setTimeout(() => {
-	// 				const wrapperHeight = imgWrapperRef.current?.offsetHeight || 2000;
-	// 				const animationDuration = wrapperHeight / 2;
-
-	// 				// Calculate scroll position based on selected tab
-	// 				let scrollPosition = 0;
-
-	// 				if (selectedTab === "img1") {
-	// 					scrollPosition = smoother.offset(sectionRef.current, "top top");
-	// 				} else if (selectedTab === "img2") {
-	// 					scrollPosition = smoother.offset(sectionRef.current, "top top") + animationDuration;
-	// 				} else if (selectedTab === "img3") {
-	// 					scrollPosition = smoother.offset(sectionRef.current, "top top") + (animationDuration * 2);
-	// 				}
-
-	// 				smoother.scrollTo(scrollPosition, true, "power2.inOut");
-
-	// 				// Reset flag after scroll animation completes
-	// 				scrollTimeoutRef.current = setTimeout(() => {
-	// 					isUserClickingTab.current = false;
-	// 					scrollTimeoutRef.current = null;
-	// 				}, 1200);
-	// 			}, 200);
-	// 		});
-	// 	});
-	// }, [selectedTab]);
-
+		// Animate images one after another
+		images.forEach((img, i) => {
+			if (i === 0) return; // first image stays in place
+			tl.to(
+				img,
+				{
+					y: -galleryHeight * i,
+					ease: "none",
+				},
+				(i - 1) * 0.5 // stagger: start each after previous completes (adjust 0.5 as needed)
+			);
+		});
+	}, { scope: wrapperRef });
+	
 	return(
 		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
 			<div className="py-[30px]">
@@ -153,7 +130,7 @@ export default function Services({ wrapperRef }: Props) {
 							<img
 								src="/local-images/section-bg-services-desktop.jpg"
 								alt="Photo portrait of an old man"
-								className="absolute top-[-100px] left-0 h-full w-full object-cover opacity-50"
+								className="absolute left-0 h-full w-full object-cover opacity-50"
 							/>
 						</div>
 						
