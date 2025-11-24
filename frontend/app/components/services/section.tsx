@@ -39,102 +39,18 @@ export default function Services({ wrapperRef }: Props) {
 			start: 'center center',
 			end: '+=800',
 		});
+
+		// TODO: Call then again on window resize
+		const galleryContainer = document.querySelector('#galleryContainer');
+		if (galleryContainer) {
+			const height = galleryContainer.getBoundingClientRect().height;
+			console.log('Gallery container height:', height);
+		}
 		},
 		{
 			scope: wrapperRef,// Check if this is needed
 		}
 	);
-
-	// useEffect(() => {
-	// 	gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
-	// 	// Wait until ScrollSmoother exists
-	// 	const checkSmoother = () => {
-	// 		const smoother = ScrollSmoother.get();
-	// 		if (!smoother) {
-	// 			requestAnimationFrame(checkSmoother);
-	// 			return;
-	// 		}
-
-	// 		// Calculate animation durations
-	// 		const wrapperHeight = imgWrapperRef.current?.offsetHeight || 2000;
-	// 		const animationDuration = wrapperHeight / 2; // Each image animates over half the wrapper height
-	// 		const totalDuration = animationDuration * 2; // Total pin duration for both animations
-
-	// 		// Animate img2 scrolling up to reveal
-	// 		gsap.fromTo(img2Ref.current,
-	// 			{ y: "100%" },
-	// 			{
-	// 				y: "0%",
-	// 				ease: "none",
-	// 				scrollTrigger: {
-	// 					trigger: sectionRef.current,
-	// 					start: "top top",
-	// 					end: () => `+=${animationDuration}`,
-	// 					scrub: 1,
-	// 				}
-	// 			}
-	// 		);
-
-	// 		// Animate img3 scrolling up to reveal
-	// 		gsap.fromTo(img3Ref.current,
-	// 			{ y: "100%" },
-	// 			{
-	// 				y: "0%",
-	// 				ease: "none",
-	// 				scrollTrigger: {
-	// 					trigger: sectionRef.current,
-	// 					start: () => `top+=${animationDuration} top`,
-	// 					end: () => `+=${animationDuration}`,
-	// 					scrub: 1,
-	// 				}
-	// 			}
-	// 		);
-
-	// 		// Pin the Services section until img3 finishes
-	// 		ScrollTrigger.create({
-	// 			trigger: sectionRef.current,
-	// 			start: "top top",
-	// 			end: () => `+=${totalDuration}`,
-	// 			pin: true,
-	// 			pinSpacing: true,
-	// 		});
-
-	// 		// Update selected tab based on scroll position
-	// 		ScrollTrigger.create({
-	// 			trigger: sectionRef.current,
-	// 			start: "top top",
-	// 			end: () => `+=${totalDuration}`,
-	// 			onUpdate: (self) => {
-	// 				// Don't update tab if user is manually clicking
-	// 				if (isUserClickingTab.current) return;
-
-	// 				const progress = self.progress;
-
-	// 				console.log(progress);
-
-	// 				// Determine which tab should be selected based on scroll progress
-	// 				let newTab;
-	// 				if (progress < 0.35) {
-	// 					newTab = "img1";
-	// 				} else if (progress < 0.68) {
-	// 					newTab = "img2";
-	// 				} else {
-	// 					newTab = "img3";
-	// 				}
-
-	// 				// Only update if tab actually changes
-	// 				if (newTab !== selectedTab) {
-	// 					setSelectedTab(newTab);
-	// 				}
-	// 			},
-	// 		});
-
-	// 		ScrollTrigger.refresh();
-	// 	};
-
-	// 	checkSmoother();
-	// }, []);
 
 	// // Handle tab selection and scroll to the selected image
 	// useEffect(() => {
@@ -215,7 +131,7 @@ export default function Services({ wrapperRef }: Props) {
 					}}
 				>
 					<div className="relative w-full h-full">
-						<div
+						<div id="galleryContainer"
 							className="absolute right-0 top-0 overflow-hidden"
 							style={{
 								height: `calc(100vh - ${minGallerySpacing})`,
@@ -227,17 +143,17 @@ export default function Services({ wrapperRef }: Props) {
 							<img
 								src="/local-images/section-bg-services-desktop.jpg"
 								alt="Photo portrait of an old man"
-								className="absolute top-0 left-0 h-full w-full object-cover"
+								className="absolute top-0 left-0 h-full w-full object-cover opacity-50"
 							/>
 							<img
 								src="/local-images/section-bg-services-desktop.jpg"
 								alt="Photo portrait of an old man"
-								className="absolute top-0 left-0 h-full w-full object-cover"
+								className="absolute top-0 left-0 h-full w-full object-cover opacity-50"
 							/>
 							<img
 								src="/local-images/section-bg-services-desktop.jpg"
 								alt="Photo portrait of an old man"
-								className="absolute top-0 left-0 h-full w-full object-cover"
+								className="absolute top-[-100px] left-0 h-full w-full object-cover opacity-50"
 							/>
 						</div>
 						
