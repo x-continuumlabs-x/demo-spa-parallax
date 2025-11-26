@@ -262,11 +262,11 @@ export default function Services({ wrapperRef }: Props) {
 				style={{ height: `calc(100vh - ${minGallerySpacing})` }}
 			>
 				<div
-					className="absolute right-0 top-0 overflow-hidden"
+					className="absolute right-0 top-0 overflow-hidden [--ar:1.5225] lg:[--ar:1.8154]"
 					style={{
 						maxWidth: `76vw`,
 						height: `100%`,
-						aspectRatio: `1.8154 / 1`,
+						aspectRatio: `var(--ar) / 1`,
 					}}
 				>
 					<div className="relative w-full h-full">
@@ -274,29 +274,47 @@ export default function Services({ wrapperRef }: Props) {
 							className="absolute right-0 top-0 overflow-hidden"
 							style={{
 								height: `calc(100vh - ${minGallerySpacing})`,
-								width: `calc((100vh - ${minGallerySpacing}) * 1.8154)`,
+								width: `calc((100vh - ${minGallerySpacing}) * var(--ar))`,
 								maxWidth: "76vw",
-								maxHeight: "calc(76vw / 1.8154)",
+								maxHeight: "calc(76vw / var(--ar))",
 							}}
 						>
-							<img
-								src="/local-images/services-gallery-desktop-3.jpg"
-								id="photoC" 
-								alt="Photo portrait of an old man" 
-								className="absolute top-0 left-0 h-full w-full object-cover"
-							/>
-							<img
-								src="/local-images/services-gallery-desktop-2.jpg" 
-								id="photoB" 
-								alt="Photo portrait of an old man" 
-								className="absolute top-0 left-0 h-full w-full object-cover"
-							/>
-							<img
-								src="/local-images/services-gallery-desktop-1.jpg" 
-								id="photoA" 
-								alt="Photo portrait of an old man" 
-								className="absolute left-0 h-full w-full object-cover"
-							/>
+							<picture>
+								<source
+									media="(min-width: 640px)"
+									srcSet="/local-images/services-gallery-desktop-3.jpg"
+								/>
+								<img
+									src="/local-images/services-gallery-3.jpg"
+									id="photoC" 
+									alt="Photo portrait of an old man" 
+									className="absolute top-0 left-0 h-full w-full object-cover"
+								/>
+							</picture>
+							<picture>
+								<source
+									media="(min-width: 640px)"
+									srcSet="/local-images/services-gallery-desktop-2.jpg"
+								/>
+								<img
+									src="/local-images/services-gallery-2.jpg"
+									id="photoB" 
+									alt="Photo portrait of an old man" 
+									className="absolute top-0 left-0 h-full w-full object-cover"
+								/>
+							</picture>
+							<picture>
+								<source
+									media="(min-width: 640px)"
+									srcSet="/local-images/services-gallery-desktop-1.jpg"
+								/>
+								<img
+									src="/local-images/services-gallery-1.jpg"
+									id="photoA" 
+									alt="Photo portrait of an old man" 
+									className="absolute top-0 left-0 h-full w-full object-cover"
+								/>
+							</picture>
 						</div>
 						
 						
