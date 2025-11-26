@@ -29,7 +29,7 @@ export default function Services({ wrapperRef }: Props) {
 	const heightRatioLandscape: number = imgHeightLandscape / imgWidthLandscape;
 	const heightRatioPortrait: number = imgHeightPortrait / imgWidthPortrait;
 	const minGallerySpacing: string = '182px';
-	
+
 	useGSAP(() => {
 		gsap.registerPlugin(ScrollTrigger);
 
@@ -57,6 +57,29 @@ export default function Services({ wrapperRef }: Props) {
 				end: `+=${totalScroll}`,
 				scroller: smoother?.content(),
 				scrub: true,
+				onUpdate: () => {
+					// Calculate progress based on visibility in container, not total animation
+					for (let i = 1; i < numImages; i++) {
+						const currentY = gsap.getProperty(images[i], "y") as number;
+
+						// An image becomes visible when it starts moving (y < 0)
+						// It's fully visible when it has moved galleryHeight pixels up
+						// For all images, visibility is based on moving one galleryHeight
+						const visibilityStart = 0;
+						const visibilityEnd = -galleryHeight;
+
+						// Clamp currentY to the visibility range
+						const clampedY = Math.max(Math.min(currentY, visibilityStart), visibilityEnd);
+						const distanceIntoView = Math.abs(clampedY - visibilityStart);
+						const totalVisibilityDistance = Math.abs(visibilityEnd - visibilityStart);
+						const progress = (distanceIntoView / totalVisibilityDistance) * 100;
+
+						// Only log if image is actively moving into view (between 0% and 100%)
+						if (progress > 0 && progress < 100) {
+							console.log(`Image ${i} is animating - ${progress.toFixed(1)}% complete`);
+						}
+					}
+				},
 			},
 		});
 
@@ -79,7 +102,11 @@ export default function Services({ wrapperRef }: Props) {
 			<div className="py-[30px]">
 				<Tabs
 					selectedKey={selectedTab}
-					onSelectionChange={(key) => setSelectedTab(key as string)}
+					onSelectionChange={(key) => {
+							setSelectedTab(key as string), 
+							console.log("Tab clicked:", key)
+						}
+					}
 					variant="light"
 					aria-label="Service options"
 					classNames={{
