@@ -19,6 +19,7 @@ export default function Services({ wrapperRef }: Props) {
 	const imgWrapperRef = useRef<HTMLDivElement>(null);
 	const img2Ref = useRef<HTMLDivElement>(null);
 	const img3Ref = useRef<HTMLDivElement>(null);
+	const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
 	const imgWidthLandscape: number = 2665;
 	const imgHeightLandscape: number = 1468;
@@ -95,6 +96,11 @@ export default function Services({ wrapperRef }: Props) {
 				(i - 1) * 0.5 // stagger: start each after previous completes (adjust 0.5 as needed)
 			);
 		});
+
+		// Store ScrollTrigger instance for tab navigation
+		if (tl.scrollTrigger) {
+			scrollTriggerRef.current = tl.scrollTrigger;
+		}
 	}, { scope: wrapperRef });
 	
 	return(
@@ -103,10 +109,42 @@ export default function Services({ wrapperRef }: Props) {
 				<Tabs
 					selectedKey={selectedTab}
 					onSelectionChange={(key) => {
-							setSelectedTab(key as string), 
-							console.log("Tab clicked:", key)
+						setSelectedTab(key as string);
+						console.log("Tab clicked:", key);
+
+						// Map tab key to image index
+						const tabMap: { [key: string]: number } = {
+							img1: 0,
+							img2: 1,
+							img3: 2,
+						};
+						const imageIndex = tabMap[key as string];
+
+						// Calculate scroll position for this image
+						if (scrollTriggerRef.current && sectionRef.current) {
+							const st = scrollTriggerRef.current;
+
+							// Each image corresponds to a specific scroll progress
+							// Image 0: scroll progress = 0 (start)
+							// Image 1: scroll progress = 0.5 (halfway through total scroll)
+							// Image 2: scroll progress = 1.0 (end)
+							// This is because totalScroll = galleryHeight * (numImages - 1)
+							// So each image takes up 1/(numImages-1) of the total scroll
+							const targetProgress = imageIndex / (3 - 1); // 3 images total
+
+							// Calculate actual scroll position
+							const scrollStart = st.start;
+							const scrollEnd = st.end;
+							const scrollDistance = scrollEnd - scrollStart;
+							const targetScroll = scrollStart + scrollDistance * targetProgress;
+
+							// Scroll to position using ScrollSmoother
+							const smoother = ScrollSmoother.get();
+							if (smoother) {
+								smoother.scrollTo(targetScroll, true, "power2.inOut");
+							}
 						}
-					}
+					}}
 					variant="light"
 					aria-label="Service options"
 					classNames={{
