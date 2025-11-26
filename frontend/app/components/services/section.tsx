@@ -280,22 +280,22 @@ export default function Services({ wrapperRef }: Props) {
 							}}
 						>
 							<img
-								src="/local-images/section-bg-services-desktop.jpg"
+								src="/local-images/services-gallery-desktop-3.jpg"
 								id="photoC" 
 								alt="Photo portrait of an old man" 
-								className="absolute top-0 left-0 h-full w-full object-cover opacity-50"
+								className="absolute top-0 left-0 h-full w-full object-cover"
 							/>
 							<img
-								src="/local-images/section-bg-services-desktop.jpg" 
+								src="/local-images/services-gallery-desktop-2.jpg" 
 								id="photoB" 
 								alt="Photo portrait of an old man" 
-								className="absolute top-0 left-0 h-full w-full object-cover opacity-50"
+								className="absolute top-0 left-0 h-full w-full object-cover"
 							/>
 							<img
-								src="/local-images/section-bg-services-desktop.jpg" 
+								src="/local-images/services-gallery-desktop-1.jpg" 
 								id="photoA" 
 								alt="Photo portrait of an old man" 
-								className="absolute left-0 h-full w-full object-cover opacity-50"
+								className="absolute left-0 h-full w-full object-cover"
 							/>
 						</div>
 						
