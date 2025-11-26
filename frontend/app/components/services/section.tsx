@@ -46,8 +46,11 @@ export default function Services({ wrapperRef }: Props) {
 
 		const smoother = ScrollSmoother.get ? ScrollSmoother.get() : null;
 
-		// Total scroll distance for pinning: each image scrolls one full container height
-		const totalScroll = galleryHeight * (numImages - 1);
+		// Total scroll distance for pinning
+		// No stagger overlap: photoA animates from 0-1, photoB animates from 1-2
+		// Total timeline duration = 2, each "unit" represents galleryHeight of scroll
+		const timelineDuration = numImages - 1; // 2 animations, each duration 1
+		const totalScroll = galleryHeight * timelineDuration;
 
 		// Timeline for sequential image animation
 		const tl = gsap.timeline({
@@ -58,7 +61,54 @@ export default function Services({ wrapperRef }: Props) {
 				end: `+=${totalScroll}`,
 				scroller: smoother?.content(),
 				scrub: true,
-				onUpdate: () => {
+				onLeave: () => {
+					// When scrolling past the end, ensure last tab is selected
+					console.log('ScrollTrigger: onLeave');
+					setSelectedTab("img3");
+				},
+				onLeaveBack: () => {
+					// When scrolling back past the start, ensure first tab is selected
+					console.log('ScrollTrigger: onLeaveBack');
+					setSelectedTab("img1");
+				},
+				onUpdate: (self) => {
+					// Skip automatic tab updates if user is clicking tabs
+					if (isUserClickingTab.current) {
+						return;
+					}
+
+					// Determine which image is currently most visible and update the selected tab
+					const progress = self.progress;
+
+					// Convert scroll progress to timeline time
+					const currentTime = progress * timelineDuration;
+
+					// Determine which image based on timeline time
+					// photoA visible: timeline 0 to 1 (as it animates out)
+					// photoB visible: timeline 1 to 2 (as it animates out)
+					// photoC visible: timeline 2 (both animations complete)
+					// Use 1/3 transitions for balanced switching:
+					// - Switch to photoB at 0.33 (1/3 through photoA animation)
+					// - Switch to photoC at 1.33 (1/3 through photoB animation)
+					let currentImageIndex = 0;
+					if (currentTime >= 1.33) {
+						currentImageIndex = 2;
+					} else if (currentTime >= 0.33) {
+						currentImageIndex = 1;
+					}
+
+					// Map image index to tab key
+					const tabKeys = ["img1", "img2", "img3"];
+					const newTab = tabKeys[currentImageIndex];
+
+					// Debug log
+					console.log('currentTime:', currentTime.toFixed(2), 'currentImageIndex:', currentImageIndex, 'newTab:', newTab, 'selectedTab:', selectedTab);
+
+					// Update selected tab if it changed
+					if (newTab !== selectedTab) {
+						setSelectedTab(newTab);
+					}
+
 					// Calculate progress based on visibility in container, not total animation
 					for (let i = 1; i < numImages; i++) {
 						const currentY = gsap.getProperty(images[i], "y") as number;
@@ -85,17 +135,42 @@ export default function Services({ wrapperRef }: Props) {
 		});
 
 		// Animate images one after another
-		images.forEach((img, i) => {
-			if (i === 0) return; // first image stays in place
-			tl.to(
-				img,
+		// Images in DOM: [photoC, photoB, photoA] (reverse order)
+		// photoC (images[0]) = bottom layer, stays static
+		// photoB (images[1]) = middle layer, animates second
+		// photoA (images[2]) = top layer, animates first
+		// We need to animate in reverse order: photoA first, then photoB
+
+		// Animate photoA (last image in DOM, index 2) first
+		if (images[2]) {
+			tl.fromTo(
+				images[2],
+				{ y: 0 },
 				{
-					y: -galleryHeight * i,
+					y: -galleryHeight,
 					ease: "none",
+					duration: 1,
 				},
-				(i - 1) * 0.5 // stagger: start each after previous completes (adjust 0.5 as needed)
+				0 // Start at timeline time 0
 			);
-		});
+		}
+
+		// Animate photoB (middle image in DOM, index 1) second
+		// Start AFTER photoA finishes (at timeline time 1)
+		if (images[1]) {
+			tl.fromTo(
+				images[1],
+				{ y: 0 },
+				{
+					y: -galleryHeight,
+					ease: "none",
+					duration: 1,
+				},
+				1 // Start at timeline time 1 (after photoA completes)
+			);
+		}
+
+		// photoC (first image in DOM, index 0) stays static - no animation
 
 		// Store ScrollTrigger instance for tab navigation
 		if (tl.scrollTrigger) {
@@ -112,6 +187,14 @@ export default function Services({ wrapperRef }: Props) {
 						setSelectedTab(key as string);
 						console.log("Tab clicked:", key);
 
+						// Set flag to prevent onUpdate from changing tab during animation
+						isUserClickingTab.current = true;
+
+						// Clear any existing timeout
+						if (scrollTimeoutRef.current) {
+							clearTimeout(scrollTimeoutRef.current);
+						}
+
 						// Map tab key to image index
 						const tabMap: { [key: string]: number } = {
 							img1: 0,
@@ -124,13 +207,20 @@ export default function Services({ wrapperRef }: Props) {
 						if (scrollTriggerRef.current && sectionRef.current) {
 							const st = scrollTriggerRef.current;
 
-							// Each image corresponds to a specific scroll progress
-							// Image 0: scroll progress = 0 (start)
-							// Image 1: scroll progress = 0.5 (halfway through total scroll)
-							// Image 2: scroll progress = 1.0 (end)
-							// This is because totalScroll = galleryHeight * (numImages - 1)
-							// So each image takes up 1/(numImages-1) of the total scroll
-							const targetProgress = imageIndex / (3 - 1); // 3 images total
+							// Calculate target timeline time for each image
+							// Image 0 (photoA showing): timeline time = 0
+							// Image 1 (photoB showing): timeline time = 1.0 (photoA finished, photoB at midpoint)
+							// Image 2 (photoC showing): timeline time = 2.0 (both finished)
+							let targetTimelineTime = 0;
+							if (imageIndex === 1) {
+								targetTimelineTime = 1.0; // photoB at midpoint
+							} else if (imageIndex === 2) {
+								targetTimelineTime = 2.0; // both animations complete
+							}
+
+							// Timeline duration is 2 (no overlap)
+							const timelineDuration = 2;
+							const targetProgress = targetTimelineTime / timelineDuration;
 
 							// Calculate actual scroll position
 							const scrollStart = st.start;
@@ -143,6 +233,13 @@ export default function Services({ wrapperRef }: Props) {
 							if (smoother) {
 								smoother.scrollTo(targetScroll, true, "power2.inOut");
 							}
+
+							// Re-enable automatic tab updates after animation completes
+							// ScrollSmoother default duration is ~1 second with power2.inOut easing
+							scrollTimeoutRef.current = setTimeout(() => {
+								isUserClickingTab.current = false;
+								console.log("Tab click animation complete - re-enabling auto tab updates");
+							}, 1200); // Slightly longer than animation duration to be safe
 						}
 					}}
 					variant="light"
@@ -184,17 +281,20 @@ export default function Services({ wrapperRef }: Props) {
 						>
 							<img
 								src="/local-images/section-bg-services-desktop.jpg"
-								alt="Photo portrait of an old man"
+								id="photoC" 
+								alt="Photo portrait of an old man" 
 								className="absolute top-0 left-0 h-full w-full object-cover opacity-50"
 							/>
 							<img
-								src="/local-images/section-bg-services-desktop.jpg"
-								alt="Photo portrait of an old man"
+								src="/local-images/section-bg-services-desktop.jpg" 
+								id="photoB" 
+								alt="Photo portrait of an old man" 
 								className="absolute top-0 left-0 h-full w-full object-cover opacity-50"
 							/>
 							<img
-								src="/local-images/section-bg-services-desktop.jpg"
-								alt="Photo portrait of an old man"
+								src="/local-images/section-bg-services-desktop.jpg" 
+								id="photoA" 
+								alt="Photo portrait of an old man" 
 								className="absolute left-0 h-full w-full object-cover opacity-50"
 							/>
 						</div>
