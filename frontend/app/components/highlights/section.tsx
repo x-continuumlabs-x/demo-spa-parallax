@@ -57,8 +57,8 @@ export default function Highlights({ wrapperRef }: Props) {
 		scrollTrigger: {
 			trigger: canvas,
 			start: "bottom bottom",
-			end: "bottom+=2000 top",
-			scrub: 0.5,
+			end: "bottom+=1000 top",
+			scrub: 0.2,
 		},
 		onUpdate: render,
 		});
