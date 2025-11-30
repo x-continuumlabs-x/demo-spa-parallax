@@ -50,14 +50,16 @@ export default function Highlights({ wrapperRef }: Props) {
 		images[0].onload = render;
 
 		// --- GSAP Scroll Animation ---
+		const section = canvas.closest('section');
 		gsap.to(state, {
 		frame: frameCount - 1,
 		snap: "frame",
 		ease: "none",
 		scrollTrigger: {
-			trigger: canvas,
-			start: "bottom bottom",
-			end: "bottom+=1000 top",
+			trigger: section,
+			pin: true,
+			start: "top top",
+			end: "+=1000",
 			scrub: 0.2,
 		},
 		onUpdate: render,
@@ -69,7 +71,7 @@ export default function Highlights({ wrapperRef }: Props) {
 			<div className="w-full flex justify-center">
 				<canvas ref={canvasRef} />
 			</div>
-			<div data-speed="1.2">
+			{/* <div data-speed="1.2">
 				<Image
 					src="/local-images/section-bg-highlights.jpg"
 					alt="Photo portrait of a young woman"
@@ -81,7 +83,7 @@ export default function Highlights({ wrapperRef }: Props) {
 					}}
 					priority
 				/>
-			</div>
+			</div> */}
 			<div className="absolute top-[30vh] left-0 w-full" data-speed="1">
 				<h1 className="text-[30vw] text-[#b0f3ee] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">Velit</h1>
 			</div>
