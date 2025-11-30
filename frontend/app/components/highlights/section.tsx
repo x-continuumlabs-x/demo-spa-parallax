@@ -51,18 +51,29 @@ export default function Highlights({ wrapperRef }: Props) {
 
 		// --- GSAP Scroll Animation ---
 		const section = canvas.closest('section');
+
+		// Animation starts when entering viewport, continues through normal scroll + pin
+		const scrollDuringPin = 1000; // Additional scroll while pinned
+
 		gsap.to(state, {
-		frame: frameCount - 1,
-		snap: "frame",
-		ease: "none",
-		scrollTrigger: {
+			frame: frameCount - 1,
+			snap: "frame",
+			ease: "none",
+			scrollTrigger: {
+				trigger: section,
+				start: "top bottom", // Animation starts when section enters viewport
+				end: `top ${-scrollDuringPin}`, // End after scrolling past top by pin duration
+				scrub: 0.2,
+			},
+			onUpdate: render,
+		});
+
+		// Separate ScrollTrigger for pinning only
+		ScrollTrigger.create({
 			trigger: section,
 			pin: true,
-			start: "top top",
-			end: "+=1000",
-			scrub: 0.2,
-		},
-		onUpdate: render,
+			start: "top top", // Pin when section reaches top
+			end: `+=${scrollDuringPin}`, // Unpin after 1000px
 		});
 
 	}, { scope: wrapperRef });
