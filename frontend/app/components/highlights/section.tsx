@@ -61,7 +61,7 @@ export default function Highlights({ wrapperRef }: Props) {
 			ease: "none",
 			scrollTrigger: {
 				trigger: section,
-				start: "top bottom", // Animation starts when section enters viewport
+				start: "top 85%", // Animation starts when top of section is 10% into viewport
 				end: `top ${-scrollDuringPin}`, // End after scrolling past top by pin duration
 				scrub: 0.2,
 			},
