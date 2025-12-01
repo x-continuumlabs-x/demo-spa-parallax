@@ -17,8 +17,18 @@ export default function About({ wrapperRef }: Props) {
 	useGSAP(() => {
 		if (!pathRef.current || !sectionRef.current) return;
 
-		// Start with path not drawn
+		// Start with path not drawn and milestones hidden
 		gsap.set(pathRef.current, { drawSVG: "0%" });
+		gsap.set(
+			[
+				milestone1.current,
+				milestone2.current,
+				milestone3.current,
+				milestone4.current,
+				milestone5.current,
+			],
+			{ opacity: 0 }
+		);
 
 		// Animate the path drawing as user scrolls
 		gsap.to(pathRef.current, {
@@ -29,6 +39,59 @@ export default function About({ wrapperRef }: Props) {
 				start: "top center",
 				end: "bottom top",
 				scrub: 1,
+				onUpdate: (self) => {
+					const progress = self.progress;
+
+					// Milestone 1: fade in at 20%, fade out below 20%
+					if (milestone1.current) {
+						const currentOpacity = gsap.getProperty(milestone1.current, "opacity") as number;
+						if (progress >= 0.2 && currentOpacity < 1) {
+							gsap.to(milestone1.current, { opacity: 1, duration: 0.5 });
+						} else if (progress < 0.2 && currentOpacity > 0) {
+							gsap.to(milestone1.current, { opacity: 0, duration: 0.5 });
+						}
+					}
+
+					// Milestone 2: fade in at 40%, fade out below 40%
+					if (milestone2.current) {
+						const currentOpacity = gsap.getProperty(milestone2.current, "opacity") as number;
+						if (progress >= 0.4 && currentOpacity < 1) {
+							gsap.to(milestone2.current, { opacity: 1, duration: 0.5 });
+						} else if (progress < 0.4 && currentOpacity > 0) {
+							gsap.to(milestone2.current, { opacity: 0, duration: 0.5 });
+						}
+					}
+
+					// Milestone 3: fade in at 60%, fade out below 60%
+					if (milestone3.current) {
+						const currentOpacity = gsap.getProperty(milestone3.current, "opacity") as number;
+						if (progress >= 0.6 && currentOpacity < 1) {
+							gsap.to(milestone3.current, { opacity: 1, duration: 0.5 });
+						} else if (progress < 0.6 && currentOpacity > 0) {
+							gsap.to(milestone3.current, { opacity: 0, duration: 0.5 });
+						}
+					}
+
+					// Milestone 4: fade in at 80%, fade out below 80%
+					if (milestone4.current) {
+						const currentOpacity = gsap.getProperty(milestone4.current, "opacity") as number;
+						if (progress >= 0.8 && currentOpacity < 1) {
+							gsap.to(milestone4.current, { opacity: 1, duration: 0.5 });
+						} else if (progress < 0.8 && currentOpacity > 0) {
+							gsap.to(milestone4.current, { opacity: 0, duration: 0.5 });
+						}
+					}
+
+					// Milestone 5: fade in at 95%, fade out below 95%
+					if (milestone5.current) {
+						const currentOpacity = gsap.getProperty(milestone5.current, "opacity") as number;
+						if (progress >= 0.95 && currentOpacity < 1) {
+							gsap.to(milestone5.current, { opacity: 1, duration: 0.5 });
+						} else if (progress < 0.95 && currentOpacity > 0) {
+							gsap.to(milestone5.current, { opacity: 0, duration: 0.5 });
+						}
+					}
+				},
 			}
 		});
 	}, { scope: wrapperRef });
