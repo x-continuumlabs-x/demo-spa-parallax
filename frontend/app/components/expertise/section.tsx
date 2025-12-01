@@ -3,8 +3,7 @@
 import { Props } from "@/types";
 import Image from "next/image";
 import { useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollTrigger } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { Card, CardHeader, CardBody } from "@heroui/react";
 
@@ -23,7 +22,6 @@ export default function Expertise({ wrapperRef }: Props){
 	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 
 	useGSAP( () => {
-		gsap.registerPlugin(ScrollTrigger);
 		ScrollTrigger.create({
 			trigger: '#cardsID',
 			pin: true,

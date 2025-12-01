@@ -3,9 +3,7 @@
 import { Props } from "@/types";
 import { useGSAP } from "@gsap/react";
 import { useRef, useEffect, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { gsap, ScrollTrigger, ScrollSmoother } from "@/app/lib/gsap";
 import { Tabs, Tab } from "@heroui/react";
 import { useViewportHeight } from "@/app/utils/useViewportHeight";
 
@@ -32,8 +30,6 @@ export default function Services({ wrapperRef }: Props) {
 	const minGallerySpacing: string = '182px';
 
 	useGSAP(() => {
-		gsap.registerPlugin(ScrollTrigger);
-
 		const galleryContainer = sectionRef.current?.querySelector<HTMLElement>(
 		"#galleryContainer"
 		);

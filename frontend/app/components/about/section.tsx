@@ -1,18 +1,15 @@
 "use client";
 
 import { Props } from "@/types";
-import { useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
-import { DrawSVGPlugin } from "gsap/dist/DrawSVGPlugin";
-
-gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
+import { gsap } from "@/app/lib/gsap";
 
 export default function About({ wrapperRef }: Props) {
 	const pathRef = useRef<SVGPathElement>(null);
 	const sectionRef = useRef<HTMLElement>(null);
 
-	useEffect(() => {
+	useGSAP(() => {
 		if (!pathRef.current || !sectionRef.current) return;
 
 		// Start with path not drawn
@@ -29,7 +26,7 @@ export default function About({ wrapperRef }: Props) {
 				scrub: 1,
 			}
 		});
-	}, []);
+	}, { scope: wrapperRef });
 
 	return(
 		<section ref={sectionRef} className="relative w-full overflow-hidden">

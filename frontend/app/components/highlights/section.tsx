@@ -1,16 +1,13 @@
 import { Props } from "@/types";
 import { useRef } from "react";
 import Image from "next/image";
-import { gsap } from "gsap";
+import { gsap, ScrollTrigger } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 export default function Highlights({ wrapperRef }: Props) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 
 	useGSAP(() => {
-		gsap.registerPlugin(ScrollTrigger);
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 		const context = canvas.getContext("2d");

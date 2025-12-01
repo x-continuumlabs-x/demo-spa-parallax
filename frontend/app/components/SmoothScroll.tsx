@@ -1,10 +1,8 @@
 "use client";
 
 import { useRef, ReactNode } from "react";
-import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
+import { ScrollSmoother } from "@/app/lib/gsap";
 
 interface SmoothScrollProps {
 	children: ReactNode;
@@ -15,9 +13,6 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 	const smoothContent = useRef<HTMLDivElement>(null);
 
 	useGSAP(() => {
-		// Register plugins inside hook to ensure window exists
-		gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
 		const smoother = ScrollSmoother.create({
 			wrapper: smoothWrapper.current!,
 			content: smoothContent.current!,
