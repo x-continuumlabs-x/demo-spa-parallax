@@ -8,6 +8,11 @@ import { gsap } from "@/app/lib/gsap";
 export default function About({ wrapperRef }: Props) {
 	const pathRef = useRef<SVGPathElement>(null);
 	const sectionRef = useRef<HTMLElement>(null);
+	const milestone1 = useRef<HTMLDivElement>(null);
+	const milestone2 = useRef<HTMLDivElement>(null);
+	const milestone3 = useRef<HTMLDivElement>(null);
+	const milestone4 = useRef<HTMLDivElement>(null);
+	const milestone5 = useRef<HTMLDivElement>(null);
 
 	useGSAP(() => {
 		if (!pathRef.current || !sectionRef.current) return;
@@ -21,7 +26,7 @@ export default function About({ wrapperRef }: Props) {
 			ease: "none",
 			scrollTrigger: {
 				trigger: sectionRef.current,
-				start: "top bottom",
+				start: "top center",
 				end: "bottom top",
 				scrub: 1,
 			}
@@ -52,20 +57,24 @@ export default function About({ wrapperRef }: Props) {
 							/>
 						</svg>
 					</div>
-					<div>
+					<div ref={milestone1}>
 						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
 						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
 					</div>
-					<div>
-						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
+					<div ref={milestone2}>
+						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2018</h3>
 						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
 					</div>
-					<div>
-						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
+					<div ref={milestone3}>
+						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2019</h3>
 						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
 					</div>
-					<div>
-						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
+					<div ref={milestone4}>
+						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2021</h3>
+						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
+					</div>
+					<div ref={milestone5}>
+						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2024</h3>
 						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
 					</div>
 				</div>

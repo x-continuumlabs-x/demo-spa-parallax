@@ -37,11 +37,11 @@ export default function Highlights({ wrapperRef }: Props) {
 		}
 
 		const render = () => {
-		context.clearRect(0, 0, width, height);
-		const img = images[state.frame];
-		if (img) {
-			context.drawImage(img, 0, 0, width, height);
-		}
+			context.clearRect(0, 0, width, height);
+			const img = images[state.frame];
+			if (img) {
+				context.drawImage(img, 0, 0, width, height);
+			}
 		};
 
 		images[0].onload = render;
