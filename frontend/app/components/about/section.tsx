@@ -37,58 +37,58 @@ export default function About({ wrapperRef }: Props) {
 			scrollTrigger: {
 				trigger: sectionRef.current,
 				start: "top center",
-				end: "bottom top",
+				end: "bottom center",
 				scrub: 1,
 				onUpdate: (self) => {
 					const progress = self.progress;
 
-					// Milestone 1: fade in at 20%, fade out below 20%
+					// Milestone 1: fade in at 17%, fade out below 17%
 					if (milestone1.current) {
 						const currentOpacity = gsap.getProperty(milestone1.current, "opacity") as number;
-						if (progress >= 0.2 && currentOpacity < 1) {
-							gsap.to(milestone1.current, { opacity: 1, duration: 0.5 });
-						} else if (progress < 0.2 && currentOpacity > 0) {
-							gsap.to(milestone1.current, { opacity: 0, duration: 0.5 });
+						if (progress >= 0.17 && currentOpacity < 1) {
+							gsap.to(milestone1.current, { opacity: 1, duration: 0.3 });
+						} else if (progress < 0.17 && currentOpacity > 0) {
+							gsap.to(milestone1.current, { opacity: 0, duration: 0.3 });
 						}
 					}
 
-					// Milestone 2: fade in at 40%, fade out below 40%
+					// Milestone 2: fade in at 36%, fade out below 36%
 					if (milestone2.current) {
 						const currentOpacity = gsap.getProperty(milestone2.current, "opacity") as number;
-						if (progress >= 0.4 && currentOpacity < 1) {
-							gsap.to(milestone2.current, { opacity: 1, duration: 0.5 });
-						} else if (progress < 0.4 && currentOpacity > 0) {
-							gsap.to(milestone2.current, { opacity: 0, duration: 0.5 });
+						if (progress >= 0.36 && currentOpacity < 1) {
+							gsap.to(milestone2.current, { opacity: 1, duration: 0.3 });
+						} else if (progress < 0.36 && currentOpacity > 0) {
+							gsap.to(milestone2.current, { opacity: 0, duration: 0.3 });
 						}
 					}
 
-					// Milestone 3: fade in at 60%, fade out below 60%
+					// Milestone 3: fade in at 56%, fade out below 56%
 					if (milestone3.current) {
 						const currentOpacity = gsap.getProperty(milestone3.current, "opacity") as number;
-						if (progress >= 0.6 && currentOpacity < 1) {
-							gsap.to(milestone3.current, { opacity: 1, duration: 0.5 });
-						} else if (progress < 0.6 && currentOpacity > 0) {
-							gsap.to(milestone3.current, { opacity: 0, duration: 0.5 });
+						if (progress >= 0.56 && currentOpacity < 1) {
+							gsap.to(milestone3.current, { opacity: 1, duration: 0.3 });
+						} else if (progress < 0.56 && currentOpacity > 0) {
+							gsap.to(milestone3.current, { opacity: 0, duration: 0.3 });
 						}
 					}
 
-					// Milestone 4: fade in at 80%, fade out below 80%
+					// Milestone 4: fade in at 68%, fade out below 68%
 					if (milestone4.current) {
 						const currentOpacity = gsap.getProperty(milestone4.current, "opacity") as number;
-						if (progress >= 0.8 && currentOpacity < 1) {
-							gsap.to(milestone4.current, { opacity: 1, duration: 0.5 });
-						} else if (progress < 0.8 && currentOpacity > 0) {
-							gsap.to(milestone4.current, { opacity: 0, duration: 0.5 });
+						if (progress >= 0.68 && currentOpacity < 1) {
+							gsap.to(milestone4.current, { opacity: 1, duration: 0.3 });
+						} else if (progress < 0.68 && currentOpacity > 0) {
+							gsap.to(milestone4.current, { opacity: 0, duration: 0.3 });
 						}
 					}
 
-					// Milestone 5: fade in at 95%, fade out below 95%
+					// Milestone 5: fade in at 90%, fade out below 90%
 					if (milestone5.current) {
 						const currentOpacity = gsap.getProperty(milestone5.current, "opacity") as number;
-						if (progress >= 0.95 && currentOpacity < 1) {
-							gsap.to(milestone5.current, { opacity: 1, duration: 0.5 });
-						} else if (progress < 0.95 && currentOpacity > 0) {
-							gsap.to(milestone5.current, { opacity: 0, duration: 0.5 });
+						if (progress >= 0.90 && currentOpacity < 1) {
+							gsap.to(milestone5.current, { opacity: 1, duration: 0.3 });
+						} else if (progress < 0.90 && currentOpacity > 0) {
+							gsap.to(milestone5.current, { opacity: 0, duration: 0.3 });
 						}
 					}
 				},
@@ -97,15 +97,17 @@ export default function About({ wrapperRef }: Props) {
 	}, { scope: wrapperRef });
 
 	return(
-		<section ref={sectionRef} className="relative w-full overflow-hidden">
+		<section ref={sectionRef} className="relative w-full">
 			<div className="flex justify-evenly">
 				<div className="w-1/3 flex items-center flex-col">
-					<div className="w-[30%]">
+					<div className="relative w-[50%] md:w-[35%] lg:w-[30%] overflow-visible" style={{ aspectRatio: '240 / 1480' }}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 234 1474"
+							viewBox="-3 -3 240 1480"
 							width="100%"
-							// height="1474"
+							height="100%"
+							preserveAspectRatio="xMidYMid meet"
+							overflow="visible"
 							>
 							<path
 								ref={pathRef}
@@ -119,26 +121,26 @@ export default function About({ wrapperRef }: Props) {
 								}}
 							/>
 						</svg>
-					</div>
-					<div ref={milestone1}>
-						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
-						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
-					</div>
-					<div ref={milestone2}>
-						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2018</h3>
-						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
-					</div>
-					<div ref={milestone3}>
-						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2019</h3>
-						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
-					</div>
-					<div ref={milestone4}>
-						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2021</h3>
-						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
-					</div>
-					<div ref={milestone5}>
-						<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2024</h3>
-						<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
+						<div className="absolute top-[17%]" ref={milestone1}>
+							<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
+							<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
+						</div>
+						<div className="absolute top-[36%]" ref={milestone2}>
+							<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2018</h3>
+							<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
+						</div>
+						<div className="absolute top-[56%]" ref={milestone3}>
+							<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2019</h3>
+							<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
+						</div>
+						<div className="absolute top-[68%]" ref={milestone4}>
+							<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2021</h3>
+							<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
+						</div>
+						<div className="absolute top-[90%]" ref={milestone5}>
+							<h3 className="text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2024</h3>
+							<p>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
+						</div>
 					</div>
 				</div>
 				<div className="w-1/3">
