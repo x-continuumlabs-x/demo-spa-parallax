@@ -6,13 +6,17 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollSmoother, SplitText } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
-import { Input } from "@heroui/react";
+import { Input, Button, Label } from "@heroui/react";
 
 export default function Hero({ wrapperRef }: Props) {
 	const imageContainerRef = useRef<HTMLDivElement>(null);
 	const ctaFormBgRef = useRef<HTMLDivElement>(null);
 	const formHeadingH3Ref = useRef<HTMLHeadingElement>(null);
 	const formHeadingContainerRef = useRef<HTMLDivElement>(null);
+	const formPhoneRef = useRef<HTMLParagraphElement>(null);
+	const fieldNameRef = useRef<HTMLDivElement>(null);
+	const fieldEmailRef = useRef<HTMLDivElement>(null);
+	const fieldCtaRef = useRef<HTMLDivElement>(null);
 	const imgWidthLandscape = 3200;
 	const imgHeightLandscape = 2883;
 	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
@@ -26,6 +30,11 @@ export default function Hero({ wrapperRef }: Props) {
 		{ width: "107vw" },
 		{ width: "100vw", duration: 3.5, ease: "expo.out" }
 		);
+
+		// Set initial opacity for form elements
+		gsap.set([formPhoneRef.current, fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current], {
+			opacity: 0
+		});
 	}, { scope: wrapperRef });
 
 	const handleCtaClick = () => {
@@ -36,6 +45,15 @@ export default function Hero({ wrapperRef }: Props) {
 				height: 400,
 				duration: 0.6,
 				ease: "power4.inOut"
+			});
+
+			// Fade in form elements
+			gsap.to([formPhoneRef.current, fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current], {
+				opacity: 1,
+				duration: 0.5,
+				delay: 0.2,
+				stagger: 0.1,
+				ease: "power2.out"
 			});
 
 			// SplitText animation for h3
@@ -105,6 +123,13 @@ export default function Hero({ wrapperRef }: Props) {
 	const handleCloseClick = (e: React.MouseEvent) => {
 		e.stopPropagation(); // Prevent triggering the parent click handler
 		if (ctaFormBgRef.current && formHeadingH3Ref.current && formHeadingContainerRef.current) {
+			// Fade out form elements
+			gsap.to([formPhoneRef.current, fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current], {
+				opacity: 0,
+				duration: 0.3,
+				ease: "power2.in"
+			});
+
 			gsap.to(ctaFormBgRef.current, {
 				width: 220,
 				height: 76,
@@ -204,30 +229,29 @@ export default function Hero({ wrapperRef }: Props) {
 					<div id="formHeading" className="w-full h-full relative flex justify-between items-center">
 						<h3 ref={formHeadingH3Ref} className="text-[14px] uppercase font-nominee font-black tracking-[-0.06em] leading-[0.6em] relative overflow-hidden py-[2px] pr-[1px]">Contact Us</h3>
 						<div id="ctaIcon">iii</div>
-						<p id="formPhone" className="absolute top-[50px]">+34 612 345 678</p>
+						<p ref={formPhoneRef} id="formPhone" className="absolute top-[50px]">+34 612 345 678</p>
 					</div>
 				</div>
 				<div id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[76px] cursor-pointer"></div>
 				<div className="form absolute top-[150px] px-[30px]">
-					<div id="fieldName" className="w-[340px] mb-[15px]">
+					<div ref={fieldNameRef} id="fieldName" className="w-[340px] mb-[15px]">
+						
+						<div className="flex flex-col gap-1">
+						<label className="text-[#645f5b] peer-focus:text-[#877f78] transition-colors">
+							Name
+						</label>
+
 						<Input
-							label="Name"
-							placeholder=" "
 							type="text"
-							classNames={{
-							label: [
-								"!text-[#645f5b]", 
-								"group-data-[focus=true]:!text-[#877f78]"
-							],
-							inputWrapper: "bg-[#322f2e]",
-							input: "text-[#d7cec4]"
-							}}
-						/>
-					</div>
-					<div id="fieldEmail" className="w-[340px] mb-[25px]">
-						<Input
-							label="Email"
 							placeholder=" "
+							className="bg-[#322f2e] text-[#d7cec4]"
+						/>
+						</div>
+					</div>
+					<div ref={fieldEmailRef} id="fieldEmail" className="w-[340px] mb-[25px]">
+						{/* <Input
+							label="Email"
+							placeholder="Email"
 							type="email"
 							classNames={{
 							label: [
@@ -237,9 +261,15 @@ export default function Hero({ wrapperRef }: Props) {
 							inputWrapper: "bg-[#322f2e]",
 							input: "text-[#d7cec4]"
 							}}
-						/>
+						/> */}
 					</div>
-					<div id="fieldCta">cta</div>
+					<div ref={fieldCtaRef} id="fieldCta" className="w-full flex justify-end">
+						<Button
+							className="font-nominee font-black tracking-[-0.06em] uppercase py-[1em] px-[1.5em]"
+							>
+							Submit
+						</Button>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -4,7 +4,7 @@ import { Props } from "@/types";
 import { useGSAP } from "@gsap/react";
 import { useRef, useEffect, useState } from "react";
 import { gsap, ScrollTrigger, ScrollSmoother } from "@/app/lib/gsap";
-import { Tabs, Tab } from "@heroui/react";
+import { Tabs } from "@heroui/react";
 import { useViewportHeight } from "@/app/utils/useViewportHeight";
 
 export default function Services({ wrapperRef }: Props) {
@@ -176,8 +176,9 @@ export default function Services({ wrapperRef }: Props) {
 	
 	return(
 		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
-			<div className="py-[30px]">
+			<div className="py-[30px] w-full flex justify-center">
 				<Tabs
+					orientation="horizontal" 
 					selectedKey={selectedTab}
 					onSelectionChange={(key) => {
 						setSelectedTab(key as string);
@@ -238,19 +239,35 @@ export default function Services({ wrapperRef }: Props) {
 							}, 1200); // Slightly longer than animation duration to be safe
 						}
 					}}
-					variant="light"
-					aria-label="Service options"
-					classNames={{
-						base: "w-full flex justify-center",
-						tabList: "gap-2 rounded-2xl p-3 bg-[#1e1c1b]",
-						cursor: "bg-[#b7b0a8] rounded-xl",
-						tab: "px-6 h-12 text-left data-[hover-unselected=true]:opacity-80",
-						tabContent: "group-data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black text-[13px]"
-					}}
 				>
-					<Tab key="img1" title="Service 1" />
-					<Tab key="img2" title="Service 2" />
-					<Tab key="img3" title="Service 3" />
+					<Tabs.ListContainer>
+						<Tabs.List
+							aria-label="Service options"
+							className="gap-2 rounded-2xl p-3 bg-[#1e1c1b]"
+						>
+							<Tabs.Tab
+								id="img1"
+								className="px-6 h-12 text-left data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black text-[13px] data-[hover=true]:opacity-80"
+							>
+								Service 1
+								<Tabs.Indicator className="bg-[#b7b0a8] rounded-xl" />
+							</Tabs.Tab>
+							<Tabs.Tab
+								id="img2"
+								className="px-6 h-12 text-left data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black text-[13px] data-[hover=true]:opacity-80"
+							>
+								Service 2
+								<Tabs.Indicator className="bg-[#b7b0a8] rounded-xl" />
+							</Tabs.Tab>
+							<Tabs.Tab
+								id="img3"
+								className="px-6 h-12 text-left data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black text-[13px] data-[hover=true]:opacity-80"
+							>
+								Service 3
+								<Tabs.Indicator className="bg-[#b7b0a8] rounded-xl" />
+							</Tabs.Tab>
+						</Tabs.List>
+					</Tabs.ListContainer>
 				</Tabs>
 			</div>
 			<div 
