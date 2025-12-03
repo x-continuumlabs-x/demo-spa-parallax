@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollSmoother } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
+import { Input } from "@heroui/react";
 
 export default function Hero({ wrapperRef }: Props) {
 	const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -29,9 +30,9 @@ export default function Hero({ wrapperRef }: Props) {
 		if (ctaFormBgRef.current) {
 			// Animate the form expansion
 			gsap.to(ctaFormBgRef.current, {
-				width: 530,
-				height: 500,
-				duration: 0.4,
+				width: 400,
+				height: 400,
+				duration: 0.6,
 				ease: "power4.inOut"
 			});
 
@@ -53,7 +54,7 @@ export default function Hero({ wrapperRef }: Props) {
 
 				// Where we want the center of the expanded form to be (viewport center)
 				const viewportHeight = window.innerHeight;
-				const expandedHalfHeight = 250; // Half of 500px expanded height
+				const expandedHalfHeight = 200; // Half of 500px expanded height
 
 				// With parallax speed, element's position in viewport = originalTop - scroll * speed
 				// We want: originalTop - targetScroll * speed = viewportHeight/2 - expandedHalfHeight
@@ -72,7 +73,7 @@ export default function Hero({ wrapperRef }: Props) {
 			gsap.to(ctaFormBgRef.current, {
 				width: 220,
 				height: 76,
-				duration: 0.4,
+				duration: 0.6,
 				ease: "power4.inOut"
 			});
 		}
@@ -128,21 +129,50 @@ export default function Hero({ wrapperRef }: Props) {
 				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			</p>
 			<div className="relative">
-
-					<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[76px] rounded-[20px] flex items-start justify-end">
-						<button onClick={handleCloseClick} className="cursor-pointer">X</button>
+				<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[76px] rounded-[20px] flex items-start justify-end">
+					<button onClick={handleCloseClick} className="cursor-pointer">X</button>
+				</div>
+				<div className="absolute w-[220px] h-[76px]">
+					<div id="formHeading" className="w-full h-full relative flex justify-between items-center">
+						<h3 className="text-[14px] uppercase font-nominee font-black tracking-[-0.06em] leading-[0.6em]">Contact Us</h3>
+						<div className="icon">iii</div>
+						<p className="absolute top-[50px]">+34 612 345 678</p>
 					</div>
-					<div className="absolute w-[220px] h-[76px] flex items-center">
-						<h3>Contact Us</h3>
-						<div className="icon"></div>
+				</div>
+				<div id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[76px] cursor-pointer"></div>
+				<div className="form absolute top-[100px] px-[30px]">
+					<div id="fieldName" className="w-[340px]">
+						<Input
+							label="Name"
+							placeholder=" "
+							type="text"
+							classNames={{
+							label: [
+								"!text-[#645f5b]", 
+								"group-data-[focus=true]:!text-[#877f78]"
+							],
+							inputWrapper: "bg-[#322f2e]",
+							input: "text-[#d7cec4]"
+							}}
+						/>
 					</div>
-					<div id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[76px] cursor-pointer"></div>
-					<div className="form">
-						<div className="fieldName"></div>
-						<div className="fieldEmail"></div>
-						<div className="fieldCta"></div>
+					<div id="fieldEmail" className="w-[340px]">
+						<Input
+							label="Email"
+							placeholder=" "
+							type="email"
+							classNames={{
+							label: [
+								"!text-[#645f5b]", 
+								"group-data-[focus=true]:!text-[#877f78]"
+							],
+							inputWrapper: "bg-[#322f2e]",
+							input: "text-[#d7cec4]"
+							}}
+						/>
 					</div>
-
+					<div className="fieldCta">cta</div>
+				</div>
 			</div>
 		</div>
       </div>
