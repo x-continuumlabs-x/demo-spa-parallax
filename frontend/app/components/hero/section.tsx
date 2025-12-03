@@ -4,6 +4,7 @@ import { Props } from "@/types";
 import Image from "next/image";
 import { useRef } from "react";
 import { gsap } from "gsap";
+import { ScrollSmoother } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 
 export default function Hero({ wrapperRef }: Props) {
@@ -26,12 +27,42 @@ export default function Hero({ wrapperRef }: Props) {
 
 	const handleCtaClick = () => {
 		if (ctaFormBgRef.current) {
+			// Animate the form expansion
 			gsap.to(ctaFormBgRef.current, {
 				width: 530,
 				height: 500,
 				duration: 0.4,
 				ease: "power4.inOut"
 			});
+
+			// Scroll to center the form vertically
+			const smoother = ScrollSmoother.get();
+			if (smoother) {
+				// Get the parent container with parallax effect
+				const parallaxContainer = ctaFormBgRef.current.closest('[data-speed]');
+				const parallaxSpeed = parallaxContainer ? parseFloat(parallaxContainer.getAttribute('data-speed') || '1') : 1;
+
+				// Calculate the element's position accounting for parallax
+				const rect = ctaFormBgRef.current.getBoundingClientRect();
+				const currentScrollY = smoother.scrollTop();
+
+				// Element's original position in document (before parallax transform)
+				// Current position in viewport = originalTop - scrollY * speed
+				// So: originalTop = current viewport position + scrollY * speed
+				const elementOriginalTop = rect.top + currentScrollY * parallaxSpeed;
+
+				// Where we want the center of the expanded form to be (viewport center)
+				const viewportHeight = window.innerHeight;
+				const expandedHalfHeight = 250; // Half of 500px expanded height
+
+				// With parallax speed, element's position in viewport = originalTop - scroll * speed
+				// We want: originalTop - targetScroll * speed = viewportHeight/2 - expandedHalfHeight
+				// Solving for targetScroll:
+				// targetScroll = (originalTop - viewportHeight/2 + expandedHalfHeight) / speed
+				const targetScroll = (elementOriginalTop - viewportHeight / 2 + expandedHalfHeight) / parallaxSpeed;
+
+				smoother.scrollTo(targetScroll, true, "power2.inOut");
+			}
 		}
 	};
 
