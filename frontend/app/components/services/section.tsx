@@ -2,7 +2,7 @@
 
 import { Props } from "@/types";
 import { useGSAP } from "@gsap/react";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { gsap, ScrollTrigger, ScrollSmoother } from "@/app/lib/gsap";
 import { Tabs } from "@heroui/react";
 import { useViewportHeight } from "@/app/utils/useViewportHeight";
@@ -178,7 +178,6 @@ export default function Services({ wrapperRef }: Props) {
 		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
 			<div className="py-[30px] w-full flex justify-center">
 				<Tabs
-					orientation="horizontal" 
 					selectedKey={selectedTab}
 					onSelectionChange={(key) => {
 						setSelectedTab(key as string);
@@ -240,31 +239,41 @@ export default function Services({ wrapperRef }: Props) {
 						}
 					}}
 				>
-					<Tabs.ListContainer>
+					<Tabs.ListContainer className="rounded-2xl bg-[#1e1c1b]">
 						<Tabs.List
 							aria-label="Service options"
-							className="gap-2 rounded-2xl p-3 bg-[#1e1c1b]"
+							className="
+								flex flex-row justify-center gap-2 p-3 
+
+								*:rounded-2xl 
+								*:bg-[#b7b0a8]/5
+								*:flex 
+								*:items-center 
+								*:min-w-[220px] 
+								*:px-6 
+								*:h-14 
+								*:text-left 
+								*:uppercase 
+								*:font-nominee 
+								*:font-black 
+								*:text-[13px] 
+								*:data-[hover=true]:opacity-80
+
+								*:data-[selected=true]:text-[#1e1c1b] 
+								*:data-[selected=true]:bg-[#b7b0a8] 
+								"
 						>
-							<Tabs.Tab
-								id="img1"
-								className="px-6 h-12 text-left data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black text-[13px] data-[hover=true]:opacity-80"
-							>
+							<Tabs.Tab id="img1">
 								Service 1
-								<Tabs.Indicator className="bg-[#b7b0a8] rounded-xl" />
+								<Tabs.Indicator className="" />
 							</Tabs.Tab>
-							<Tabs.Tab
-								id="img2"
-								className="px-6 h-12 text-left data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black text-[13px] data-[hover=true]:opacity-80"
-							>
+							<Tabs.Tab id="img2">
 								Service 2
-								<Tabs.Indicator className="bg-[#b7b0a8] rounded-xl" />
+								<Tabs.Indicator className="" />
 							</Tabs.Tab>
-							<Tabs.Tab
-								id="img3"
-								className="px-6 h-12 text-left data-[selected=true]:text-[#1e1c1b] text-[#b7b0a8] uppercase font-nominee font-black text-[13px] data-[hover=true]:opacity-80"
-							>
+							<Tabs.Tab id="img3">
 								Service 3
-								<Tabs.Indicator className="bg-[#b7b0a8] rounded-xl" />
+								<Tabs.Indicator className="" />
 							</Tabs.Tab>
 						</Tabs.List>
 					</Tabs.ListContainer>
