@@ -2,11 +2,13 @@
 
 import { Props } from "@/types";
 import Image from "next/image";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export default function Hero({ wrapperRef }: Props) {
 	const imageContainerRef = useRef<HTMLDivElement>(null);
+	const ctaFormBgRef = useRef<HTMLDivElement>(null);
 	const imgWidthLandscape = 3200;
 	const imgHeightLandscape = 2883;
 	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
@@ -14,13 +16,24 @@ export default function Hero({ wrapperRef }: Props) {
 	const imgHeightPortrait = 5803;
 	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 
-	useEffect(() => {
+	useGSAP(() => {
 		gsap.fromTo(
 		imageContainerRef.current,
 		{ width: "107vw" },
 		{ width: "100vw", duration: 3.5, ease: "expo.out" }
 		);
-	}, []);
+	}, { scope: wrapperRef });
+
+	const handleCtaClick = () => {
+		if (ctaFormBgRef.current) {
+			gsap.to(ctaFormBgRef.current, {
+				width: 530,
+				height: 500,
+				duration: 0.4,
+				ease: "power4.inOut"
+			});
+		}
+	};
 
   return (
     <section className="w-full overflow-hidden" data-speed="0.9">
@@ -72,19 +85,19 @@ export default function Hero({ wrapperRef }: Props) {
 				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			</p>
 			<div className="relative">
-				
-					<div id="ctaFormBg" className="absolute bg-[#2b2827] w-[220px] h-[76px] rounded-[20px]"></div>
+
+					<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[76px] rounded-[20px]"></div>
 					<div className="absolute w-[220px] h-[76px] flex items-center">
 						<h3>Contact Us</h3>
 						<div className="icon"></div>
 					</div>
-					<div id="ctaClick" className="absolute w-[220px] h-[76px]"></div>
+					<div id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[76px] cursor-pointer"></div>
 					<div className="form">
 						<div className="fieldName"></div>
 						<div className="fieldEmail"></div>
 						<div className="fieldCta"></div>
 					</div>
-				
+
 			</div>
 		</div>
       </div>
