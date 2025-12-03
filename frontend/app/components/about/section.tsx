@@ -366,7 +366,7 @@ export default function About({ wrapperRef }: Props) {
 						</div>
 					</div>
 				</div>
-				<div className="w-1/3">
+				<div className="w-full lg:w-1/3" data-speed="1.1">
 					<h1 className="text-[5vw] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] mb-[15px]">Ut enim <br />ad minim <br />veniam</h1>
 
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
