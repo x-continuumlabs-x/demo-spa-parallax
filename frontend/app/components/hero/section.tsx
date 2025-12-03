@@ -4,13 +4,15 @@ import { Props } from "@/types";
 import Image from "next/image";
 import { useRef } from "react";
 import { gsap } from "gsap";
-import { ScrollSmoother } from "@/app/lib/gsap";
+import { ScrollSmoother, SplitText } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { Input } from "@heroui/react";
 
 export default function Hero({ wrapperRef }: Props) {
 	const imageContainerRef = useRef<HTMLDivElement>(null);
 	const ctaFormBgRef = useRef<HTMLDivElement>(null);
+	const formHeadingH3Ref = useRef<HTMLHeadingElement>(null);
+	const formHeadingContainerRef = useRef<HTMLDivElement>(null);
 	const imgWidthLandscape = 3200;
 	const imgHeightLandscape = 2883;
 	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
@@ -27,13 +29,46 @@ export default function Hero({ wrapperRef }: Props) {
 	}, { scope: wrapperRef });
 
 	const handleCtaClick = () => {
-		if (ctaFormBgRef.current) {
+		if (ctaFormBgRef.current && formHeadingH3Ref.current && formHeadingContainerRef.current) {
 			// Animate the form expansion
 			gsap.to(ctaFormBgRef.current, {
 				width: 400,
 				height: 400,
 				duration: 0.6,
 				ease: "power4.inOut"
+			});
+
+			// SplitText animation for h3
+			const split = new SplitText(formHeadingH3Ref.current, { type: "chars" });
+
+			// Animate text up and out
+			gsap.to(split.chars, {
+				yPercent: -100,
+				opacity: 0,
+				duration: 0.4,
+				ease: "power2.in",
+				onComplete: () => {
+					// Set font size to 26px and move container
+					gsap.set(formHeadingH3Ref.current, { fontSize: "26px" });
+					gsap.set(formHeadingContainerRef.current, { left: "30px" });
+
+					// Revert split to update with new size
+					split.revert();
+
+					// Split again with new size
+					const newSplit = new SplitText(formHeadingH3Ref.current, { type: "chars" });
+
+					// Set starting position (below, invisible)
+					gsap.set(newSplit.chars, { yPercent: 100, opacity: 0 });
+
+					// Animate text back in from bottom up
+					gsap.to(newSplit.chars, {
+						yPercent: 0,
+						opacity: 1,
+						duration: 0.4,
+						ease: "power2.out"
+					});
+				}
 			});
 
 			// Scroll to center the form vertically
@@ -69,12 +104,45 @@ export default function Hero({ wrapperRef }: Props) {
 
 	const handleCloseClick = (e: React.MouseEvent) => {
 		e.stopPropagation(); // Prevent triggering the parent click handler
-		if (ctaFormBgRef.current) {
+		if (ctaFormBgRef.current && formHeadingH3Ref.current && formHeadingContainerRef.current) {
 			gsap.to(ctaFormBgRef.current, {
 				width: 220,
 				height: 76,
 				duration: 0.6,
 				ease: "power4.inOut"
+			});
+
+			// SplitText animation for h3
+			const split = new SplitText(formHeadingH3Ref.current, { type: "chars" });
+
+			// Animate text up and out
+			gsap.to(split.chars, {
+				yPercent: -100,
+				opacity: 0,
+				duration: 0.4,
+				ease: "power2.in",
+				onComplete: () => {
+					// Set font size back to 14px and reset container position
+					gsap.set(formHeadingH3Ref.current, { fontSize: "14px" });
+					gsap.set(formHeadingContainerRef.current, { left: "0px" });
+
+					// Revert split to update with new size
+					split.revert();
+
+					// Split again with new size
+					const newSplit = new SplitText(formHeadingH3Ref.current, { type: "chars" });
+
+					// Set starting position (below, invisible)
+					gsap.set(newSplit.chars, { yPercent: 100, opacity: 0 });
+
+					// Animate text back in from bottom up
+					gsap.to(newSplit.chars, {
+						yPercent: 0,
+						opacity: 1,
+						duration: 0.4,
+						ease: "power2.out"
+					});
+				}
 			});
 		}
 	};
@@ -132,16 +200,16 @@ export default function Hero({ wrapperRef }: Props) {
 				<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[76px] rounded-[20px] flex items-start justify-end">
 					<button onClick={handleCloseClick} className="cursor-pointer">X</button>
 				</div>
-				<div className="absolute w-[220px] h-[76px]">
+				<div ref={formHeadingContainerRef} className="absolute w-[220px] h-[76px]">
 					<div id="formHeading" className="w-full h-full relative flex justify-between items-center">
-						<h3 className="text-[14px] uppercase font-nominee font-black tracking-[-0.06em] leading-[0.6em]">Contact Us</h3>
-						<div className="icon">iii</div>
-						<p className="absolute top-[50px]">+34 612 345 678</p>
+						<h3 ref={formHeadingH3Ref} className="text-[14px] uppercase font-nominee font-black tracking-[-0.06em] leading-[0.6em] relative overflow-hidden py-[2px] pr-[1px]">Contact Us</h3>
+						<div id="ctaIcon">iii</div>
+						<p id="formPhone" className="absolute top-[50px]">+34 612 345 678</p>
 					</div>
 				</div>
 				<div id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[76px] cursor-pointer"></div>
-				<div className="form absolute top-[100px] px-[30px]">
-					<div id="fieldName" className="w-[340px]">
+				<div className="form absolute top-[150px] px-[30px]">
+					<div id="fieldName" className="w-[340px] mb-[15px]">
 						<Input
 							label="Name"
 							placeholder=" "
@@ -156,7 +224,7 @@ export default function Hero({ wrapperRef }: Props) {
 							}}
 						/>
 					</div>
-					<div id="fieldEmail" className="w-[340px]">
+					<div id="fieldEmail" className="w-[340px] mb-[25px]">
 						<Input
 							label="Email"
 							placeholder=" "
@@ -171,7 +239,7 @@ export default function Hero({ wrapperRef }: Props) {
 							}}
 						/>
 					</div>
-					<div className="fieldCta">cta</div>
+					<div id="fieldCta">cta</div>
 				</div>
 			</div>
 		</div>
