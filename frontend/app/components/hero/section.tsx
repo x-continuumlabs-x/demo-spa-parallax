@@ -71,6 +71,21 @@ export default function Hero({ wrapperRef }: Props) {
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit,
 				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			</p>
+			<div className="relative">
+				
+					<div id="ctaFormBg" className="absolute bg-[#2b2827] w-[220px] h-[76px] rounded-[20px]"></div>
+					<div className="absolute w-[220px] h-[76px] flex items-center">
+						<h3>Contact Us</h3>
+						<div className="icon"></div>
+					</div>
+					<div id="ctaClick" className="absolute w-[220px] h-[76px]"></div>
+					<div className="form">
+						<div className="fieldName"></div>
+						<div className="fieldEmail"></div>
+						<div className="fieldCta"></div>
+					</div>
+				
+			</div>
 		</div>
       </div>
     </section>
