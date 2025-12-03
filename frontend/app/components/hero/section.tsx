@@ -35,6 +35,18 @@ export default function Hero({ wrapperRef }: Props) {
 		}
 	};
 
+	const handleCloseClick = (e: React.MouseEvent) => {
+		e.stopPropagation(); // Prevent triggering the parent click handler
+		if (ctaFormBgRef.current) {
+			gsap.to(ctaFormBgRef.current, {
+				width: 220,
+				height: 76,
+				duration: 0.4,
+				ease: "power4.inOut"
+			});
+		}
+	};
+
   return (
     <section className="w-full overflow-hidden" data-speed="0.9">
       <div
@@ -86,7 +98,9 @@ export default function Hero({ wrapperRef }: Props) {
 			</p>
 			<div className="relative">
 
-					<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[76px] rounded-[20px]"></div>
+					<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[76px] rounded-[20px] flex items-start justify-end">
+						<button onClick={handleCloseClick} className="cursor-pointer">X</button>
+					</div>
 					<div className="absolute w-[220px] h-[76px] flex items-center">
 						<h3>Contact Us</h3>
 						<div className="icon"></div>
