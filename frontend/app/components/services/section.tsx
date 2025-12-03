@@ -239,11 +239,11 @@ export default function Services({ wrapperRef }: Props) {
 						}
 					}}
 				>
-					<Tabs.ListContainer className="rounded-2xl bg-[#1e1c1b]">
+					<Tabs.ListContainer className="rounded-2xl ">
 						<Tabs.List
 							aria-label="Service options"
 							className="
-								flex flex-row justify-center gap-2 p-3 
+								flex flex-row justify-center gap-2 p-3 bg-[#1e1c1b]
 
 								*:rounded-2xl 
 								*:bg-[#b7b0a8]/5
@@ -253,27 +253,25 @@ export default function Services({ wrapperRef }: Props) {
 								*:px-6 
 								*:h-14 
 								*:text-left 
+								*:text-[13px] 
 								*:uppercase 
 								*:font-nominee 
 								*:font-black 
-								*:text-[13px] 
+								
 								*:data-[hover=true]:opacity-80
-
-								*:data-[selected=true]:text-[#1e1c1b] 
-								*:data-[selected=true]:bg-[#b7b0a8] 
 								"
 						>
-							<Tabs.Tab id="img1">
+							<Tabs.Tab id="img1" className="text-[#b7b0a8] data-[selected=true]:text-[#1e1c1b] before:w-0">
 								Service 1
-								<Tabs.Indicator className="" />
+								<Tabs.Indicator className="bg-[#b7b0a8] rounded-2xl" />
 							</Tabs.Tab>
-							<Tabs.Tab id="img2">
+							<Tabs.Tab id="img2" className="text-[#b7b0a8] data-[selected=true]:text-[#1e1c1b] before:w-0">
 								Service 2
-								<Tabs.Indicator className="" />
+								<Tabs.Indicator className="bg-[#b7b0a8] rounded-2xl" />
 							</Tabs.Tab>
-							<Tabs.Tab id="img3">
+							<Tabs.Tab id="img3" className="text-[#b7b0a8] data-[selected=true]:text-[#1e1c1b] before:w-0">
 								Service 3
-								<Tabs.Indicator className="" />
+								<Tabs.Indicator className="bg-[#b7b0a8] rounded-2xl" />
 							</Tabs.Tab>
 						</Tabs.List>
 					</Tabs.ListContainer>

@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 // import type { Metadata } from "next";
 import { nominee, albertSans } from "./fonts";
 import "./globals.css";
+import '@heroui/styles';
 import { Providers } from "./providers";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
