@@ -41,8 +41,8 @@ export default function Hero({ wrapperRef }: Props) {
 		if (ctaFormBgRef.current && formHeadingH3Ref.current && formHeadingContainerRef.current) {
 			// Animate the form expansion
 			gsap.to(ctaFormBgRef.current, {
-				width: 400,
-				height: 400,
+				width: 460,
+				height: 435,
 				duration: 0.6,
 				ease: "power4.inOut"
 			});
@@ -233,39 +233,16 @@ export default function Hero({ wrapperRef }: Props) {
 					</div>
 				</div>
 				<div id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[76px] cursor-pointer"></div>
-				<div className="form absolute top-[150px] px-[30px]">
-					<div ref={fieldNameRef} id="fieldName" className="w-[340px] mb-[15px]">
-						
-						<div className="flex flex-col gap-1">
-						<label className="text-[#645f5b] peer-focus:text-[#877f78] transition-colors">
-							Name
-						</label>
-
-						<Input
-							type="text"
-							placeholder=" "
-							className="bg-[#322f2e] text-[#d7cec4]"
-						/>
-						</div>
+				<div className="form absolute top-[200px] w-[460px] px-[30px]">
+					<div ref={fieldNameRef} id="fieldName" className="w-full mb-[15px]">
+						<Input aria-label="Name" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Name" type="text" />
 					</div>
-					<div ref={fieldEmailRef} id="fieldEmail" className="w-[340px] mb-[25px]">
-						{/* <Input
-							label="Email"
-							placeholder="Email"
-							type="email"
-							classNames={{
-							label: [
-								"!text-[#645f5b]", 
-								"group-data-[focus=true]:!text-[#877f78]"
-							],
-							inputWrapper: "bg-[#322f2e]",
-							input: "text-[#d7cec4]"
-							}}
-						/> */}
+					<div ref={fieldEmailRef} id="fieldEmail" className="w-full mb-[15px]">
+						<Input aria-label="Email" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Email" type="email" />
 					</div>
 					<div ref={fieldCtaRef} id="fieldCta" className="w-full flex justify-end">
 						<Button
-							className="font-nominee font-black tracking-[-0.06em] uppercase py-[1em] px-[1.5em]"
+							className="font-nominee font-black tracking-[-0.06em] uppercase w-[200px] py-[2em] px-[1.5em] rounded-2xl bg-[#b7b0a8] text-[#1e1c1b] justify-start"
 							>
 							Submit
 						</Button>
