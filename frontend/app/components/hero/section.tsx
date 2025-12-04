@@ -56,7 +56,7 @@ export default function Hero({ wrapperRef }: Props) {
 			// Animate the form expansion
 			gsap.to(ctaFormBgRef.current, {
 				width: 460,
-				height: 435,
+				height: 425,
 				duration: 0.6,
 				ease: "power4.inOut"
 			});
@@ -173,8 +173,8 @@ export default function Hero({ wrapperRef }: Props) {
 			});
 
 			gsap.to(ctaFormBgRef.current, {
-				width: 240,
-				height: 80,
+				width: 220,
+				height: 68,
 				duration: 0.6,
 				ease: "power4.inOut"
 			});
@@ -283,7 +283,7 @@ export default function Hero({ wrapperRef }: Props) {
 			</p>
 			<div className="relative">
 				
-				<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[240px] h-[80px] rounded-[20px] flex items-start justify-end">
+				<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[68px] rounded-[20px] flex items-start justify-end">
 					<button ref={closeButtonRef} onClick={handleCloseClick} className="cursor-pointer">
 						<Image
 							src="/icon-close.png"
@@ -299,13 +299,13 @@ export default function Hero({ wrapperRef }: Props) {
 					</button>
 				</div>
 
-				<div ref={formHeadingContainerRef} className="absolute w-[240px] h-[80px]">
+				<div ref={formHeadingContainerRef} className="absolute w-[220px] h-[68px]">
 					<div id="formHeading" className="w-full h-full relative flex justify-between items-center uppercase font-nominee font-black tracking-[-0.06em] leading-[0.6em] overflow-hidden py-[2px] pr-[1px]">
 						<div ref={formHeadingSmallRef} className="flex justify-center w-full">
-							<h3 className="text-[14px] relative overflow-hidden py-[2px] pr-[1px]">Contact Us</h3>
+							<h3 className="text-[12px] relative overflow-hidden py-[2px] pr-[1px]">Contact Us</h3>
 						</div>
-						<div ref={formHeadingLargeRef} className="w-full">
-							<h3 className="relative overflow-hidden w-[200px] ml-[30px] py-[8px] pr-[1px] text-[26px]">Contact Us</h3>
+						<div ref={formHeadingLargeRef} className="w-full mt-[20px]">
+							<h3 className="relative overflow-hidden w-[200px] ml-[30px] py-[8px] pr-[1px] text-[26px] tracking-[-0.07em]">Contact Us</h3>
 						</div>
 						<div ref={ctaFormIconRef} className="mr-[8px] bg-black/30 px-[14px] py-[8px] rounded-xl">
 							<Image
@@ -318,10 +318,10 @@ export default function Hero({ wrapperRef }: Props) {
 							/>
 						</div>
 					</div>
-					<p ref={formPhoneRef} id="formPhone" className="absolute top-[52px] left-[30px] text-[#d7cec4]/50 font-nominee tracking-[-0.04em]">+34 612 345 678</p>
+					<p ref={formPhoneRef} id="formPhone" className="absolute top-[54px] left-[30px] text-[#d7cec4]/50 font-nominee tracking-[-0.04em]">+34 612 345 678</p>
 				</div>
 				
-				<div ref={ctaClickRef} id="ctaClick" onClick={handleCtaClick} className="absolute w-[240px] h-[80px] cursor-pointer"></div>
+				<div ref={ctaClickRef} id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[68px] cursor-pointer"></div>
 
 				<div className="form absolute top-[200px] w-[460px] px-[30px]">
 					<div ref={fieldNameRef} id="fieldName" className="w-full mb-[15px]">
