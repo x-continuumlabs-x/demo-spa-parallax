@@ -125,54 +125,48 @@ export default function Expertise({ wrapperRef }: Props){
 			>
 				<div className="cards-inner flex flex-row gap-4 justify-center">
 					<div ref={card3Ref}>
-						<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
-							<div className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
-								<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Image Enhancement</h4>
-								<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-							</div>
-							<div className="p-0">
-								<Image
-									src="/local-images/temp-card-1.jpg"
-									alt="Card 2"
-									width={400}
-									height={300}
-									className="w-full h-auto object-cover"
-								/>
-							</div>
+						<Card className="min-w-[180px] max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
+							<Card.Header className="flex flex-col items-start min-h-[130px] pt-7 px-6 leading-[1em]">
+								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">AI Enhancement</Card.Title>
+								<Card.Description className="w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
+							</Card.Header>
+							<Image
+								src="/local-images/temp-card-1.jpg"
+								alt="Card 2"
+								width={400}
+								height={300}
+								className="w-full h-auto object-cover"
+							/>
 						</Card>
 					</div>
 					<div ref={card2Ref}>
-						<Card className="min-w-[180px] max-w-[300px] rounded-xl overflow-hidden" style={{ backgroundColor: '#2b2827' }}>
-							<div className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
-								<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Casting</h4>
-								<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-							</div>
-							<div className="p-0">
-								<Image
-									src="/local-images/temp-card-1.jpg"
-									alt="Card 3"
-									width={400}
-									height={300}
-									className="w-full h-auto object-cover"
-								/>
-							</div>
+						<Card className="min-w-[180px] max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
+							<Card.Header className="flex flex-col items-start min-h-[130px] pt-7 px-6 leading-[1em]">
+								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">Casting</Card.Title>
+								<Card.Description className="w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
+							</Card.Header>
+							<Image
+								src="/local-images/temp-card-1.jpg"
+								alt="Card 2"
+								width={400}
+								height={300}
+								className="w-full h-auto object-cover"
+							/>
 						</Card>
 					</div>
 					<div ref={card1Ref}>
-						<Card className="min-w-[180px] max-w-[300px] rounded-xl" style={{ backgroundColor: '#2b2827' }}>
-							<div className="flex flex-col items-start min-h-[130px] pt-8 px-6 leading-[1em]">
-								<h4 className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-1">Lighting 101</h4>
-								<p className="text-[14px] text-[#d7cec4]/60">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-							</div>
-							<div className="p-0">
-								<Image
-									src="/local-images/temp-card-1.jpg"
-									alt="Card 1"
-									width={400}
-									height={300}
-									className="w-full h-auto object-cover"
-								/>
-							</div>
+						<Card className="min-w-[180px] max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
+							<Card.Header className="flex flex-col items-start min-h-[130px] pt-7 px-6 leading-[1em]">
+								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">Lighting 101</Card.Title>
+								<Card.Description className="w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
+							</Card.Header>
+							<Image
+								src="/local-images/temp-card-1.jpg"
+								alt="Card 2"
+								width={400}
+								height={300}
+								className="w-full h-auto object-cover"
+							/>
 						</Card>
 					</div>
 				</div>
