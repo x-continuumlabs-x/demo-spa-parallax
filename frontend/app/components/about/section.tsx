@@ -39,7 +39,7 @@ export default function About({ wrapperRef }: Props) {
 
 			ScrollTrigger.create({
 				trigger: sectionRef.current,
-				start: "center center",
+				start: "top-=10% top",
 				end: "bottom bottom",
 				pin: bodyCopyRef.current,
 			});
@@ -119,7 +119,7 @@ export default function About({ wrapperRef }: Props) {
 
 	return(
 		<section className="relative w-full pt-[8vw] pb-[17vw]">
-			<div ref={sectionRef} className="flex flex-col-reverse items-center lg:justify-evenly lg:flex-row">
+			<div ref={sectionRef} className="flex flex-col-reverse items-center lg:items-start lg:justify-evenly lg:flex-row">
 				<div className="w-full lg:w-1/3 flex items-center flex-col">
 					<div className="relative w-2/5 md:w-[30%] overflow-visible" style={{ aspectRatio: '240 / 1480' }}>
 						<svg
