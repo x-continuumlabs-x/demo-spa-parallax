@@ -127,7 +127,7 @@ export default function Expertise({ wrapperRef }: Props){
 					<div ref={card3Ref}>
 						<Card className="min-w-[180px] max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
 							<Card.Header className="flex flex-col items-start min-h-[130px] pt-7 px-6 leading-[1em]">
-								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">AI Enhancement</Card.Title>
+								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">AI-Enhancement</Card.Title>
 								<Card.Description className="w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
 							</Card.Header>
 							<Image
