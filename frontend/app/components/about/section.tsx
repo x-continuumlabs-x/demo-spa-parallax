@@ -3,7 +3,7 @@
 import { Props } from "@/types";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
-import { gsap } from "@/app/lib/gsap";
+import { gsap, ScrollTrigger } from "@/app/lib/gsap";
 
 export default function About({ wrapperRef }: Props) {
 	const pathRef = useRef<SVGPathElement>(null);
@@ -14,6 +14,7 @@ export default function About({ wrapperRef }: Props) {
 	const milestone4 = useRef<HTMLDivElement>(null);
 	const milestone5 = useRef<HTMLDivElement>(null);
 	const milestone6 = useRef<HTMLDivElement>(null);
+	const bodyCopyRef = useRef<HTMLDivElement>(null);
 
 	useGSAP(() => {
 		if (!pathRef.current || !sectionRef.current) return;
@@ -31,6 +32,18 @@ export default function About({ wrapperRef }: Props) {
 			],
 			{ opacity: 0 }
 		);
+
+		// Pin bodyCopyRef for lg breakpoint and above
+		gsap.matchMedia().add("(min-width: 1024px)", () => {
+			if (!bodyCopyRef.current || !sectionRef.current) return;
+
+			ScrollTrigger.create({
+				trigger: sectionRef.current,
+				start: "center center",
+				end: "bottom bottom",
+				pin: bodyCopyRef.current,
+			});
+		});
 
 		// Animate the path drawing as user scrolls
 		gsap.to(pathRef.current, {
@@ -106,7 +119,7 @@ export default function About({ wrapperRef }: Props) {
 
 	return(
 		<section className="relative w-full pt-[8vw] pb-[17vw]">
-			<div ref={sectionRef} className="flex justify-evenly flex-col lg:flex-row">
+			<div ref={sectionRef} className="flex flex-col-reverse items-center lg:justify-evenly lg:flex-row">
 				<div className="w-full lg:w-1/3 flex items-center flex-col">
 					<div className="relative w-2/5 md:w-[30%] overflow-visible" style={{ aspectRatio: '240 / 1480' }}>
 						<svg
@@ -366,7 +379,7 @@ export default function About({ wrapperRef }: Props) {
 						</div>
 					</div>
 				</div>
-				<div className="w-full lg:w-[28%]" data-speed="1.1">
+				<div ref={bodyCopyRef} className="w-4/5 lg:w-[28%]">
 					<h1 className="text-[5vw] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] mb-[0.5em]">Ut enim <br />ad minim <br />veniam</h1>
 
 					<p className="leading-[1.3em] mb-[1.4em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
