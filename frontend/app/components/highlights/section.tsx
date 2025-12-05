@@ -76,7 +76,7 @@ export default function Highlights({ wrapperRef }: Props) {
 	}, { scope: wrapperRef });
 	return(
 		<section className="relative w-full overflow-hidden">
-			<div className="w-full flex justify-center">
+			<div className="w-full h-[100vh] flex justify-center">
 				<canvas ref={canvasRef} />
 			</div>
 			{/* <div data-speed="1.2">

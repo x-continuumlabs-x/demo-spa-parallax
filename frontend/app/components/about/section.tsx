@@ -379,7 +379,7 @@ export default function About({ wrapperRef }: Props) {
 						</div>
 					</div>
 				</div>
-				<div ref={bodyCopyRef} className="w-4/5 lg:w-[28%]">
+				<div ref={bodyCopyRef} className="w-2/3 lg:w-[28%]">
 					<h1 className="text-[5vw] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] mb-[0.5em]">Ut enim <br />ad minim <br />veniam</h1>
 
 					<p className="leading-[1.3em] mb-[1.4em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
