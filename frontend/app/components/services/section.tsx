@@ -2,8 +2,8 @@
 
 import { Props } from "@/types";
 import { useGSAP } from "@gsap/react";
-import { useRef, useState } from "react";
-import { gsap, ScrollTrigger, ScrollSmoother } from "@/app/lib/gsap";
+import { useRef, useState, useEffect } from "react";
+import { gsap, ScrollTrigger, ScrollSmoother, SplitText } from "@/app/lib/gsap";
 import { Tabs } from "@heroui/react";
 import { useViewportHeight } from "@/app/utils/useViewportHeight";
 
@@ -14,10 +14,12 @@ export default function Services({ wrapperRef }: Props) {
 	const isUserClickingTab = useRef(false);
 	const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 	const sectionRef = useRef<HTMLElement>(null);
-	const imgWrapperRef = useRef<HTMLDivElement>(null);
-	const img2Ref = useRef<HTMLDivElement>(null);
-	const img3Ref = useRef<HTMLDivElement>(null);
 	const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
+	const contentRef1 = useRef<HTMLDivElement>(null);
+	const contentRef2 = useRef<HTMLDivElement>(null);
+	const contentRef3 = useRef<HTMLDivElement>(null);
+	const splitInstancesRef = useRef<{ t1?: SplitText; t2?: SplitText; t3?: SplitText }>({});
+	const previousTabRef = useRef<string>("img1");
 
 	const imgWidthLandscape: number = 2665;
 	const imgHeightLandscape: number = 1468;
@@ -173,7 +175,85 @@ export default function Services({ wrapperRef }: Props) {
 			scrollTriggerRef.current = tl.scrollTrigger;
 		}
 	}, { scope: wrapperRef });
-	
+
+	// Tab content animation effect
+	useEffect(() => {
+		if (!contentRef1.current || !contentRef2.current || !contentRef3.current) return;
+
+		const contentMap = {
+			img1: { ref: contentRef1, key: "t1" },
+			img2: { ref: contentRef2, key: "t2" },
+			img3: { ref: contentRef3, key: "t3" }
+		};
+
+		const prevContent = contentMap[previousTabRef.current as keyof typeof contentMap];
+		const newContent = contentMap[selectedTab as keyof typeof contentMap];
+
+		if (previousTabRef.current === selectedTab) return;
+
+		// HIDE PREVIOUS (instant - no animation)
+		if (prevContent?.ref.current) {
+			gsap.set(prevContent.ref.current, { display: "none" });
+			const prevPara = prevContent.ref.current.querySelector("p");
+			if (prevPara) gsap.set(prevPara, { opacity: 0 });
+
+			// Cleanup SplitText
+			const prevSplit = splitInstancesRef.current[prevContent.key as keyof typeof splitInstancesRef.current];
+			if (prevSplit) {
+				prevSplit.revert();
+				delete splitInstancesRef.current[prevContent.key as keyof typeof splitInstancesRef.current];
+			}
+		}
+
+		// SHOW & ANIMATE NEW
+		if (newContent?.ref.current) {
+			const contentEl = newContent.ref.current;
+			const h2 = contentEl.querySelector("h2");
+			const p = contentEl.querySelector("p");
+
+			gsap.killTweensOf([contentEl, h2, p]);
+			gsap.set(contentEl, { display: "block" });
+
+			if (h2 && p) {
+				// Split h2 into lines
+				const split = new SplitText(h2, { type: "lines", linesClass: "overflow-hidden" });
+				splitInstancesRef.current[newContent.key as keyof typeof splitInstancesRef.current] = split;
+
+				// Set initial state (masked/hidden)
+				gsap.set(split.lines, { yPercent: 100, opacity: 0 });
+				gsap.set(p, { opacity: 0 });
+
+				// Animate lines (staggered)
+				gsap.to(split.lines, {
+					yPercent: 0,
+					opacity: 1,
+					duration: 0.6,
+					ease: "power2.out",
+					stagger: 0.1
+				});
+
+				// Fade in paragraph (starts shortly after first line)
+				gsap.to(p, {
+					opacity: 0.6,
+					duration: 0.4,
+					ease: "power2.out",
+					delay: 0.3
+				});
+			}
+		}
+
+		previousTabRef.current = selectedTab;
+	}, [selectedTab]);
+
+	// Cleanup on unmount
+	useEffect(() => {
+		return () => {
+			Object.values(splitInstancesRef.current).forEach(split => {
+				if (split) split.revert();
+			});
+		};
+	}, []);
+
 	return(
 		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
 			<div className="py-[30px] w-full flex justify-center">
@@ -341,9 +421,19 @@ export default function Services({ wrapperRef }: Props) {
 					</div>
 				</div>
 				
-				<div className="absolute top-[20vh] left-[15vw]" data-speed="0.9">
-					<h1 className="text-[3vw] uppercase font-nominee font-black tracking-[-0.08em] leading-[1.0em] mb-[15px]">$599 Ut <br />architecto <br />voluptatem</h1>
-					<p className="w-[25vw] max-w-[410px] text-[15px] leading-[1.0em] opacity-60">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim.</p>
+				<div className="absolute top-[20vh] left-[15vw]">
+					<div ref={contentRef1} className="absolute">
+						<h2 className="text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br />architecto <br />voluptatem</h2>
+						<p className="w-[25vw] max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam ab qui quo.</p>
+					</div>
+					<div ref={contentRef2} className="absolute hidden">
+						<h2 className="text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$195 Ut <br />consecte <br />sed do</h2>
+						<p className="w-[25vw] max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Mollitia dolores ea mollitia a qui mollitia sit alias. Similique mollitia doloremque fuga qui. Labore consequatur delectus fugiat.</p>
+					</div>
+					<div ref={contentRef3} className="absolute hidden">
+						<h2 className="text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$595 Ut <br />adipiscing <br />eiusmod</h2>
+						<p className="w-[25vw] max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci didunt ut labore et dolore magna aliqua ut enim ad minim.</p>
+					</div>
 				</div>
 			</div>
 		</section>
