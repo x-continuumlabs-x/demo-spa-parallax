@@ -276,13 +276,21 @@ export default function Hero({ wrapperRef }: Props) {
           </h1>
         </div>
 
-		<div className="absolute top-[35vw] left-[10vw] w-1/5" data-speed="0.5">
-			<p className="text-[15px] text-[#b082db] leading-[1.0em]">
+		<div className="absolute top-[35vw] left-[10vw] w-[25%]" data-speed="0.5">
+			<div className="w-[203px] mb-2">
+				<Image
+					src="/logo-1.png"
+					alt="XyZ Photography Logo"
+					width="1016"
+					height="158"
+					priority
+				/>
+			</div>
+			<p className="text-[18px] text-[#b082db] leading-[1.2em]">
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum dolor sit amet, consec.
 			</p>
-			<div className="relative">
-				
+			<div className="relative mt-[40px]">
 				<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[68px] rounded-[20px] flex items-start justify-end">
 					<button ref={closeButtonRef} onClick={handleCloseClick} className="cursor-pointer">
 						<Image
