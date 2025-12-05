@@ -217,7 +217,7 @@ export default function Services({ wrapperRef }: Props) {
 			// Fade in the content block wrapper
 			gsap.to(contentEl, {
 				opacity: 1,
-				duration: 0.7,
+				duration: 2.0,
 				ease: "power2.out"
 			});
 
