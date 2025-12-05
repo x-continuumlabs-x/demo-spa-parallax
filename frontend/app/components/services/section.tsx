@@ -212,7 +212,14 @@ export default function Services({ wrapperRef }: Props) {
 			const p = contentEl.querySelector("p");
 
 			gsap.killTweensOf([contentEl, h2, p]);
-			gsap.set(contentEl, { display: "block" });
+			gsap.set(contentEl, { display: "block", opacity: 0 });
+
+			// Fade in the content block wrapper
+			gsap.to(contentEl, {
+				opacity: 1,
+				duration: 0.7,
+				ease: "power2.out"
+			});
 
 			if (h2 && p) {
 				// Split h2 into lines
@@ -227,7 +234,7 @@ export default function Services({ wrapperRef }: Props) {
 				gsap.to(split.lines, {
 					yPercent: 0,
 					opacity: 1,
-					duration: 0.6,
+					duration: 0.8,
 					ease: "power2.out",
 					stagger: 0.1
 				});
@@ -235,9 +242,9 @@ export default function Services({ wrapperRef }: Props) {
 				// Fade in paragraph (starts shortly after first line)
 				gsap.to(p, {
 					opacity: 0.6,
-					duration: 0.4,
+					duration: 0.6,
 					ease: "power2.out",
-					delay: 0.3
+					delay: 0.4
 				});
 			}
 		}
