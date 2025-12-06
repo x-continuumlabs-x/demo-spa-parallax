@@ -79,21 +79,13 @@ export default function Highlights({ wrapperRef }: Props) {
 			<div className="w-full h-[100vh] flex justify-center">
 				<canvas ref={canvasRef} />
 			</div>
-			{/* <div data-speed="1.2">
-				<Image
-					src="/local-images/section-bg-highlights.jpg"
-					alt="Photo portrait of a young woman"
-					width={3200}
-					height={3177}
-					style={{
-						width: '100%',
-						height: 'auto',
-					}}
-					priority
-				/>
-			</div> */}
-			<div className="absolute top-[30vh] left-0 w-full" data-speed="1">
-				<h1 className="text-[30vw] text-[#b0f3ee] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">Velit</h1>
+			<div className="absolute top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
+				<div className="text-center flex flex-col items-center">
+					<h1 className="text-[36.0vw] text-[#b0f3ee] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] m-0 ml-[-0.08em]">Velit</h1>
+					<p className="w-1/2 text-[18px] text-[#b0f3ee] leading-[1.2em]">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum dolor sit amet, consec.
+					</p>
+				</div>
 			</div>
 		</section>
 	);
