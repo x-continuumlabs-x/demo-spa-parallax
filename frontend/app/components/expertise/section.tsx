@@ -110,7 +110,7 @@ export default function Expertise({ wrapperRef }: Props){
 				</div>
 				
 				<div className="absolute top-[45vw] left-[10vw] w-1/5" data-speed="0.6">
-					<p className="text-[15px] text-[#b8bc92] leading-[1.0em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
+					<p className="text-[18px] text-[#b8bc92] leading-[1.2em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
 				</div>
 			</div>
 			

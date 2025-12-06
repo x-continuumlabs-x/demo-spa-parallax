@@ -264,11 +264,11 @@ export default function Services({ wrapperRef }: Props) {
 	return(
 		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
 			<div className="py-[30px] w-full flex justify-center">
+				{/* data-speed="1.05" */}
 				<Tabs
 					selectedKey={selectedTab}
 					onSelectionChange={(key) => {
 						setSelectedTab(key as string);
-						console.log("Tab clicked:", key);
 
 						// Set flag to prevent onUpdate from changing tab during animation
 						isUserClickingTab.current = true;
