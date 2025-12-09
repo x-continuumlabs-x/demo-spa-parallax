@@ -6,6 +6,21 @@ import { useGSAP } from "@gsap/react";
 
 export default function Highlights({ wrapperRef }: Props) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const headingRef = useRef<HTMLDivElement>(null);
+	const headingChar1Ref = useRef<HTMLDivElement>(null);
+	const headingChar2Ref = useRef<HTMLDivElement>(null);
+	const headingChar3Ref = useRef<HTMLDivElement>(null);
+	const headingChar4Ref = useRef<HTMLDivElement>(null);
+	const headingChar5Ref = useRef<HTMLDivElement>(null);
+	const headingSeg1Ref = useRef<HTMLDivElement>(null);
+	const headingSeg2Ref = useRef<HTMLDivElement>(null);
+	const headingSeg3Ref = useRef<HTMLDivElement>(null);
+	const headingSeg4Ref = useRef<HTMLDivElement>(null);
+	const headingSeg5Ref = useRef<HTMLDivElement>(null);
+	const headingSeg6Ref = useRef<HTMLDivElement>(null);
+	const headingSeg7Ref = useRef<HTMLDivElement>(null);
+	const headingSeg8Ref = useRef<HTMLDivElement>(null);
+	const headingSeg9Ref = useRef<HTMLDivElement>(null);
 
 	useGSAP(() => {
 		const canvas = canvasRef.current;
@@ -73,6 +88,10 @@ export default function Highlights({ wrapperRef }: Props) {
 			end: `+=${scrollDuringPin}`, // Unpin after 1000px
 		});
 
+		// --- Heading Mask Animations ---
+
+		
+
 	}, { scope: wrapperRef });
 	return(
 		<section className="relative w-full overflow-hidden">
@@ -80,51 +99,73 @@ export default function Highlights({ wrapperRef }: Props) {
 				<canvas ref={canvasRef} />
 			</div>
 			<div className="absolute top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
-				<div className="w-[98vw] aspect-[1299/351] relative flex flex-row">
-					<div className="w-[17.32%] h-[100%] absolute">
-						<img
-							src="/headings/highlights-h1-v1.svg"
-						/>
+				<div ref={headingRef} className="w-[98vw] aspect-[1299/351] relative flex flex-row overflow-hidden">
+					{/* mt-[calc(100%*(351/1299))] */}
+					<div ref={headingChar1Ref} className="relative w-[27.33%] h-full mr-[0.31%]">
+						{/* <div ref={headingSeg1Ref} className="w-[17.32%] h-[100%] absolute"> */}
+						<div ref={headingSeg1Ref} className="w-[63.24%] h-full absolute">
+							<img
+								src="/headings/highlights-h1-v1.svg"
+							/>
+						</div>
+						{/* <div ref={headingSeg2Ref} className="w-[13.7%] absolute left-[13.63%]"> */}
+						<div ref={headingSeg2Ref} className="w-[50.14%] absolute left-[49.86%]">
+							<img
+								src="/headings/highlights-h1-v2.svg"
+							/>
+						</div>
 					</div>
-					<div className="w-[13.7%] absolute left-[13.63%]">
-						<img
-							src="/headings/highlights-h1-v2.svg"
-						/>
+					
+					{/* mt-[calc(100%*(351/1299))] */}
+					<div ref={headingChar2Ref} className="relative w-[19.25%] h-full mr-[1.0%]">
+						<div ref={headingSeg3Ref} className="absolute w-full h-full">
+							<img
+								src="/headings/highlights-h1-e1.svg"
+							/>
+						</div>
+						<div ref={headingSeg4Ref} className="absolute w-[60.8%] left-[39.4%]">
+							<img
+								src="/headings/highlights-h1-e2.svg"
+							/>
+						</div>
+						<div ref={headingSeg5Ref} className="absolute w-[49%] top-[38.37%] left-[39.4%]">
+							<img
+								src="/headings/highlights-h1-e3.svg"
+							/>
+						</div>
 					</div>
-					<div className="w-[19.25%] absolute left-[27.68%]">
-						<img
-							src="/headings/highlights-h1-e1.svg"
-						/>
+					
+					{/* mt-[calc(100%*(351/1299))] */}
+					<div ref={headingChar3Ref} className="relative h-full w-[19.25%] mr-[0.85%]">
+						<div ref={headingSeg6Ref} className="absolute w-full h-full">
+							<img
+								src="/headings/highlights-h1-l1.svg" 
+								className="w-full h-full"
+							/>
+						</div>
 					</div>
-					<div className="w-[11.7%] absolute left-[35.22%]">
-						<img
-							src="/headings/highlights-h1-e2.svg"
-						/>
+					
+					{/* mt-[calc(100%*(351/1299))] */}
+					<div ref={headingChar4Ref} className="relative w-[7.58%] h-full mr-[1.0%]">
+						<div ref={headingSeg7Ref} className="absolute w-full h-full">
+							<img
+								src="/headings/highlights-h1-i1.svg"
+							/>
+						</div>
 					</div>
-					<div className="w-[9.43%] absolute top-[38.37%] left-[35.22%]">
-						<img
-							src="/headings/highlights-h1-e3.svg"
-						/>
-					</div>
-					<div className="w-[19.25%] absolute left-[48.5%]">
-						<img
-							src="/headings/highlights-h1-l1.svg"
-						/>
-					</div>
-					<div className="w-[7.58%] absolute left-[68.59%]">
-						<img
-							src="/headings/highlights-h1-i1.svg"
-						/>
-					</div>
-					<div className="w-[7.62%] absolute top-[24.3%] left-[84.95%]">
-						<img
-							src="/headings/highlights-h1-t1.svg"
-						/>
-					</div>
-					<div className="w-[22.56%] absolute left-[77.44%]">
-						<img
-							src="/headings/highlights-h1-t2.svg"
-						/>
+					
+					{/* mt-[calc(100%*(351/1299))] */}
+					<div ref={headingChar5Ref} className="relative w-[22.56%] h-full">
+						<div ref={headingSeg8Ref} className="absolute w-[33.79%] top-[24.68%] left-[33.28%]">
+							<img
+								src="/headings/highlights-h1-t1.svg"
+							/>
+						</div>
+						<div ref={headingSeg9Ref} className="absolute w-full">
+							<img
+								src="/headings/highlights-h1-t2.svg"
+							/>
+						</div>
 					</div>
 				</div>
 				<div className="text-center flex flex-col items-center">
