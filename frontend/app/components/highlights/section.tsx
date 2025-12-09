@@ -128,6 +128,20 @@ export default function Highlights({ wrapperRef }: Props) {
 					}, config.delay);
 				}
 			});
+
+			// Animate headingSeg2Ref position (starts with headingChar1Ref)
+			if (headingSeg2Ref.current) {
+				// Set initial position
+				gsap.set(headingSeg2Ref.current, { top: "60%", left: "32%" });
+
+				// Animate to final position
+				headingTimeline.to(headingSeg2Ref.current, {
+					top: "0%",
+					left: "49.86%",
+					duration: 1.4,
+					ease: "power4.inOut"
+				}, 0); // delay: 0 to start with headingChar1Ref
+			}
 		}
 
 	}, { scope: wrapperRef });
@@ -138,15 +152,13 @@ export default function Highlights({ wrapperRef }: Props) {
 			</div>
 			<div className="absolute top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
 				<div ref={headingRef} className="w-[98vw] aspect-[1299/351] relative flex flex-row overflow-hidden">
-					{/* mt-[calc(100%*(351/1299))] */}
+					
 					<div ref={headingChar1Ref} className="relative w-[27.33%] h-full mr-[0.31%]">
-						{/* <div ref={headingSeg1Ref} className="w-[17.32%] h-[100%] absolute"> */}
 						<div ref={headingSeg1Ref} className="w-[63.24%] h-full absolute">
 							<img
 								src="/headings/highlights-h1-v1.svg"
 							/>
 						</div>
-						{/* <div ref={headingSeg2Ref} className="w-[13.7%] absolute left-[13.63%]"> */}
 						<div ref={headingSeg2Ref} className="w-[50.14%] absolute left-[49.86%]">
 							<img
 								src="/headings/highlights-h1-v2.svg"
@@ -154,7 +166,6 @@ export default function Highlights({ wrapperRef }: Props) {
 						</div>
 					</div>
 					
-					{/* mt-[calc(100%*(351/1299))] */}
 					<div ref={headingChar2Ref} className="relative w-[19.25%] h-full mr-[1.0%]">
 						<div ref={headingSeg3Ref} className="absolute w-full h-full">
 							<img
@@ -173,7 +184,6 @@ export default function Highlights({ wrapperRef }: Props) {
 						</div>
 					</div>
 					
-					{/* mt-[calc(100%*(351/1299))] */}
 					<div ref={headingChar3Ref} className="relative h-full w-[19.25%] mr-[0.85%]">
 						<div ref={headingSeg6Ref} className="absolute w-full h-full">
 							<img
@@ -183,7 +193,6 @@ export default function Highlights({ wrapperRef }: Props) {
 						</div>
 					</div>
 					
-					{/* mt-[calc(100%*(351/1299))] */}
 					<div ref={headingChar4Ref} className="relative w-[7.58%] h-full mr-[1.0%]">
 						<div ref={headingSeg7Ref} className="absolute w-full h-full">
 							<img
@@ -192,7 +201,6 @@ export default function Highlights({ wrapperRef }: Props) {
 						</div>
 					</div>
 					
-					{/* mt-[calc(100%*(351/1299))] */}
 					<div ref={headingChar5Ref} className="relative w-[22.56%] h-full">
 						<div ref={headingSeg8Ref} className="absolute w-[33.79%] top-[24.68%] left-[33.28%]">
 							<img
