@@ -90,7 +90,39 @@ export default function Highlights({ wrapperRef }: Props) {
 
 		// --- Heading Mask Animations ---
 
-		
+		// Set headingRef to overflow hidden for masking
+		if (headingRef.current) {
+			gsap.set(headingRef.current, { overflow: 'hidden' });
+
+			// Get height of headingRef for initial position
+			const headingHeight = headingRef.current.offsetHeight;
+
+			// Create timeline for character wrapper animations
+			const headingTimeline = gsap.timeline({
+				scrollTrigger: {
+					trigger: section,
+					start: "top 20%",
+					toggleActions: "play none none none"
+				}
+			});
+
+			// Animate each character wrapper from top margin = headingHeight to 0
+			const charRefs = [headingChar1Ref, headingChar2Ref, headingChar3Ref, headingChar4Ref, headingChar5Ref];
+
+			charRefs.forEach((ref, index) => {
+				if (ref.current) {
+					// Set initial state - positioned below by headingHeight
+					gsap.set(ref.current, { marginTop: headingHeight });
+
+					// Animate to marginTop: 0
+					headingTimeline.to(ref.current, {
+						marginTop: 0,
+						duration: 0.9,
+						ease: "power4.inOut"
+					}, 0); // All start at position 0 (simultaneously)
+				}
+			});
+		}
 
 	}, { scope: wrapperRef });
 	return(
