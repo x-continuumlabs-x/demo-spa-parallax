@@ -107,19 +107,25 @@ export default function Highlights({ wrapperRef }: Props) {
 			});
 
 			// Animate each character wrapper from top margin = headingHeight to 0
-			const charRefs = [headingChar1Ref, headingChar2Ref, headingChar3Ref, headingChar4Ref, headingChar5Ref];
+			const charConfigs = [
+				{ ref: headingChar1Ref, duration: 1.4, delay: 0 },
+				{ ref: headingChar2Ref, duration: 1.4, delay: 0.2 },
+				{ ref: headingChar3Ref, duration: 1.4, delay: 0.1 },
+				{ ref: headingChar4Ref, duration: 1.4, delay: 0.05 },
+				{ ref: headingChar5Ref, duration: 1.4, delay: 0.15 }
+			];
 
-			charRefs.forEach((ref, index) => {
-				if (ref.current) {
+			charConfigs.forEach((config) => {
+				if (config.ref.current) {
 					// Set initial state - positioned below by headingHeight
-					gsap.set(ref.current, { marginTop: headingHeight });
+					gsap.set(config.ref.current, { marginTop: headingHeight });
 
 					// Animate to marginTop: 0
-					headingTimeline.to(ref.current, {
+					headingTimeline.to(config.ref.current, {
 						marginTop: 0,
-						duration: 0.9,
+						duration: config.duration,
 						ease: "power4.inOut"
-					}, 0); // All start at position 0 (simultaneously)
+					}, config.delay);
 				}
 			});
 		}
