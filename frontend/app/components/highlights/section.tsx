@@ -140,10 +140,10 @@ export default function Highlights({ wrapperRef }: Props) {
 					left: "49.86%",
 					duration: 1.4,
 					ease: "power4.inOut"
-				}, 0); // delay: 0 to start with headingChar1Ref
+				}, charConfigs[0].delay); // tied to headingChar1Ref delay
 			}
 
-			// Animate headingSeg4Ref position (starts slightly after headingSeg5Ref)
+			// Animate headingSeg4Ref position (starts with headingChar2Ref)
 			if (headingSeg4Ref.current) {
 				// Set initial position
 				gsap.set(headingSeg4Ref.current, { left: "-22%" });
@@ -153,10 +153,10 @@ export default function Highlights({ wrapperRef }: Props) {
 					left: "39.4%",
 					duration: 1.4,
 					ease: "power4.inOut"
-				}, 0.2);
+				}, charConfigs[1].delay); // tied to headingChar2Ref delay
 			}
 
-			// Animate headingSeg5Ref position (starts with headingChar2Ref)
+			// Animate headingSeg5Ref position (starts slightly after headingSeg4Ref)
 			if (headingSeg5Ref.current) {
 				// Set initial position
 				gsap.set(headingSeg5Ref.current, { left: "-12%" });
@@ -166,7 +166,7 @@ export default function Highlights({ wrapperRef }: Props) {
 					left: "39.4%",
 					duration: 1.4,
 					ease: "power4.inOut"
-				}, 0.35); // delay: 0.2 to start with headingChar2Ref
+				}, charConfigs[1].delay + 0.15); // tied to headingChar2Ref delay + offset
 			}
 
 			// Animate headingSeg9Ref width (starts with headingChar5Ref)
@@ -179,7 +179,7 @@ export default function Highlights({ wrapperRef }: Props) {
 					width: "100%",
 					duration: 0.7,
 					ease: "power4.inOut"
-				}, 0.75); // delay: 0.15 to start with headingChar5Ref
+				}, charConfigs[4].delay + 0.6); // tied to headingChar5Ref delay + offset
 			}
 		}
 
