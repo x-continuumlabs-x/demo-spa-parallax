@@ -110,8 +110,8 @@ export default function Highlights({ wrapperRef }: Props) {
 			const charConfigs = [
 				{ ref: headingChar1Ref, duration: 1.4, delay: 0 },
 				{ ref: headingChar2Ref, duration: 1.4, delay: 0.2 },
-				{ ref: headingChar3Ref, duration: 1.4, delay: 0.1 },
-				{ ref: headingChar4Ref, duration: 1.4, delay: 0.05 },
+				{ ref: headingChar3Ref, duration: 1.4, delay: 0.15 },
+				{ ref: headingChar4Ref, duration: 1.4, delay: 0.28 },
 				{ ref: headingChar5Ref, duration: 1.4, delay: 0.15 }
 			];
 
