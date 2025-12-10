@@ -142,6 +142,19 @@ export default function Highlights({ wrapperRef }: Props) {
 					ease: "power4.inOut"
 				}, 0); // delay: 0 to start with headingChar1Ref
 			}
+
+			// Animate headingSeg5Ref position (starts with headingChar2Ref)
+			if (headingSeg5Ref.current) {
+				// Set initial position
+				gsap.set(headingSeg5Ref.current, { left: "-12%" });
+
+				// Animate to final position
+				headingTimeline.to(headingSeg5Ref.current, {
+					left: "39.4%",
+					duration: 1.4,
+					ease: "power4.inOut"
+				}, 0.2); // delay: 0.2 to start with headingChar2Ref
+			}
 		}
 
 	}, { scope: wrapperRef });
@@ -153,7 +166,7 @@ export default function Highlights({ wrapperRef }: Props) {
 			<div className="absolute top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
 				<div ref={headingRef} className="w-[98vw] aspect-[1299/351] relative flex flex-row overflow-hidden">
 					
-					<div ref={headingChar1Ref} className="relative w-[27.33%] h-full mr-[0.31%]">
+					<div ref={headingChar1Ref} className="relative w-[27.33%] h-full mr-[0.31%] overflow-hidden">
 						<div ref={headingSeg1Ref} className="w-[63.24%] h-full absolute">
 							<img
 								src="/headings/highlights-h1-v1.svg"
@@ -166,7 +179,7 @@ export default function Highlights({ wrapperRef }: Props) {
 						</div>
 					</div>
 					
-					<div ref={headingChar2Ref} className="relative w-[19.25%] h-full mr-[1.0%]">
+					<div ref={headingChar2Ref} className="relative w-[19.25%] h-full mr-[1.0%] overflow-hidden">
 						<div ref={headingSeg3Ref} className="absolute w-full h-full">
 							<img
 								src="/headings/highlights-h1-e1.svg"
@@ -184,7 +197,7 @@ export default function Highlights({ wrapperRef }: Props) {
 						</div>
 					</div>
 					
-					<div ref={headingChar3Ref} className="relative h-full w-[19.25%] mr-[0.85%]">
+					<div ref={headingChar3Ref} className="relative h-full w-[19.25%] mr-[0.85%] overflow-hidden">
 						<div ref={headingSeg6Ref} className="absolute w-full h-full">
 							<img
 								src="/headings/highlights-h1-l1.svg" 
@@ -193,7 +206,7 @@ export default function Highlights({ wrapperRef }: Props) {
 						</div>
 					</div>
 					
-					<div ref={headingChar4Ref} className="relative w-[7.58%] h-full mr-[1.0%]">
+					<div ref={headingChar4Ref} className="relative w-[7.58%] h-full mr-[1.0%] overflow-hidden">
 						<div ref={headingSeg7Ref} className="absolute w-full h-full">
 							<img
 								src="/headings/highlights-h1-i1.svg"
@@ -201,7 +214,7 @@ export default function Highlights({ wrapperRef }: Props) {
 						</div>
 					</div>
 					
-					<div ref={headingChar5Ref} className="relative w-[22.56%] h-full">
+					<div ref={headingChar5Ref} className="relative w-[22.56%] h-full overflow-hidden">
 						<div ref={headingSeg8Ref} className="absolute w-[33.79%] top-[24.68%] left-[33.28%]">
 							<img
 								src="/headings/highlights-h1-t1.svg"
