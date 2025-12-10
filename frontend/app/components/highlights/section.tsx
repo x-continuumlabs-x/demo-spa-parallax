@@ -169,6 +169,18 @@ export default function Highlights({ wrapperRef }: Props) {
 				}, 0.35); // delay: 0.2 to start with headingChar2Ref
 			}
 
+			// Animate headingSeg9Ref width (starts with headingChar5Ref)
+			if (headingSeg9Ref.current) {
+				// Set initial width
+				gsap.set(headingSeg9Ref.current, { width: "33.79%" });
+
+				// Animate to final width
+				headingTimeline.to(headingSeg9Ref.current, {
+					width: "100%",
+					duration: 0.7,
+					ease: "power4.inOut"
+				}, 0.75); // delay: 0.15 to start with headingChar5Ref
+			}
 		}
 
 	}, { scope: wrapperRef });
@@ -228,16 +240,16 @@ export default function Highlights({ wrapperRef }: Props) {
 						</div>
 					</div>
 					
-					<div ref={headingChar5Ref} className="relative w-[22.56%] h-full overflow-hidden">
+					<div ref={headingChar5Ref} className="relative flex flex-row w-[22.56%] h-full justify-center overflow-hidden">
 						<div ref={headingSeg8Ref} className="absolute w-[33.79%] top-[24.68%] left-[33.28%]">
 							<img
 								src="/headings/highlights-h1-t1.svg"
 							/>
 						</div>
-						<div ref={headingSeg9Ref} className="absolute w-full">
-							<img
+						<div ref={headingSeg9Ref} className="absolute w-full h-[24.68%] bg-[#b0f3e1]">
+							{/* <img
 								src="/headings/highlights-h1-t2.svg"
-							/>
+							/> */}
 						</div>
 					</div>
 				</div>
