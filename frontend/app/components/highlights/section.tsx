@@ -143,6 +143,19 @@ export default function Highlights({ wrapperRef }: Props) {
 				}, 0); // delay: 0 to start with headingChar1Ref
 			}
 
+			// Animate headingSeg4Ref position (starts slightly after headingSeg5Ref)
+			if (headingSeg4Ref.current) {
+				// Set initial position
+				gsap.set(headingSeg4Ref.current, { left: "-22%" });
+
+				// Animate to final position
+				headingTimeline.to(headingSeg4Ref.current, {
+					left: "39.4%",
+					duration: 1.4,
+					ease: "power4.inOut"
+				}, 0.2);
+			}
+
 			// Animate headingSeg5Ref position (starts with headingChar2Ref)
 			if (headingSeg5Ref.current) {
 				// Set initial position
@@ -153,8 +166,9 @@ export default function Highlights({ wrapperRef }: Props) {
 					left: "39.4%",
 					duration: 1.4,
 					ease: "power4.inOut"
-				}, 0.2); // delay: 0.2 to start with headingChar2Ref
+				}, 0.35); // delay: 0.2 to start with headingChar2Ref
 			}
+
 		}
 
 	}, { scope: wrapperRef });
