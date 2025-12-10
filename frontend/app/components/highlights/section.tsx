@@ -186,7 +186,7 @@ export default function Highlights({ wrapperRef }: Props) {
 	}, { scope: wrapperRef });
 	return(
 		<section className="relative w-full overflow-hidden">
-			<div className="w-full h-[100vh] flex justify-center">
+			<div className="w-full h-[100vh] flex justify-center opacity-0">
 				<canvas ref={canvasRef} />
 			</div>
 			<div className="absolute top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
