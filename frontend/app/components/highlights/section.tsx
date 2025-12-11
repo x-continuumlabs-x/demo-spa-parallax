@@ -102,7 +102,8 @@ export default function Highlights({ wrapperRef }: Props) {
 				scrollTrigger: {
 					trigger: section,
 					start: "top 20%",
-					toggleActions: "play none none none"
+					end: `top ${-scrollDuringPin}`,
+					scrub: 0.5
 				}
 			});
 
@@ -186,7 +187,7 @@ export default function Highlights({ wrapperRef }: Props) {
 	}, { scope: wrapperRef });
 	return(
 		<section className="relative w-full overflow-hidden">
-			<div className="w-full h-[100vh] flex justify-center opacity-0">
+			<div className="w-full h-[100vh] flex justify-center">
 				<canvas ref={canvasRef} />
 			</div>
 			<div className="absolute top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
