@@ -96,7 +96,7 @@ export default function Highlights({ wrapperRef }: Props) {
 			const headingTimeline = gsap.timeline({
 				scrollTrigger: {
 					trigger: section,
-					start: "top 20%",
+					start: "top 85%",
 					end: `top ${-scrollDuringPin}`,
 					scrub: 1.5
 				}
@@ -186,7 +186,7 @@ export default function Highlights({ wrapperRef }: Props) {
 				<canvas ref={canvasRef} />
 			</div>
 			<div className="absolute top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
-				<div ref={headingRef} className="w-[98vw] aspect-[1299/351] relative flex flex-row overflow-hidden">
+				<div ref={headingRef} className="w-[98vw] aspect-[1299/351] relative flex flex-row overflow-hidden top-[8vh]">
 					
 					<div ref={headingChar1Ref} className="relative w-[27.33%] h-full mr-[0.31%] overflow-hidden">
 						<div className="w-[63.24%] h-full absolute">
@@ -243,15 +243,11 @@ export default function Highlights({ wrapperRef }: Props) {
 							/>
 						</div>
 						<div ref={headingSeg9Ref} className="absolute w-full h-[24.68%] bg-[#b0f3e1]">
-							{/* <img
-								src="/headings/highlights-h1-t2.svg"
-							/> */}
 						</div>
 					</div>
 				</div>
 				<div className="text-center flex flex-col items-center">
-					{/* <h1 className="text-[36.0vw] text-[#b0f3ee] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] m-0 mt-[-5vh] ml-[-0.08em]">Velit</h1> */}
-					<p className="w-1/2 text-[18px] text-[#b0f3ee] leading-[1.2em]">
+					<p className="w-1/2 text-[18px] text-[#b0f3ee] leading-[1.2em] pt-[10vh]">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum dolor sit amet, consec.
 					</p>
 				</div>
