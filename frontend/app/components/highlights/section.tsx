@@ -109,7 +109,7 @@ export default function Highlights({ wrapperRef }: Props) {
 			// Animate each character wrapper from top margin = headingHeight to 0
 			const charConfigs = [
 				{ ref: headingChar1Ref, duration: 1.4, delay: 0 },
-				{ ref: headingChar2Ref, duration: 1.4, delay: 0.2 },
+				{ ref: headingChar2Ref, duration: 1.8, delay: 0.05 },
 				{ ref: headingChar3Ref, duration: 1.4, delay: 0.15 },
 				{ ref: headingChar4Ref, duration: 1.4, delay: 0.28 },
 				{ ref: headingChar5Ref, duration: 1.4, delay: 0.15 }
@@ -164,9 +164,9 @@ export default function Highlights({ wrapperRef }: Props) {
 				// Animate to final position
 				headingTimeline.to(headingSeg5Ref.current, {
 					left: "39.4%",
-					duration: 1.4,
+					duration: 2.0,
 					ease: "power4.inOut"
-				}, charConfigs[1].delay + 0.15); // tied to headingChar2Ref delay + offset
+				}, charConfigs[1].delay + 0); // tied to headingChar2Ref delay + offset
 			}
 
 			// Animate headingSeg9Ref width (starts with headingChar5Ref)
