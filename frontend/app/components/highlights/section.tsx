@@ -12,14 +12,9 @@ export default function Highlights({ wrapperRef }: Props) {
 	const headingChar3Ref = useRef<HTMLDivElement>(null);
 	const headingChar4Ref = useRef<HTMLDivElement>(null);
 	const headingChar5Ref = useRef<HTMLDivElement>(null);
-	const headingSeg1Ref = useRef<HTMLDivElement>(null);
 	const headingSeg2Ref = useRef<HTMLDivElement>(null);
-	const headingSeg3Ref = useRef<HTMLDivElement>(null);
 	const headingSeg4Ref = useRef<HTMLDivElement>(null);
 	const headingSeg5Ref = useRef<HTMLDivElement>(null);
-	const headingSeg6Ref = useRef<HTMLDivElement>(null);
-	const headingSeg7Ref = useRef<HTMLDivElement>(null);
-	const headingSeg8Ref = useRef<HTMLDivElement>(null);
 	const headingSeg9Ref = useRef<HTMLDivElement>(null);
 
 	useGSAP(() => {
@@ -101,8 +96,9 @@ export default function Highlights({ wrapperRef }: Props) {
 			const headingTimeline = gsap.timeline({
 				scrollTrigger: {
 					trigger: section,
-					start: "top 20%",
-					toggleActions: "play none none none"
+					start: "top 85%",
+					end: `top ${-scrollDuringPin}`,
+					scrub: 1.5
 				}
 			});
 
@@ -186,14 +182,14 @@ export default function Highlights({ wrapperRef }: Props) {
 	}, { scope: wrapperRef });
 	return(
 		<section className="relative w-full overflow-hidden">
-			<div className="w-full h-[100vh] flex justify-center opacity-0">
+			<div className="w-full h-[100vh] flex justify-center">
 				<canvas ref={canvasRef} />
 			</div>
 			<div className="absolute top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
-				<div ref={headingRef} className="w-[98vw] aspect-[1299/351] relative flex flex-row overflow-hidden">
+				<div ref={headingRef} className="w-[98vw] aspect-[1299/351] relative flex flex-row overflow-hidden top-[8vh]">
 					
 					<div ref={headingChar1Ref} className="relative w-[27.33%] h-full mr-[0.31%] overflow-hidden">
-						<div ref={headingSeg1Ref} className="w-[63.24%] h-full absolute">
+						<div className="w-[63.24%] h-full absolute">
 							<img
 								src="/headings/highlights-h1-v1.svg"
 							/>
@@ -206,7 +202,7 @@ export default function Highlights({ wrapperRef }: Props) {
 					</div>
 					
 					<div ref={headingChar2Ref} className="relative w-[19.25%] h-full mr-[1.0%] overflow-hidden">
-						<div ref={headingSeg3Ref} className="absolute w-full h-full">
+						<div className="absolute w-full h-full">
 							<img
 								src="/headings/highlights-h1-e1.svg"
 							/>
@@ -224,7 +220,7 @@ export default function Highlights({ wrapperRef }: Props) {
 					</div>
 					
 					<div ref={headingChar3Ref} className="relative h-full w-[19.25%] mr-[0.85%] overflow-hidden">
-						<div ref={headingSeg6Ref} className="absolute w-full h-full">
+						<div className="absolute w-full h-full">
 							<img
 								src="/headings/highlights-h1-l1.svg" 
 								className="w-full h-full"
@@ -233,7 +229,7 @@ export default function Highlights({ wrapperRef }: Props) {
 					</div>
 					
 					<div ref={headingChar4Ref} className="relative w-[7.58%] h-full mr-[1.0%] overflow-hidden">
-						<div ref={headingSeg7Ref} className="absolute w-full h-full">
+						<div className="absolute w-full h-full">
 							<img
 								src="/headings/highlights-h1-i1.svg"
 							/>
@@ -241,21 +237,17 @@ export default function Highlights({ wrapperRef }: Props) {
 					</div>
 					
 					<div ref={headingChar5Ref} className="relative flex flex-row w-[22.56%] h-full justify-center overflow-hidden">
-						<div ref={headingSeg8Ref} className="absolute w-[33.79%] top-[24.68%] left-[33.28%]">
+						<div className="absolute w-[33.79%] top-[24.68%] left-[33.28%]">
 							<img
 								src="/headings/highlights-h1-t1.svg"
 							/>
 						</div>
 						<div ref={headingSeg9Ref} className="absolute w-full h-[24.68%] bg-[#b0f3e1]">
-							{/* <img
-								src="/headings/highlights-h1-t2.svg"
-							/> */}
 						</div>
 					</div>
 				</div>
 				<div className="text-center flex flex-col items-center">
-					{/* <h1 className="text-[36.0vw] text-[#b0f3ee] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] m-0 mt-[-5vh] ml-[-0.08em]">Velit</h1> */}
-					<p className="w-1/2 text-[18px] text-[#b0f3ee] leading-[1.2em]">
+					<p className="w-1/2 text-[18px] text-[#b0f3ee] leading-[1.2em] pt-[10vh]">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum dolor sit amet, consec.
 					</p>
 				</div>
