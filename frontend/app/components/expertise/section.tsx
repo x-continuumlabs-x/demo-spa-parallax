@@ -74,11 +74,11 @@ export default function Expertise({ wrapperRef }: Props){
 			<div data-speed="1"
 				className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
 				style={{
-					'--height-landscape': `calc(${heightRatioLandscape} * 100vw)`,
+					'--height-landscape': `calc(${heightRatioLandscape} * 135vw)`,
 					'--height-portrait': `calc(${heightRatioPortrait} * 100vw)`,
 				} as React.CSSProperties}
 			>
-				<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] h-full overflow-hidden">
+				<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[135vw] h-full overflow-hidden">
 					<div ref={expertiseImgRef} id="expertiseImg">
 						{/* Landscape image */}
 						<Image
@@ -87,7 +87,7 @@ export default function Expertise({ wrapperRef }: Props){
 							width={imgWidthLandscape}
 							height={imgHeightLandscape}
 							style={{
-								width: '100%',
+								width: '150vw',
 								height: 'auto',
 							}}
 							className="portrait:hidden"
@@ -120,7 +120,7 @@ export default function Expertise({ wrapperRef }: Props){
 
 			<div
 				ref={cards} id="cardsID"
-				className="absolute top-[130vw] sm:top-[72vw] w-full"
+				className="absolute top-[130vw] sm:top-[105vw] w-full"
 				data-speed="0.6"
 			>
 				<div className="cards-inner flex flex-row gap-4 justify-center">
