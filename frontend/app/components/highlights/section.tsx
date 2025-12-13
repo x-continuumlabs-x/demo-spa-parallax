@@ -60,7 +60,7 @@ export default function Highlights({ wrapperRef }: Props) {
 		const section = canvas.closest('section');
 
 		// Animation starts when entering viewport, continues through normal scroll + pin
-		const scrollDuringPin = 1000; // Additional scroll while pinned
+		const scrollDuringPin = 1500; // Additional scroll while pinned
 
 		gsap.to(state, {
 			frame: frameCount - 1,
@@ -96,8 +96,8 @@ export default function Highlights({ wrapperRef }: Props) {
 			const headingTimeline = gsap.timeline({
 				scrollTrigger: {
 					trigger: section,
-					start: "top 85%",
-					end: `top ${-scrollDuringPin}`,
+					start: "top 70%",
+					end: `top ${-(scrollDuringPin+(scrollDuringPin*0.5))}`,
 					scrub: 1.5
 				}
 			});
