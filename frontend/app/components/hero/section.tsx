@@ -10,6 +10,7 @@ import { Input, Button, Label } from "@heroui/react";
 
 export default function Hero({ wrapperRef }: Props) {
 	const imageContainerRef = useRef<HTMLDivElement>(null);
+	const formWrapperRef = useRef<HTMLDivElement>(null);
 	const ctaFormBgRef = useRef<HTMLDivElement>(null);
 	const formHeadingSmallRef = useRef<HTMLDivElement>(null);
 	const formHeadingLargeRef = useRef<HTMLDivElement>(null);
@@ -57,6 +58,13 @@ export default function Hero({ wrapperRef }: Props) {
 			gsap.to(ctaFormBgRef.current, {
 				width: 460,
 				height: 425,
+				duration: 0.6,
+				ease: "power4.inOut"
+			});
+
+			// Animate form wrapper up
+			gsap.to(formWrapperRef.current, {
+				top: -140,
 				duration: 0.6,
 				ease: "power4.inOut"
 			});
@@ -179,6 +187,13 @@ export default function Hero({ wrapperRef }: Props) {
 				ease: "power4.inOut"
 			});
 
+			// Animate form wrapper back to original position
+			gsap.to(formWrapperRef.current, {
+				top: 0,
+				duration: 0.6,
+				ease: "power4.inOut"
+			});
+
 			// Get the h3 element inside formHeadingLargeRef
 			const largeH3 = formHeadingLargeRef.current.querySelector('h3');
 			if (!largeH3) return;
@@ -290,7 +305,7 @@ export default function Hero({ wrapperRef }: Props) {
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit,
 				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum dolor sit amet, consec.
 			</p>
-			<div className="relative mt-[40px]">
+			<div ref={formWrapperRef} className="relative mt-[40px]">
 				<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[68px] rounded-[20px] flex items-start justify-end">
 					<button ref={closeButtonRef} onClick={handleCloseClick} className="cursor-pointer">
 						<Image
