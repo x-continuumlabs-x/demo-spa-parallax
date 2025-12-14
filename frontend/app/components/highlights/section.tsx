@@ -17,6 +17,7 @@ export default function Highlights({ wrapperRef }: Props) {
 	const headingSeg4Ref = useRef<HTMLDivElement>(null);
 	const headingSeg5Ref = useRef<HTMLDivElement>(null);
 	const headingSeg9Ref = useRef<HTMLDivElement>(null);
+	const paragraphRef = useRef<HTMLParagraphElement>(null);
 
 	useGSAP(() => {
 		const canvas = canvasRef.current;
@@ -101,6 +102,11 @@ export default function Highlights({ wrapperRef }: Props) {
 
 		// --- Heading Mask Animations ---
 
+		// Set paragraph initial opacity
+		if (paragraphRef.current) {
+			gsap.set(paragraphRef.current, { opacity: 0 });
+		}
+
 		// Set headingRef to overflow hidden for masking
 		if (headingRef.current) {
 			gsap.set(headingRef.current, { overflow: 'hidden' });
@@ -113,7 +119,7 @@ export default function Highlights({ wrapperRef }: Props) {
 				scrollTrigger: {
 					trigger: section,
 					start: "top 0%",
-					end: `top ${-(scrollDuringPin+(scrollDuringPin*0.5))}`,
+					end: `top ${-(scrollDuringPin+(scrollDuringPin*0.3))}`,
 					scrub: 1.5
 				}
 			});
@@ -193,6 +199,15 @@ export default function Highlights({ wrapperRef }: Props) {
 					ease: "power4.inOut"
 				}, charConfigs[4].delay + 0.6); // tied to headingChar5Ref delay + offset
 			}
+
+			// Paragraph fade-in (starts around the time of last character animations)
+			if (paragraphRef.current) {
+				headingTimeline.to(paragraphRef.current, {
+					opacity: 1,
+					duration: 1.0,
+					ease: "power2.out",
+				}, 0.5); // Start at position 0.5 in timeline
+			}
 		}
 
 	}, { scope: wrapperRef });
@@ -262,9 +277,9 @@ export default function Highlights({ wrapperRef }: Props) {
 						</div>
 					</div>
 				</div>
-				<div className="text-center flex flex-col items-center">
-					<p className="w-1/2 text-[18px] text-[#b0f3ee] leading-[1.2em] pt-[10vh]">
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum dolor sit amet, consec.
+				<div className="text-center flex flex-col items-center pt-[12vh]">
+					<p ref={paragraphRef} className="w-2/3 text-[20px] text-[#7acfc8] leading-[1.2em]">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
 					</p>
 				</div>
 			</div>
