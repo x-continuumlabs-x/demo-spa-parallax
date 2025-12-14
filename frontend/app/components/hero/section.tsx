@@ -135,33 +135,24 @@ export default function Hero({ wrapperRef }: Props) {
 				}
 			});
 
-			// Scroll to center the form vertically
+			// Scroll so section bottom aligns with viewport bottom
 			const smoother = ScrollSmoother.get();
 			if (smoother) {
-				// Get the parent container with parallax effect
-				const parallaxContainer = ctaFormBgRef.current.closest('[data-speed]');
-				const parallaxSpeed = parallaxContainer ? parseFloat(parallaxContainer.getAttribute('data-speed') || '1') : 1;
+				// Get the section element
+				const section = ctaFormBgRef.current.closest('section');
+				if (section) {
+					const rect = section.getBoundingClientRect();
+					const currentScrollY = smoother.scrollTop();
+					const viewportHeight = window.innerHeight;
 
-				// Calculate the element's position accounting for parallax
-				const rect = ctaFormBgRef.current.getBoundingClientRect();
-				const currentScrollY = smoother.scrollTop();
+					// Calculate the bottom of the section in document coordinates
+					const sectionBottom = rect.bottom + currentScrollY;
 
-				// Element's original position in document (before parallax transform)
-				// Current position in viewport = originalTop - scrollY * speed
-				// So: originalTop = current viewport position + scrollY * speed
-				const elementOriginalTop = rect.top + currentScrollY * parallaxSpeed;
+					// Scroll position to align section bottom with viewport bottom
+					const targetScroll = sectionBottom - viewportHeight;
 
-				// Where we want the center of the expanded form to be (viewport center)
-				const viewportHeight = window.innerHeight;
-				const expandedHalfHeight = 200; // Half of 500px expanded height
-
-				// With parallax speed, element's position in viewport = originalTop - scroll * speed
-				// We want: originalTop - targetScroll * speed = viewportHeight/2 - expandedHalfHeight
-				// Solving for targetScroll:
-				// targetScroll = (originalTop - viewportHeight/2 + expandedHalfHeight) / speed
-				const targetScroll = (elementOriginalTop - viewportHeight / 2 + expandedHalfHeight) / parallaxSpeed;
-
-				smoother.scrollTo(targetScroll, true, "power2.inOut");
+					smoother.scrollTo(targetScroll, true, "power2.inOut");
+				}
 			}
 		}
 	};
