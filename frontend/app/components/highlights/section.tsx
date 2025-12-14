@@ -84,16 +84,16 @@ export default function Highlights({ wrapperRef }: Props) {
 			end: `+=${scrollDuringPin}`, // Unpin after 1000px
 		});
 
-		// Canvas container scale animation
+		// Canvas container mask reveal animation
 		gsap.fromTo(canvasContainerRef.current,
-			{ scale: 0.85 },
+			{ clipPath: "inset(10% 5% 10% 5%)" }, // Start with 10% masked on all sides (80% visible)
 			{
-				scale: 1,
-				ease: "circ.inOut",
+				clipPath: "inset(0% 0% 0% 0%)", // End with full canvas visible
+				ease: "power4.inOut",
 				scrollTrigger: {
 					trigger: section,
 					start: "top top", // Start when section pins
-					end: "+=600",
+					end: "+=450",
 					scrub: 1.5,
 				}
 			}
@@ -112,7 +112,7 @@ export default function Highlights({ wrapperRef }: Props) {
 			const headingTimeline = gsap.timeline({
 				scrollTrigger: {
 					trigger: section,
-					start: "top 70%",
+					start: "top 0%",
 					end: `top ${-(scrollDuringPin+(scrollDuringPin*0.5))}`,
 					scrub: 1.5
 				}
