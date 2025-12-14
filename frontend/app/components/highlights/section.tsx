@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 
 export default function Highlights({ wrapperRef }: Props) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const canvasContainerRef = useRef<HTMLDivElement>(null);
 	const headingRef = useRef<HTMLDivElement>(null);
 	const headingChar1Ref = useRef<HTMLDivElement>(null);
 	const headingChar2Ref = useRef<HTMLDivElement>(null);
@@ -82,6 +83,21 @@ export default function Highlights({ wrapperRef }: Props) {
 			start: "top top", // Pin when section reaches top
 			end: `+=${scrollDuringPin}`, // Unpin after 1000px
 		});
+
+		// Canvas container scale animation
+		gsap.fromTo(canvasContainerRef.current,
+			{ scale: 0.85 },
+			{
+				scale: 1,
+				ease: "circ.inOut",
+				scrollTrigger: {
+					trigger: section,
+					start: "top top", // Start when section pins
+					end: "+=600",
+					scrub: 1.5,
+				}
+			}
+		);
 
 		// --- Heading Mask Animations ---
 
@@ -182,7 +198,7 @@ export default function Highlights({ wrapperRef }: Props) {
 	}, { scope: wrapperRef });
 	return(
 		<section className="relative w-full overflow-hidden flex items-center justify-center h-[100vh]">
-			<div className="min-w-[100vw] w-[100vw] h-[56.25vw] flex justify-center">
+			<div ref={canvasContainerRef} className="min-w-[100vw] w-[100vw] h-[56.25vw] flex justify-center">
 				<canvas ref={canvasRef} className="w-full h-full object-contain" />
 			</div>
 			<div className="absolute top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
