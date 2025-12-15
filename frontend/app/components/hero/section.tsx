@@ -64,7 +64,7 @@ export default function Hero({ wrapperRef }: Props) {
 
 			// Animate form wrapper up
 			gsap.to(formWrapperRef.current, {
-				top: -140,
+				top: -113,
 				duration: 0.6,
 				ease: "power4.inOut"
 			});
