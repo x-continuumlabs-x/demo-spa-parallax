@@ -82,7 +82,7 @@ export default function Highlights({ wrapperRef }: Props) {
 			trigger: section,
 			pin: true,
 			start: "top top", // Pin when section reaches top
-			end: `+=${scrollDuringPin}`, // Unpin after 1000px
+			end: `+=${scrollDuringPin+350}`,
 		});
 
 		// Canvas container mask reveal animation
