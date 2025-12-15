@@ -131,22 +131,7 @@ export default function Expertise({ wrapperRef }: Props){
 								<Card.Description className="w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
 							</Card.Header>
 							<Image
-								src="/local-images/temp-card-1.jpg"
-								alt="Card 2"
-								width={400}
-								height={300}
-								className="w-full h-auto object-cover"
-							/>
-						</Card>
-					</div>
-					<div ref={card2Ref}>
-						<Card className="min-w-[180px] max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
-							<Card.Header className="flex flex-col items-start min-h-[130px] pt-7 px-6 leading-[1em]">
-								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">Casting</Card.Title>
-								<Card.Description className="w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
-							</Card.Header>
-							<Image
-								src="/local-images/temp-card-1.jpg"
+								src="/local-images/card-ai.jpg"
 								alt="Card 2"
 								width={400}
 								height={300}
@@ -157,11 +142,11 @@ export default function Expertise({ wrapperRef }: Props){
 					<div ref={card1Ref}>
 						<Card className="min-w-[180px] max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
 							<Card.Header className="flex flex-col items-start min-h-[130px] pt-7 px-6 leading-[1em]">
-								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">Lighting 101</Card.Title>
+								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">Casting</Card.Title>
 								<Card.Description className="w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
 							</Card.Header>
 							<Image
-								src="/local-images/temp-card-1.jpg"
+								src="/local-images/card-casting.jpg"
 								alt="Card 2"
 								width={400}
 								height={300}
@@ -169,6 +154,22 @@ export default function Expertise({ wrapperRef }: Props){
 							/>
 						</Card>
 					</div>
+					<div ref={card2Ref}>
+						<Card className="min-w-[180px] max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
+							<Card.Header className="flex flex-col items-start min-h-[130px] pt-7 px-6 leading-[1em]">
+								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">Lighting 101</Card.Title>
+								<Card.Description className="w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
+							</Card.Header>
+							<Image
+								src="/local-images/card-lighting.jpg"
+								alt="Card 2"
+								width={400}
+								height={300}
+								className="w-full h-auto object-cover"
+							/>
+						</Card>
+					</div>
+					
 				</div>
 			</div>
 		</section>
