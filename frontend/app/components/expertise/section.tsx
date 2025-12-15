@@ -34,41 +34,6 @@ export default function Expertise({ wrapperRef }: Props){
 		}
 	);
 
-	// useEffect(() => {
-	// 	gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
-	// 	// Wait until ScrollSmoother exists
-	// 	const checkSmoother = () => {
-	// 		const smoother = ScrollSmoother.get();
-	// 		if (!smoother) {
-	// 		// try again on next frame
-	// 		requestAnimationFrame(checkSmoother);
-	// 		return;
-	// 		}
-
-	// 		// Slide up animation when coming into view
-	// 		// Using a wrapper approach to avoid conflicts with data-speed
-	// 		const cardsInner = cards.current?.querySelector('.cards-inner');
-	// 		if (cardsInner) {
-	// 			gsap.fromTo(cardsInner,
-	// 				{ y: 200, },
-	// 				{
-	// 					y: 0,
-	// 					ease: "power4.out",
-	// 					scrollTrigger: {
-	// 						trigger: cards.current,
-	// 						start: "top bottom-=100px",
-	// 						end: "top bottom-=500px",
-	// 						scrub: 1,
-	// 					}
-	// 				}
-	// 			);
-	// 		}
-	// 	};
-
-	// 	checkSmoother();
-	// }, []);
-
 	return(
 		<section ref={sectionRef} className="z-10 relative w-full overflow-hidden">
 			<div data-speed="1"
@@ -109,8 +74,9 @@ export default function Expertise({ wrapperRef }: Props){
 					</div>
 				</div>
 				
-				<div className="absolute top-[45vw] left-[10vw] w-1/5" data-speed="0.6">
-					<p className="text-[18px] text-[#b8bc92] leading-[1.2em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
+				<div className="absolute top-[45vw] left-[10vw] w-[28%] text-[#b8bc92]" data-speed="0.6">
+					<h3 className="font-nominee font-black text-[18px] tracking-[-0.06em] uppercase">magna aliqua</h3>
+					<p className="text-[18px] leading-[1.2em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
 				</div>
 			</div>
 			
