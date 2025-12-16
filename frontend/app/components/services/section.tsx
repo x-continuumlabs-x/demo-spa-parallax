@@ -11,10 +11,12 @@ export default function Services({ wrapperRef }: Props) {
 	const vh: number = useViewportHeight();
 
 	const [selectedTab, setSelectedTab] = useState("img1");
+	const [isMobile, setIsMobile] = useState(false);
 	const isUserClickingTab = useRef(false);
 	const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 	const sectionRef = useRef<HTMLElement>(null);
 	const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
+	const timelineRef = useRef<gsap.core.Timeline | null>(null);
 	const contentRef1 = useRef<HTMLDivElement>(null);
 	const contentRef2 = useRef<HTMLDivElement>(null);
 	const contentRef3 = useRef<HTMLDivElement>(null);
@@ -170,7 +172,8 @@ export default function Services({ wrapperRef }: Props) {
 
 		// photoC (first image in DOM, index 0) stays static - no animation
 
-		// Store ScrollTrigger instance for tab navigation
+		// Store refs for later use
+		timelineRef.current = tl;
 		if (tl.scrollTrigger) {
 			scrollTriggerRef.current = tl.scrollTrigger;
 		}
@@ -251,6 +254,71 @@ export default function Services({ wrapperRef }: Props) {
 
 		previousTabRef.current = selectedTab;
 	}, [selectedTab]);
+
+	// Viewport detection for responsive gallery width
+	useGSAP(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 640);
+		};
+		checkMobile();
+		window.addEventListener('resize', checkMobile);
+		return () => {
+			window.removeEventListener('resize', checkMobile);
+		};
+	}, { scope: wrapperRef });
+
+	// Recalculate animation when isMobile changes
+	useEffect(() => {
+		if (!timelineRef.current) return;
+
+		// Wait for DOM to update with new maxWidth values
+		const timer = setTimeout(() => {
+			const galleryContainer = sectionRef.current?.querySelector<HTMLElement>("#galleryContainer");
+			const images = galleryContainer?.querySelectorAll<HTMLImageElement>("img");
+			const tl = timelineRef.current;
+
+			if (!galleryContainer || !images || images.length < 2 || !tl) return;
+
+			// Get the new gallery height after DOM update
+			const newGalleryHeight = galleryContainer.getBoundingClientRect().height;
+
+			// Clear and rebuild the animations with new values
+			tl.clear();
+
+			// Recreate photoA animation (index 2)
+			if (images[2]) {
+				tl.fromTo(
+					images[2],
+					{ y: 0 },
+					{
+						y: -newGalleryHeight,
+						ease: "none",
+						duration: 1,
+					},
+					0
+				);
+			}
+
+			// Recreate photoB animation (index 1)
+			if (images[1]) {
+				tl.fromTo(
+					images[1],
+					{ y: 0 },
+					{
+						y: -newGalleryHeight,
+						ease: "none",
+						duration: 1,
+					},
+					1
+				);
+			}
+
+			// Refresh ScrollTrigger to update positions
+			ScrollTrigger.refresh();
+		}, 50);
+
+		return () => clearTimeout(timer);
+	}, [isMobile]);
 
 	// Cleanup on unmount
 	useEffect(() => {
@@ -338,7 +406,7 @@ export default function Services({ wrapperRef }: Props) {
 								*:bg-[#b7b0a8]/5
 								*:flex 
 								*:items-center 
-								*:min-w-[84vw] 
+								*:min-w-[82vw] 
 								*:sm:min-w-[220px] 
 								*:px-6 
 								*:h-[40px] 
@@ -375,19 +443,20 @@ export default function Services({ wrapperRef }: Props) {
 				<div
 					className="absolute right-0 top-0 overflow-hidden [--ar:1.5225] lg:[--ar:1.8154]"
 					style={{
-						maxWidth: `76vw`,
+						maxWidth: isMobile ? `88vw` : `76vw`,
+						margin: isMobile ? `0 6vw` : `0`,
 						height: `100%`,
 						aspectRatio: `var(--ar) / 1`,
 					}}
 				>
-					<div className="relative w-full h-full">
+					<div className="relative w-full h-full overflow-hidden">
 						<div id="galleryContainer"
 							className="absolute right-0 top-0 overflow-hidden"
 							style={{
 								height: `calc(100vh - ${minGallerySpacing})`,
 								width: `calc((100vh - ${minGallerySpacing}) * var(--ar))`,
-								maxWidth: "76vw",
-								maxHeight: "calc(76vw / var(--ar))",
+								maxWidth: isMobile ? "100vw" : "76vw",
+								maxHeight: isMobile ? "calc(100vw / var(--ar))" : "calc(76vw / var(--ar))",
 							}}
 						>
 							<picture>
@@ -432,18 +501,18 @@ export default function Services({ wrapperRef }: Props) {
 					</div>
 				</div>
 				
-				<div className="mt-[35vh] sm:mt-0 sm:absolute sm:top-[20vh] sm:left-[15vw]">
-					<div ref={contentRef1} className="absolute">
-						<h2 className="text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br />architecto <br />voluptatem</h2>
-						<p className="w-7/8 sm:w-[25vw] max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam ab qui quo.</p>
+				<div className="mx-[6vw] sm:mx-0 mt-[35vh] sm:mt-0 sm:absolute sm:top-[20vh] sm:left-[15vw]">
+					<div ref={contentRef1} className="absolute w-[88vw]">
+						<h2 className="text-[44px] sm:text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br />architecto <br />voluptatem</h2>
+						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam qui.</p>
 					</div>
-					<div ref={contentRef2} className="absolute hidden">
-						<h2 className="text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$195 Ut <br />consecte <br />sed do</h2>
-						<p className="w-[25vw] max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Mollitia dolores ea mollitia a qui mollitia sit alias. Similique mollitia doloremque fuga qui. Labore consequatur delectus fugiat.</p>
+					<div ref={contentRef2} className="absolute w-[88vw] hidden">
+						<h2 className="text-[44px] sm:text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$195 Ut <br />consecte <br />sed do</h2>
+						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Mollitia dolores ea mollitia a qui mollitia sit alias. Similique mollitia doloremque fuga qui. Labore consequatur delectus fugiat.</p>
 					</div>
-					<div ref={contentRef3} className="absolute hidden">
-						<h2 className="text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$595 Ut <br />adipiscing <br />eiusmod</h2>
-						<p className="w-[25vw] max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci didunt ut labore et dolore magna aliqua ut enim ad minim.</p>
+					<div ref={contentRef3} className="absolute w-[88vw] hidden">
+						<h2 className="text-[44px] sm:text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$595 Ut <br />adipiscing <br />eiusmod</h2>
+						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci didunt ut labore et dolore magna aliqua ut enim ad minim.</p>
 					</div>
 				</div>
 			</div>
