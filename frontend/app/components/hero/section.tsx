@@ -270,7 +270,7 @@ export default function Hero({ wrapperRef }: Props) {
 				style={
 					{
 						"--height-landscape": `calc(${heightRatioLandscape} * 100vw)`,
-						"--height-portrait": `calc((${heightRatioPortrait} * 100vw) + 200px)`,
+						"--height-portrait": `calc((${heightRatioPortrait} * 100vw) + 350px)`,
 					} as React.CSSProperties
 				}
 			>
@@ -298,17 +298,17 @@ export default function Hero({ wrapperRef }: Props) {
 					/>
 				</div>
 
-				<div className="absolute top-0 left-0 w-full h-full">
-					<div
-						className="mt-[78vh] sm:mt-[-13vh] w-full"
-						data-speed={isMobile ? "0.8" : "0.7"}
-					>
-						<h1 className="text-[30vw] text-[#b082db] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
-							Nomin
-						</h1>
-					</div>
+				
+				<div
+					className="absolute top-[76vh] sm:top-[-13vh] w-full"
+					data-speed={isMobile ? "0.8" : "0.7"}
+				>
+					<h1 className="text-[30vw] text-[#b082db] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
+						Nomin
+					</h1>
+				</div>
 
-					<div className="mt-[8vh] sm:mt-[48vw] sm:ml-[10vw] w-full flex flex-col items-center sm:block" data-speed={isMobile ? "0.8" : "0.5"}>
+				<div className="absolute top-[92vh] sm:top-[35vw] sm:left-[10vw] w-full flex flex-col items-center sm:block" data-speed={isMobile ? "0.8" : "0.5"}>
 					<div className="w-[65vw] max-w-[203px] mb-2">
 						<Image
 							src="/logo-1.png"
@@ -333,7 +333,7 @@ export default function Hero({ wrapperRef }: Props) {
 									style={{
 										opacity: "50%",
 										padding: "16px",
-									 }}
+									}}
 									priority
 								/>
 							</button>
@@ -387,8 +387,8 @@ export default function Hero({ wrapperRef }: Props) {
 						</div>
 
 					</div>
-					</div>
 				</div>
+				
 			</div>
 		</section>
 	);
