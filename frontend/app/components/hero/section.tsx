@@ -54,10 +54,14 @@ export default function Hero({ wrapperRef }: Props) {
 			// Hide the click target
 			gsap.set(ctaClickRef.current, { display: "none" });
 
+			// Calculate responsive width: 90vw on mobile, max 460px on desktop
+			// Use clientWidth to account for scrollbars, and subtract padding
+			const viewportWidth = window.innerWidth;
+			const targetWidth = Math.min(460, Math.floor(viewportWidth * 0.9));
+
 			// Animate the form expansion
 			gsap.to(ctaFormBgRef.current, {
-				// width: 460,
-				width: 350,
+				width: targetWidth,
 				height: 425,
 				duration: 0.6,
 				ease: "power4.inOut"
@@ -300,8 +304,8 @@ export default function Hero({ wrapperRef }: Props) {
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit,
 						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum dolor sit amet, consec.
 					</p>
-					<div ref={formWrapperRef} className="relative w-[460px] flex justify-center sm:block mt-[40px]">
-						<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[68px] rounded-[20px] flex items-start justify-end">
+					<div ref={formWrapperRef} className="relative w-[90vw] sm:w-auto max-w-[460px] flex justify-center sm:block mt-[40px]">
+						<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[68px] rounded-[20px] flex items-start justify-end max-w-[90vw] sm:max-w-none">
 							<button ref={closeButtonRef} onClick={handleCloseClick} className="cursor-pointer">
 								<Image
 									src="/icon-close.png"
