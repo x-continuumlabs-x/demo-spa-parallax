@@ -379,14 +379,14 @@ export default function About({ wrapperRef }: Props) {
 						</div>
 					</div>
 				</div>
-				<div ref={bodyCopyRef} className="w-2/3 lg:w-[28%]">
-					<h1 className="text-[5vw] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] mb-[0.5em]">Ut enim <br />ad minim <br />veniam</h1>
+				<div ref={bodyCopyRef} className="w-[88%] lg:w-[28%]">
+					<h1 className="text-[44px] sm:text-[5vw] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] mb-[0.5em]">Ut enim <br />ad minim <br />veniam</h1>
 
 					<p className="leading-[1.3em] mb-[1.4em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 
 					<p className="leading-[1.3em] mb-[1.4em]">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 				
-					<h2 className="text-[2vw] font-nominee font-medium tracking-[-0.03em] leading-[1.0em] mt-[1.5em] mb-[0.5em]">Ullamco Laboris</h2>
+					<h2 className="text-[30px] sm:text-[2vw] font-nominee font-medium tracking-[-0.03em] leading-[1.0em] mt-[1.5em] mb-[0.5em]">Ullamco Laboris</h2>
 
 					<p className="leading-[1.3em] mb-[1.4em]">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occa ecat cupidatat non proident, sunt in culpa qui officia deserunt.</p>
 				</div>
