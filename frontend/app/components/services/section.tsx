@@ -428,10 +428,10 @@ export default function Services({ wrapperRef }: Props) {
 					</div>
 				</div>
 				
-				<div className="absolute top-[20vh] left-[15vw]">
+				<div className="mt-[35vh] sm:mt-0 sm:absolute sm:top-[20vh] sm:left-[15vw]">
 					<div ref={contentRef1} className="absolute">
 						<h2 className="text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br />architecto <br />voluptatem</h2>
-						<p className="w-[25vw] max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam ab qui quo.</p>
+						<p className="w-7/8 sm:w-[25vw] max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam ab qui quo.</p>
 					</div>
 					<div ref={contentRef2} className="absolute hidden">
 						<h2 className="text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$195 Ut <br />consecte <br />sed do</h2>

@@ -25,8 +25,8 @@ export default function Hero({ wrapperRef }: Props) {
 	const imgWidthLandscape = 3200;
 	const imgHeightLandscape = 2883;
 	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
-	const imgWidthPortrait = 3200;
-	const imgHeightPortrait = 5803;
+	const imgWidthPortrait = 1170;
+	const imgHeightPortrait = 2532;
 	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 
 	useGSAP(() => {
@@ -56,7 +56,8 @@ export default function Hero({ wrapperRef }: Props) {
 
 			// Animate the form expansion
 			gsap.to(ctaFormBgRef.current, {
-				width: 460,
+				// width: 460,
+				width: 350,
 				height: 425,
 				duration: 0.6,
 				ease: "power4.inOut"
@@ -64,7 +65,8 @@ export default function Hero({ wrapperRef }: Props) {
 
 			// Animate form wrapper up
 			gsap.to(formWrapperRef.current, {
-				top: -113,
+				// top: -113,
+				top: -400,
 				duration: 0.6,
 				ease: "power4.inOut"
 			});
@@ -238,131 +240,133 @@ export default function Hero({ wrapperRef }: Props) {
 		}
 	};
 
-  return (
-    <section className="w-full overflow-hidden" data-speed="0.9">
-      <div
-        className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
-        style={
-          {
-            "--height-landscape": `calc(${heightRatioLandscape} * 100vw)`,
-            "--height-portrait": `calc(${heightRatioPortrait} * 100vw)`,
-          } as React.CSSProperties
-        }
-      >
-        <div
-          ref={imageContainerRef}
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] h-full"
-        >
-          <Image
-            src="/local-images/section-bg-hero.jpg"
-            alt="Hero"
-            width={imgWidthLandscape}
-            height={imgHeightLandscape}
-            style={{ width: "100%", height: "auto" }}
-            className="portrait:hidden"
-            priority
-          />
-          <Image
-            src="/local-images/section-bg-hero-portrait.jpg"
-            alt="Hero portrait"
-            width={imgWidthPortrait}
-            height={imgHeightPortrait}
-            style={{ width: "100%", height: "auto" }}
-            className="hidden portrait:block"
-            priority
-          />
-        </div>
+	return (
+		<section className="w-full overflow-hidden bg-[#b5aca3]">
+			{/* data-speed="0.9" */}
+			<div
+				className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
+				style={
+					{
+						"--height-landscape": `calc(${heightRatioLandscape} * 100vw)`,
+						"--height-portrait": `calc((${heightRatioPortrait} * 100vw) + 200px)`,
+					} as React.CSSProperties
+				}
+			>
+				<div
+					ref={imageContainerRef}
+					className="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] h-full" 
+				>
+					<Image
+						src="/local-images/section-bg-hero.jpg"
+						alt="Hero"
+						width={imgWidthLandscape}
+						height={imgHeightLandscape}
+						style={{ width: "100%", height: "auto" }}
+						className="portrait:hidden"
+						priority
+					/>
+					<Image
+						src="/local-images/section-bg-hero-portrait.jpg"
+						alt="Hero portrait"
+						width={imgWidthPortrait}
+						height={imgHeightPortrait}
+						style={{ width: "100%", height: "auto" }}
+						className="hidden portrait:block"
+						priority
+					/>
+				</div>
 
-        <div
-          className="absolute top-[-13vh] left-0 w-full"
-          data-speed="0.7"
-        >
-          <h1 className="text-[30vw] text-[#b082db] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
-            Nomin
-          </h1>
-        </div>
+				<div
+					className="absolute top-[72vh] sm:top-[-13vh] left-0 w-full"
+					data-speed="0.7"
+				>
+					<h1 className="text-[30vw] text-[#b082db] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
+						Nomin
+					</h1>
+				</div>
 
-		<div className="absolute top-[35vw] left-[10vw] w-[25%]" data-speed="0.5">
-			<div className="w-[203px] mb-2">
-				<Image
-					src="/logo-1.png"
-					alt="XyZ Photography Logo"
-					width="1016"
-					height="158"
-					priority
-				/>
-			</div>
-			<p className="text-[18px] text-[#b082db] leading-[1.2em]">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum dolor sit amet, consec.
-			</p>
-			<div ref={formWrapperRef} className="relative mt-[40px]">
-				<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[68px] rounded-[20px] flex items-start justify-end">
-					<button ref={closeButtonRef} onClick={handleCloseClick} className="cursor-pointer">
+				<div className="absolute top-[106vh] sm:top-[35vw] sm:left-[10vw] w-full flex flex-col items-center sm:block" data-speed="0.5">
+				{/* <div className="mt-[108vh] sm:mt-[35vw] sm:ml-[10vw] sm:w-[25%] flex flex-col items-center sm:block" data-speed="0.5"> */}
+					<div className="w-[65vw] max-w-[203px] mb-2">
 						<Image
-							src="/icon-close.png"
-							alt="Close form"
-							width="45"
-							height="45"
-							style={{
-								opacity: "50%", 
-								padding: "16px",
-							 }}
+							src="/logo-1.png"
+							alt="XyZ Photography Logo"
+							width="1016"
+							height="158"
 							priority
 						/>
-					</button>
-				</div>
-
-				<div ref={formHeadingContainerRef} className="absolute w-[220px] h-[68px]">
-					<div id="formHeading" className="w-full h-full relative flex justify-between items-center uppercase font-nominee font-black tracking-[-0.06em] leading-[0.6em] overflow-hidden py-[2px] pr-[1px]">
-						<div ref={formHeadingSmallRef} className="flex justify-center w-full">
-							<h3 className="text-[12px] relative overflow-hidden py-[2px] pr-[1px]">Contact Us</h3>
+					</div>
+					<p className="w-7/8 sm:w-[25%] text-[18px] text-[#b082db] leading-[1.2em] text-center sm:text-left">
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum dolor sit amet, consec.
+					</p>
+					<div ref={formWrapperRef} className="relative w-[460px] flex justify-center sm:block mt-[40px]">
+						<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[68px] rounded-[20px] flex items-start justify-end">
+							<button ref={closeButtonRef} onClick={handleCloseClick} className="cursor-pointer">
+								<Image
+									src="/icon-close.png"
+									alt="Close form"
+									width="45"
+									height="45"
+									style={{
+										opacity: "50%",
+										padding: "16px",
+									 }}
+									priority
+								/>
+							</button>
 						</div>
-						<div ref={formHeadingLargeRef} className="w-full mt-[20px]">
-							<h3 className="relative overflow-hidden w-[200px] ml-[30px] py-[8px] pr-[1px] text-[26px] tracking-[-0.07em]">Contact Us</h3>
-						</div>
-						<div ref={ctaFormIconRef} className="mr-[8px] bg-black/30 px-[14px] py-[8px] rounded-xl">
-							<Image
-								src="/icon-phone.png"
-								alt="Phone icon"
-								width="28"
-								height="49"
-								style={{ opacity: "50%" }}
-								priority
-							/>
-						</div>
-					</div>
-					<p ref={formPhoneRef} id="formPhone" className="absolute top-[54px] left-[30px] text-[#d7cec4]/50 font-nominee tracking-[-0.04em]">+34 612 345 678</p>
-				</div>
-				
-				<div ref={ctaClickRef} id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[68px] cursor-pointer"></div>
 
-				<div className="form absolute top-[200px] w-[460px] px-[30px]">
-					<div ref={fieldNameRef} id="fieldName" className="w-full mb-[15px]">
-						<Input aria-label="Name" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Name" type="text" />
-					</div>
-					<div ref={fieldEmailRef} id="fieldEmail" className="w-full mb-[15px]">
-						<Input aria-label="Email" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Email" type="email" />
-					</div>
-					<div ref={fieldCtaRef} id="fieldCta" className="w-full flex justify-end">
-						<Button
-							className="font-nominee font-black tracking-[-0.06em] uppercase w-[200px] py-[2em] px-[1.5em] rounded-2xl bg-[#b7b0a8] text-[12px] text-[#1e1c1b] justify-between"
-							>
-							Submit
-							<Image
-								src="/icon-arrow-submit.png"
-								alt="Phone icon"
-								width="29"
-								height="10"
-								priority
-							/>
-						</Button>
+						<div ref={formHeadingContainerRef} className="absolute w-[220px] h-[68px]">
+							<div id="formHeading" className="w-full h-full relative flex justify-between items-center uppercase font-nominee font-black tracking-[-0.06em] leading-[0.6em] overflow-hidden py-[2px] pr-[1px]">
+								<div ref={formHeadingSmallRef} className="flex justify-center w-full">
+									<h3 className="text-[12px] relative overflow-hidden py-[2px] pr-[1px]">Contact Us</h3>
+								</div>
+								<div ref={formHeadingLargeRef} className="w-full mt-[20px]">
+									<h3 className="relative overflow-hidden w-[200px] ml-[30px] py-[8px] pr-[1px] text-[26px] tracking-[-0.07em]">Contact Us</h3>
+								</div>
+								<div ref={ctaFormIconRef} className="mr-[8px] bg-black/30 px-[14px] py-[8px] rounded-xl">
+									<Image
+										src="/icon-phone.png"
+										alt="Phone icon"
+										width="28"
+										height="49"
+										style={{ opacity: "50%" }}
+										priority
+									/>
+								</div>
+							</div>
+							<p ref={formPhoneRef} id="formPhone" className="absolute top-[54px] left-[30px] text-[#d7cec4]/50 font-nominee tracking-[-0.04em]">+34 612 345 678</p>
+						</div>
+
+						<div ref={ctaClickRef} id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[68px] cursor-pointer"></div>
+
+						<div className="form absolute w-full top-[200px] px-[30px]">
+							<div ref={fieldNameRef} id="fieldName" className="w-full mb-[15px]">
+								<Input aria-label="Name" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Name" type="text" />
+							</div>
+							<div ref={fieldEmailRef} id="fieldEmail" className="w-full mb-[15px]">
+								<Input aria-label="Email" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Email" type="email" />
+							</div>
+							<div ref={fieldCtaRef} id="fieldCta" className="w-full flex justify-end">
+								<Button
+									className="font-nominee font-black tracking-[-0.06em] uppercase w-[200px] py-[2em] px-[1.5em] rounded-2xl bg-[#b7b0a8] text-[12px] text-[#1e1c1b] justify-between"
+									>
+									Submit
+									<Image
+										src="/icon-arrow-submit.png"
+										alt="Phone icon"
+										width="29"
+										height="10"
+										priority
+									/>
+								</Button>
+							</div>
+						</div>
+
 					</div>
 				</div>
-
 			</div>
-		</div>
-      </div>
-    </section>
-  );
+		</section>
+	);
 }
