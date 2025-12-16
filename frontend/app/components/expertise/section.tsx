@@ -2,7 +2,7 @@
 
 import { Props } from "@/types";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ScrollTrigger } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { Card } from "@heroui/react";
@@ -14,6 +14,7 @@ export default function Expertise({ wrapperRef }: Props){
 	const card3Ref = useRef<HTMLDivElement>(null); // Casting
 	const sectionRef = useRef<HTMLElement>(null);
 	const expertiseImgRef = useRef<HTMLDivElement>(null);
+	const [isMobile, setIsMobile] = useState(false);
 	const imgWidthLandscape = 3200;
 	const imgHeightLandscape = 3274;
 	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
@@ -34,10 +35,21 @@ export default function Expertise({ wrapperRef }: Props){
 		}
 	);
 
+	// Viewport detection for responsive data-speed values
+	useGSAP(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 640);
+		};
+		checkMobile();
+		window.addEventListener('resize', checkMobile);
+		return () => {
+			window.removeEventListener('resize', checkMobile);
+		};
+	}, { scope: wrapperRef });
+
 	return(
 		<section ref={sectionRef} className="z-10 relative w-full overflow-hidden pt-[100px] bg-[#a39285]">
-			<div data-speed="1"
-				className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
+			<div className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
 				style={{
 					'--height-landscape': `calc(${heightRatioLandscape} * 135vw)`,
 					'--height-portrait': `calc(${heightRatioPortrait} * 100vw)`,
@@ -73,21 +85,21 @@ export default function Expertise({ wrapperRef }: Props){
 						/>
 					</div>
 				</div>
-				
-				<div className="absolute top-[45vw] left-[10vw] w-[28%] text-[#b8bc92]" data-speed="0.6">
-					<h3 className="font-nominee font-black text-[18px] tracking-[-0.06em] uppercase">magna aliqua</h3>
-					<p className="text-[18px] leading-[1.2em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
-				</div>
 			</div>
-			
-			<div className="absolute top-[-11vw] left-1/2 -translate-x-1/2 w-[100vw]" data-speed="0.7">
+
+			<div className="absolute top-[-11vw] left-1/2 -translate-x-1/2 w-[100vw]" data-speed={isMobile ? "0.8" : "0.7"}>
 				<h1 className="text-[35vw] sm:text-[30vw] text-[#b8bc92] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] text-center m-0 ml-[-0.08em]">Amet</h1>
+			</div>
+
+			<div className="absolute top-[30vw] sm:top-[18vw] sm:left-[10vw] px-[8%] sm:px-0 sm:w-[28%] text-center sm:text-left text-[#b8bc92]" data-speed={isMobile ? "0.8" : "0.6"}>
+				<h3 className="font-nominee font-black text-[18px] tracking-[-0.06em] uppercase">Magna Aliqua</h3>
+				<p className="text-[18px] leading-[1.2em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
 			</div>
 
 			<div
 				ref={cards} id="cardsID"
-				className="absolute top-[130vw] sm:top-[105vw] w-full"
-				data-speed="0.6"
+				className="absolute top-[200vw] sm:top-[105vw] w-full"
+				data-speed={isMobile ? "0.8" : "0.6"}
 			>
 				<div className="cards-inner flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center px-[8%]">
 					<Card ref={card3Ref} className="items-stretch flex-row sm:items-start sm:flex-col w-[100%] sm:min-w-[180px] sm:max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
