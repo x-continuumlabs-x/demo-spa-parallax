@@ -247,7 +247,6 @@ export default function Hero({ wrapperRef }: Props) {
 
 	return (
 		<section className="w-full overflow-hidden bg-[#b5aca3]">
-			{/* data-speed="0.9" */}
 			<div
 				className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
 				style={
@@ -281,17 +280,17 @@ export default function Hero({ wrapperRef }: Props) {
 					/>
 				</div>
 
-				<div
-					className="absolute top-[72vh] sm:top-[-13vh] left-0 w-full"
-					data-speed="0.7"
-				>
-					<h1 className="text-[30vw] text-[#b082db] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
-						Nomin
-					</h1>
-				</div>
+				<div className="absolute top-0 left-0 w-full h-full">
+					<div
+						className="mt-[72vh] sm:mt-[-13vh] w-full"
+						data-speed="0.7"
+					>
+						<h1 className="text-[30vw] text-[#b082db] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
+							Nomin
+						</h1>
+					</div>
 
-				<div className="absolute top-[106vh] sm:top-[35vw] sm:left-[10vw] w-full flex flex-col items-center sm:block" data-speed="0.5">
-				{/* <div className="mt-[108vh] sm:mt-[35vw] sm:ml-[10vw] sm:w-[25%] flex flex-col items-center sm:block" data-speed="0.5"> */}
+					<div className="mt-[34vh] sm:mt-[48vw] sm:ml-[10vw] w-full flex flex-col items-center sm:block" data-speed="0.5">
 					<div className="w-[65vw] max-w-[203px] mb-2">
 						<Image
 							src="/logo-1.png"
@@ -369,6 +368,7 @@ export default function Hero({ wrapperRef }: Props) {
 							</div>
 						</div>
 
+					</div>
 					</div>
 				</div>
 			</div>
