@@ -17,8 +17,8 @@ export default function Expertise({ wrapperRef }: Props){
 	const imgWidthLandscape = 3200;
 	const imgHeightLandscape = 3274;
 	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
-	const imgWidthPortrait = 3200;
-	const imgHeightPortrait = 6197;
+	const imgWidthPortrait = 1170;
+	const imgHeightPortrait = 2848;
 	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 
 	useGSAP( () => {
@@ -35,7 +35,7 @@ export default function Expertise({ wrapperRef }: Props){
 	);
 
 	return(
-		<section ref={sectionRef} className="z-10 relative w-full overflow-hidden">
+		<section ref={sectionRef} className="z-10 relative w-full overflow-hidden pt-[100px] bg-[#a39285]">
 			<div data-speed="1"
 				className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
 				style={{
@@ -43,7 +43,7 @@ export default function Expertise({ wrapperRef }: Props){
 					'--height-portrait': `calc(${heightRatioPortrait} * 100vw)`,
 				} as React.CSSProperties}
 			>
-				<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[135vw] h-full overflow-hidden">
+				<div className="absolute top-0 left-1/2 -translate-x-1/2 w-full sm:w-[135vw] h-full overflow-hidden">
 					<div ref={expertiseImgRef} id="expertiseImg">
 						{/* Landscape image */}
 						<Image
