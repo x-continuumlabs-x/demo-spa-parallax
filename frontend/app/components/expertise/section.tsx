@@ -81,7 +81,7 @@ export default function Expertise({ wrapperRef }: Props){
 			</div>
 			
 			<div className="absolute top-[-11vw] left-1/2 -translate-x-1/2 w-[100vw]" data-speed="0.7">
-				<h1 className="text-[30vw] text-[#b8bc92] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] text-center m-0 ml-[-0.08em]">Amet</h1>
+				<h1 className="text-[35vw] sm:text-[30vw] text-[#b8bc92] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] text-center m-0 ml-[-0.08em]">Amet</h1>
 			</div>
 
 			<div
@@ -89,13 +89,13 @@ export default function Expertise({ wrapperRef }: Props){
 				className="absolute top-[130vw] sm:top-[105vw] w-full"
 				data-speed="0.6"
 			>
-				<div className="cards-inner flex flex-row gap-4 justify-center">
-					<div ref={card3Ref}>
-						<Card className="min-w-[180px] max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
-							<Card.Header className="flex flex-col items-start min-h-[130px] pt-7 px-6 leading-[1em]">
-								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">AI-Enhancement</Card.Title>
-								<Card.Description className="w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
-							</Card.Header>
+				<div className="cards-inner flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center items-center px-[8%]">
+					<Card ref={card3Ref} className="items-stretch flex-row sm:items-start sm:flex-col w-[100%] sm:min-w-[180px] sm:max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
+						<Card.Header className="flex flex-col items-start sm:min-h-[130px] pb-4 sm:pb-0 pt-3 sm:pt-7 px-6 leading-[1em]">
+							<Card.Title className="font-nominee font-black text-[16px] sm:text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">AI-Enhancement</Card.Title>
+							<Card.Description className="sm:w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
+						</Card.Header>
+						<div className="hidden sm:block">
 							<Image
 								src="/local-images/card-ai.jpg"
 								alt="Card 2"
@@ -103,14 +103,14 @@ export default function Expertise({ wrapperRef }: Props){
 								height={300}
 								className="w-full h-auto object-cover"
 							/>
-						</Card>
-					</div>
-					<div ref={card1Ref}>
-						<Card className="min-w-[180px] max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
-							<Card.Header className="flex flex-col items-start min-h-[130px] pt-7 px-6 leading-[1em]">
-								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">Casting</Card.Title>
-								<Card.Description className="w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
-							</Card.Header>
+						</div>
+					</Card>
+					<Card ref={card1Ref} className="items-stretch flex-row sm:items-start sm:flex-col w-[100%] sm:min-w-[180px] sm:max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
+						<Card.Header className="flex flex-col items-start sm:min-h-[130px] pb-4 sm:pb-0 pt-3 sm:pt-7 px-6 leading-[1em]">
+							<Card.Title className="font-nominee font-black text-[16px] sm:text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">Casting</Card.Title>
+							<Card.Description className="sm:w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
+						</Card.Header>
+						<div className="hidden sm:block">
 							<Image
 								src="/local-images/card-casting.jpg"
 								alt="Card 2"
@@ -118,14 +118,14 @@ export default function Expertise({ wrapperRef }: Props){
 								height={300}
 								className="w-full h-auto object-cover"
 							/>
-						</Card>
-					</div>
-					<div ref={card2Ref}>
-						<Card className="min-w-[180px] max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
-							<Card.Header className="flex flex-col items-start min-h-[130px] pt-7 px-6 leading-[1em]">
-								<Card.Title className="font-nominee font-black text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">Lighting 101</Card.Title>
-								<Card.Description className="w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
-							</Card.Header>
+						</div>
+					</Card>
+					<Card ref={card2Ref} className="items-stretch flex-row sm:items-start sm:flex-col w-[100%] sm:min-w-[180px] sm:max-w-[300px] p-0 rounded-xl overflow-hidden bg-[#2b2827]">
+						<Card.Header className="flex flex-col items-start sm:min-h-[130px] pb-4 sm:pb-0 pt-3 sm:pt-7 px-6 leading-[1em]">
+							<Card.Title className="font-nominee font-black text-[16px] sm:text-[18px] tracking-[-0.06em] text-[#d7cec4] uppercase mb-[3px]">Lighting 101</Card.Title>
+							<Card.Description className="sm:w-7/8 text-[14px] text-[#d7cec4]/60 leading-[1.1em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit</Card.Description>
+						</Card.Header>
+						<div className="hidden sm:block">
 							<Image
 								src="/local-images/card-lighting.jpg"
 								alt="Card 2"
@@ -133,9 +133,8 @@ export default function Expertise({ wrapperRef }: Props){
 								height={300}
 								className="w-full h-auto object-cover"
 							/>
-						</Card>
-					</div>
-					
+						</div>
+					</Card>
 				</div>
 			</div>
 		</section>
