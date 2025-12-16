@@ -2,7 +2,7 @@
 
 import { Props } from "@/types";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollSmoother, SplitText } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
@@ -22,6 +22,7 @@ export default function Hero({ wrapperRef }: Props) {
 	const ctaFormIconRef = useRef<HTMLDivElement>(null);
 	const closeButtonRef = useRef<HTMLButtonElement>(null);
 	const ctaClickRef = useRef<HTMLDivElement>(null);
+	const [isMobile, setIsMobile] = useState(false);
 	const imgWidthLandscape = 3200;
 	const imgHeightLandscape = 2883;
 	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
@@ -47,6 +48,23 @@ export default function Hero({ wrapperRef }: Props) {
 		// Set initial visibility states for headings
 		gsap.set(formHeadingSmallRef.current, { display: "flex" });
 		gsap.set(formHeadingLargeRef.current, { display: "none" });
+	}, { scope: wrapperRef });
+
+	// Viewport detection for responsive data-speed values
+	useGSAP(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 640);
+		};
+
+		// Check on mount
+		checkMobile();
+
+		// Update on resize
+		window.addEventListener('resize', checkMobile);
+
+		return () => {
+			window.removeEventListener('resize', checkMobile);
+		};
 	}, { scope: wrapperRef });
 
 	const handleCtaClick = () => {
@@ -282,15 +300,15 @@ export default function Hero({ wrapperRef }: Props) {
 
 				<div className="absolute top-0 left-0 w-full h-full">
 					<div
-						className="mt-[72vh] sm:mt-[-13vh] w-full"
-						data-speed="0.7"
+						className="mt-[78vh] sm:mt-[-13vh] w-full"
+						data-speed={isMobile ? "0.8" : "0.7"}
 					>
 						<h1 className="text-[30vw] text-[#b082db] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
 							Nomin
 						</h1>
 					</div>
 
-					<div className="mt-[34vh] sm:mt-[48vw] sm:ml-[10vw] w-full flex flex-col items-center sm:block" data-speed="0.5">
+					<div className="mt-[8vh] sm:mt-[48vw] sm:ml-[10vw] w-full flex flex-col items-center sm:block" data-speed={isMobile ? "0.8" : "0.5"}>
 					<div className="w-[65vw] max-w-[203px] mb-2">
 						<Image
 							src="/logo-1.png"
