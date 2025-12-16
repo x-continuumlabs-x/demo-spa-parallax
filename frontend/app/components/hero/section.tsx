@@ -55,9 +55,11 @@ export default function Hero({ wrapperRef }: Props) {
 			gsap.set(ctaClickRef.current, { display: "none" });
 
 			// Calculate responsive width: 90vw on mobile, max 460px on desktop
-			// Use clientWidth to account for scrollbars, and subtract padding
 			const viewportWidth = window.innerWidth;
 			const targetWidth = Math.min(460, Math.floor(viewportWidth * 0.9));
+
+			// Calculate responsive top position: -400 on mobile, -113 on desktop (sm breakpoint = 640px)
+			const targetTop = viewportWidth < 640 ? -400 : -113;
 
 			// Animate the form expansion
 			gsap.to(ctaFormBgRef.current, {
@@ -69,8 +71,7 @@ export default function Hero({ wrapperRef }: Props) {
 
 			// Animate form wrapper up
 			gsap.to(formWrapperRef.current, {
-				// top: -113,
-				top: -400,
+				top: targetTop,
 				duration: 0.6,
 				ease: "power4.inOut"
 			});
