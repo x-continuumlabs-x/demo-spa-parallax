@@ -266,6 +266,8 @@ export default function Services({ wrapperRef }: Props) {
 			<div className="py-[30px] w-full flex justify-center">
 				{/* data-speed="1.05" */}
 				<Tabs
+					id="tabs" 
+					className="flex-col" 
 					selectedKey={selectedTab}
 					onSelectionChange={(key) => {
 						setSelectedTab(key as string);
@@ -330,15 +332,17 @@ export default function Services({ wrapperRef }: Props) {
 						<Tabs.List
 							aria-label="Service options"
 							className="
-								flex flex-row justify-center gap-2 p-3 bg-[#1e1c1b]
+								flex flex-col sm:flex-row justify-center gap-2 p-3 bg-[#1e1c1b]
 
 								*:rounded-2xl 
 								*:bg-[#b7b0a8]/5
 								*:flex 
 								*:items-center 
-								*:min-w-[220px] 
+								*:min-w-[84vw] 
+								*:sm:min-w-[220px] 
 								*:px-6 
-								*:h-14 
+								*:h-[40px] 
+								*:sm:h-14 
 								*:text-left 
 								*:text-[13px] 
 								*:uppercase 

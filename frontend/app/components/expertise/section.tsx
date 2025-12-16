@@ -50,7 +50,7 @@ export default function Expertise({ wrapperRef }: Props){
 	}, { scope: wrapperRef });
 
 	return(
-		<section ref={sectionRef} className="z-10 relative w-full overflow-hidden pt-[100px] bg-[#a39285]">
+		<section ref={sectionRef} className="z-10 relative w-full overflow-hidden pt-[100px] sm:pt-0 bg-[#a39285]">
 			<div className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
 				style={{
 					'--height-landscape': `calc(${heightRatioLandscape} * 135vw)`,
@@ -93,7 +93,7 @@ export default function Expertise({ wrapperRef }: Props){
 				<h1 className="text-[35vw] sm:text-[30vw] text-[#b8bc92] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.8em] text-center m-0 ml-[-0.08em]">Amet</h1>
 			</div>
 
-			<div className="absolute top-[30vw] sm:top-[25vw] sm:left-[10vw] px-[8%] sm:px-0 sm:w-[28%] text-center sm:text-left text-[#b8bc92]" data-speed={isMobile ? "0.8" : "0.6"}>
+			<div className="absolute top-[30vw] sm:top-[27vw] sm:left-[8.7vw] px-[8%] sm:px-0 sm:w-[28%] text-center sm:text-left text-[#b8bc92]" data-speed={isMobile ? "0.8" : "0.6"}>
 				<h3 className="font-nominee font-black text-[18px] tracking-[-0.06em] uppercase">Magna Aliqua</h3>
 				<p className="text-[18px] leading-[1.2em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
 			</div>
