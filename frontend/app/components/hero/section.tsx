@@ -8,13 +8,89 @@ import { ScrollSmoother, SplitText } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { Input, Button } from "@heroui/react";
 
+const ANIMATION_DURATIONS = {
+	imageZoom: 3.5,
+	formExpand: 0.6,
+	textSplit: 0.4,
+	fadeIn: 0.5,
+	fadeOut: 0.2,
+} as const;
+
+const FORM_DIMENSIONS = {
+	closedWidth: 220,
+	closedHeight: 68,
+	expandedHeight: 425,
+	maxExpandedWidth: 460,
+} as const;
+
+const MOBILE_BREAKPOINT = 640;
+
+const FORM_POSITIONS = {
+	desktop: -113,
+	mobile: -400,
+} as const;
+
+const IMAGE_DIMENSIONS = {
+	landscape: { width: 3200, height: 2883 },
+	portrait: { width: 1170, height: 2532 },
+} as const;
+
+const animateSplitTextOut = (element: HTMLElement, onComplete?: () => void) => {
+	const split = new SplitText(element, { type: "chars" });
+	gsap.to(split.chars, {
+		yPercent: -100,
+		opacity: 0,
+		duration: ANIMATION_DURATIONS.textSplit,
+		ease: "power2.in",
+		onComplete: () => {
+			split.revert();
+			onComplete?.();
+		}
+	});
+};
+
+const animateSplitTextIn = (element: HTMLElement, onComplete?: () => void) => {
+	const split = new SplitText(element, { type: "chars" });
+	gsap.set(split.chars, { yPercent: 100, opacity: 0 });
+	gsap.to(split.chars, {
+		yPercent: 0,
+		opacity: 1,
+		duration: ANIMATION_DURATIONS.textSplit,
+		ease: "power2.out",
+		onComplete
+	});
+};
+
+const getResponsiveFormDimensions = () => {
+	const viewportWidth = window.innerWidth;
+	return {
+		width: Math.min(FORM_DIMENSIONS.maxExpandedWidth, Math.floor(viewportWidth * 0.9)),
+		top: viewportWidth < MOBILE_BREAKPOINT ? FORM_POSITIONS.mobile : FORM_POSITIONS.desktop,
+	};
+};
+
+const scrollSectionToBottom = (element: HTMLElement) => {
+	const smoother = ScrollSmoother.get();
+	if (!smoother) return;
+
+	const section = element.closest('section');
+	if (!section) return;
+
+	const rect = section.getBoundingClientRect();
+	const currentScrollY = smoother.scrollTop();
+	const viewportHeight = window.innerHeight;
+	const sectionBottom = rect.bottom + currentScrollY;
+	const targetScroll = sectionBottom - viewportHeight;
+
+	smoother.scrollTo(targetScroll, true, "power2.inOut");
+};
+
 export default function Hero({ wrapperRef }: Props) {
 	const imageContainerRef = useRef<HTMLDivElement>(null);
 	const formWrapperRef = useRef<HTMLDivElement>(null);
 	const ctaFormBgRef = useRef<HTMLDivElement>(null);
 	const formHeadingSmallRef = useRef<HTMLDivElement>(null);
 	const contactHeadingLargeRef = useRef<HTMLHeadingElement>(null);
-	const formHeadingContainerRef = useRef<HTMLDivElement>(null);
 	const contactPhoneRef = useRef<HTMLParagraphElement>(null);
 	const fieldNameRef = useRef<HTMLDivElement>(null);
 	const fieldEmailRef = useRef<HTMLDivElement>(null);
@@ -23,32 +99,26 @@ export default function Hero({ wrapperRef }: Props) {
 	const closeButtonRef = useRef<HTMLButtonElement>(null);
 	const ctaClickRef = useRef<HTMLDivElement>(null);
 	const [isMobile, setIsMobile] = useState(false);
-	const imgWidthLandscape = 3200;
-	const imgHeightLandscape = 2883;
-	const heightRatioLandscape = imgHeightLandscape / imgWidthLandscape;
-	const imgWidthPortrait = 1170;
-	const imgHeightPortrait = 2532;
-	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 
-	// Zoom in hero image on page load
+	const heightRatioLandscape = IMAGE_DIMENSIONS.landscape.height / IMAGE_DIMENSIONS.landscape.width;
+	const heightRatioPortrait = IMAGE_DIMENSIONS.portrait.height / IMAGE_DIMENSIONS.portrait.width;
+
 	useGSAP(() => {
 		gsap.fromTo(
-		imageContainerRef.current,
-		{ width: "107vw" },
-		{ width: "100vw", duration: 3.5, ease: "expo.out" }
+			imageContainerRef.current,
+			{ width: "107vw" },
+			{ width: "100vw", duration: ANIMATION_DURATIONS.imageZoom, ease: "expo.out" }
 		);
 	}, { scope: wrapperRef });
 
-	// Viewport detection for responsive data-speed values
 	useEffect(() => {
 		const checkMobile = () => {
-			setIsMobile(window.innerWidth < 640);
+			setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
 		};
 
 		// Check on mount
 		checkMobile();
 
-		// Update on resize
 		window.addEventListener('resize', checkMobile);
 
 		return () => {
@@ -57,192 +127,105 @@ export default function Hero({ wrapperRef }: Props) {
 	}, []);
 
 	const handleCtaClick = () => {
-		if (ctaFormBgRef.current && formHeadingSmallRef.current && contactHeadingLargeRef.current && formHeadingContainerRef.current) {
-			gsap.set(ctaClickRef.current, { display: "none" });
+		if (!ctaFormBgRef.current || !formHeadingSmallRef.current || !contactHeadingLargeRef.current) return;
 
-			// Calculate responsive width
-			const viewportWidth = window.innerWidth;
-			const targetWidth = Math.min(460, Math.floor(viewportWidth * 0.9));
+		gsap.set(ctaClickRef.current, { display: "none" });
 
-			// Calculate responsive top position
-			const targetTop = viewportWidth < 640 ? -400 : -113;
+		const { width: targetWidth, top: targetTop } = getResponsiveFormDimensions();
 
-			// Animate the form expansion
-			gsap.to(ctaFormBgRef.current, {
-				width: targetWidth,
-				height: 425,
-				duration: 0.6,
-				ease: "power4.inOut"
+		gsap.to(ctaFormBgRef.current, {
+			width: targetWidth,
+			height: FORM_DIMENSIONS.expandedHeight,
+			duration: ANIMATION_DURATIONS.formExpand,
+			ease: "power4.inOut"
+		});
+
+		gsap.to(formWrapperRef.current, {
+			top: targetTop,
+			duration: ANIMATION_DURATIONS.formExpand,
+			ease: "power4.inOut"
+		});
+
+		gsap.to(ctaFormIconRef.current, {
+			opacity: 0,
+			duration: ANIMATION_DURATIONS.textSplit,
+			ease: "power2.in"
+		});
+
+		const smallH3 = formHeadingSmallRef.current.querySelector('h3');
+		if (!smallH3) return;
+
+		animateSplitTextOut(smallH3, () => {
+			if (!contactHeadingLargeRef.current) return;
+
+			gsap.set(formHeadingSmallRef.current, { display: "none" });
+			gsap.set(contactHeadingLargeRef.current, { display: "block" });
+			gsap.set(contactPhoneRef.current, { display: "block", opacity: 0 });
+
+			gsap.to(contactPhoneRef.current, {
+				opacity: 1,
+				duration: ANIMATION_DURATIONS.fadeIn,
+				ease: "power2.out"
 			});
 
-			// Animate form wrapper up
-			gsap.to(formWrapperRef.current, {
-				top: targetTop,
-				duration: 0.6,
-				ease: "power4.inOut"
+			animateSplitTextIn(contactHeadingLargeRef.current);
+
+			gsap.set(closeButtonRef.current, { display: "block" });
+
+			gsap.to([fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current, closeButtonRef.current], {
+				opacity: 1,
+				duration: ANIMATION_DURATIONS.fadeIn,
+				stagger: 0.1,
+				ease: "power2.out"
 			});
+		});
 
-			// Fade out icon
-			gsap.to(ctaFormIconRef.current, {
-				opacity: 0,
-				duration: 0.4,
-				ease: "power2.in"
-			});
-
-			// Get the h3 element inside formHeadingSmallRef
-			const smallH3 = formHeadingSmallRef.current.querySelector('h3');
-			if (!smallH3) return;
-
-			// SplitText animation for small h3 - animate out
-			const splitSmall = new SplitText(smallH3, { type: "chars" });
-
-			// Animate small text up and out
-			gsap.to(splitSmall.chars, {
-				yPercent: -100,
-				opacity: 0,
-				duration: 0.4,
-				ease: "power2.in",
-				onComplete: () => {
-					// Hide small heading
-					gsap.set(formHeadingSmallRef.current, { display: "none" });
-
-					// Show large heading and phone
-					gsap.set(contactHeadingLargeRef.current, { display: "block" });
-					gsap.set(contactPhoneRef.current, { display: "block", opacity: 0 });
-
-					// Fade in phone number
-					gsap.to(contactPhoneRef.current, {
-						opacity: 1,
-						duration: 0.5,
-						ease: "power2.out"
-					});
-
-					// SplitText animation for large heading - animate in
-					const splitLarge = new SplitText(contactHeadingLargeRef.current, { type: "chars" });
-
-					// Set starting position (below, invisible)
-					gsap.set(splitLarge.chars, { yPercent: 100, opacity: 0 });
-
-					// Animate large text in from bottom up
-					gsap.to(splitLarge.chars, {
-						yPercent: 0,
-						opacity: 1,
-						duration: 0.4,
-						ease: "power2.out"
-					});
-
-					// Show close button
-					gsap.set(closeButtonRef.current, { display: "block" });
-
-					// Fade in form fields with stagger (including close button)
-					gsap.to([fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current, closeButtonRef.current], {
-						opacity: 1,
-						duration: 0.5,
-						stagger: 0.1,
-						ease: "power2.out"
-					});
-
-					// Clean up small split
-					splitSmall.revert();
-				}
-			});
-
-			// Scroll so section bottom aligns with viewport bottom
-			const smoother = ScrollSmoother.get();
-			if (smoother) {
-				const section = ctaFormBgRef.current.closest('section');
-				if (section) {
-					const rect = section.getBoundingClientRect();
-					const currentScrollY = smoother.scrollTop();
-					const viewportHeight = window.innerHeight;
-
-					// Calculate the bottom of the section in document coordinates
-					const sectionBottom = rect.bottom + currentScrollY;
-
-					// Scroll position to align section bottom with viewport bottom
-					const targetScroll = sectionBottom - viewportHeight;
-
-					smoother.scrollTo(targetScroll, true, "power2.inOut");
-				}
-			}
-		}
+		scrollSectionToBottom(ctaFormBgRef.current);
 	};
 
 	const handleCloseClick = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		if (ctaFormBgRef.current && formHeadingSmallRef.current && contactHeadingLargeRef.current && formHeadingContainerRef.current) {
-			// SplitText animation for large heading - animate out
-			const splitLarge = new SplitText(contactHeadingLargeRef.current, { type: "chars" });
+		if (!ctaFormBgRef.current || !formHeadingSmallRef.current || !contactHeadingLargeRef.current) return;
 
-			// Animate large text up and out
-			gsap.to(splitLarge.chars, {
-				yPercent: -100,
-				opacity: 0,
-				duration: 0.4,
-				ease: "power2.in"
-			});
+		animateSplitTextOut(contactHeadingLargeRef.current);
 
-			// Fade out form elements (including close button) and phone
-			gsap.to([contactPhoneRef.current, fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current, closeButtonRef.current], {
-				opacity: 0,
-				duration: 0.2,
-				ease: "power2.in",
-				onComplete: () => {
-					// Hide close button and large heading/phone after fade out
-					gsap.set(closeButtonRef.current, { display: "none" });
-					gsap.set([contactHeadingLargeRef.current, contactPhoneRef.current], { display: "none" });
+		gsap.to([contactPhoneRef.current, fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current, closeButtonRef.current], {
+			opacity: 0,
+			duration: ANIMATION_DURATIONS.fadeOut,
+			ease: "power2.in",
+			onComplete: () => {
+				gsap.set(closeButtonRef.current, { display: "none" });
+				gsap.set([contactHeadingLargeRef.current, contactPhoneRef.current], { display: "none" });
 
-					// Clean up large split
-					splitLarge.revert();
+				const smallH3 = formHeadingSmallRef.current!.querySelector('h3');
+				if (!smallH3) return;
 
-					// Get the h3 element inside formHeadingSmallRef
-					const smallH3 = formHeadingSmallRef.current!.querySelector('h3');
-					if (!smallH3) return;
+				gsap.set(formHeadingSmallRef.current, { display: "flex" });
 
-					// Show small heading
-					gsap.set(formHeadingSmallRef.current, { display: "flex" });
+				gsap.to(ctaFormIconRef.current, {
+					opacity: 1,
+					duration: ANIMATION_DURATIONS.textSplit,
+					ease: "power2.out"
+				});
 
-					// SplitText animation for small h3 - animate in
-					const splitSmall = new SplitText(smallH3, { type: "chars" });
+				animateSplitTextIn(smallH3, () => {
+					gsap.set(ctaClickRef.current, { display: "block" });
+				});
+			}
+		});
 
-					// Set starting position (below, invisible)
-					gsap.set(splitSmall.chars, { yPercent: 100, opacity: 0 });
+		gsap.to(ctaFormBgRef.current, {
+			width: FORM_DIMENSIONS.closedWidth,
+			height: FORM_DIMENSIONS.closedHeight,
+			duration: ANIMATION_DURATIONS.formExpand,
+			ease: "power4.inOut"
+		});
 
-					// Fade in icon
-					gsap.to(ctaFormIconRef.current, {
-						opacity: 1,
-						duration: 0.4,
-						ease: "power2.out"
-					});
-
-					// Animate small text in from bottom up
-					gsap.to(splitSmall.chars, {
-						yPercent: 0,
-						opacity: 1,
-						duration: 0.4,
-						ease: "power2.out",
-						onComplete: () => {
-							// Show the click target after animation completes
-							gsap.set(ctaClickRef.current, { display: "block" });
-						}
-					});
-				}
-			});
-
-			gsap.to(ctaFormBgRef.current, {
-				width: 220,
-				height: 68,
-				duration: 0.6,
-				ease: "power4.inOut"
-			});
-
-			// Animate form wrapper back to original position
-			gsap.to(formWrapperRef.current, {
-				top: 0,
-				duration: 0.6,
-				ease: "power4.inOut"
-			});
-		}
+		gsap.to(formWrapperRef.current, {
+			top: 0,
+			duration: ANIMATION_DURATIONS.formExpand,
+			ease: "power4.inOut"
+		});
 	};
 
 	return (
@@ -263,8 +246,8 @@ export default function Hero({ wrapperRef }: Props) {
 					<Image
 						src="/local-images/section-bg-hero.jpg"
 						alt="Hero"
-						width={imgWidthLandscape}
-						height={imgHeightLandscape}
+						width={IMAGE_DIMENSIONS.landscape.width}
+						height={IMAGE_DIMENSIONS.landscape.height}
 						style={{ width: "100%", height: "auto" }}
 						className="portrait:hidden"
 						priority
@@ -272,8 +255,8 @@ export default function Hero({ wrapperRef }: Props) {
 					<Image
 						src="/local-images/section-bg-hero-portrait.jpg"
 						alt="Hero portrait"
-						width={imgWidthPortrait}
-						height={imgHeightPortrait}
+						width={IMAGE_DIMENSIONS.portrait.width}
+						height={IMAGE_DIMENSIONS.portrait.height}
 						style={{ width: "100%", height: "auto" }}
 						className="hidden portrait:block"
 						priority
@@ -312,16 +295,13 @@ export default function Hero({ wrapperRef }: Props) {
 									alt="Close form"
 									width="45"
 									height="45"
-									style={{
-										opacity: "50%",
-										padding: "16px",
-									}}
+									className="opacity-50 p-4"
 									priority
 								/>
 							</button>
 						</div>
 
-						<div ref={formHeadingContainerRef} className="absolute w-[220px] h-[68px]">
+						<div className="absolute w-[220px] h-[68px]">
 							<div id="formHeading" className="w-full h-full relative flex justify-between items-center uppercase font-nominee font-black tracking-[-0.06em] leading-[0.6em] overflow-hidden py-[2px] pr-[1px]">
 								<div ref={formHeadingSmallRef} className="flex justify-center w-full">
 									<h3 className="text-[12px] relative overflow-hidden py-[2px] pr-[1px]">Contact Us</h3>
@@ -332,7 +312,7 @@ export default function Hero({ wrapperRef }: Props) {
 										alt="Phone icon"
 										width="28"
 										height="49"
-										style={{ opacity: "50%" }}
+										className="opacity-50"
 										priority
 									/>
 								</div>
