@@ -4,7 +4,7 @@ import { Props } from "@/types";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { gsap, ScrollTrigger } from "@/app/lib/gsap";
-import TimelineMarker from "./TimelineMarker";
+import Milestone from "./Milestone";
 
 export default function About({ wrapperRef }: Props) {
 	const pathRefDesktop = useRef<SVGPathElement>(null);
@@ -191,60 +191,54 @@ export default function About({ wrapperRef }: Props) {
 								d="m3 0.8v323.1c0 0 0.9 33.9 32.9 33.9h22.8c0 0 32.9 0.1 32.9 33.2v597.5c0 0 0 32.6-32.9 32.6h-22.9c0 0-32.9 1.4-32.9 33.2v407.6c0 0 1.3 32.7 32.9 32.7h22.8c0 0 32.9 1 32.9 33.2v338"
 							/>
 						</svg>
-						<div className="absolute flex flex-row top-[5%] left-[-11px]" ref={milestone1}>
-							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<TimelineMarker />
-							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[250px]">
-								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
-								<p className="text-[14px] leading-[1.2em]">Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
-							</div>
-						</div>
-						<div className="absolute flex flex-row-reverse top-[25%] right-[-11px]" ref={milestone2}>
-							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<TimelineMarker />
-							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[250px] text-right">
-								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2019</h3>
-								<p className="text-[14px] leading-[1.2em]">Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
-							</div>
-						</div>
-						<div className="absolute flex flex-row top-[40%] left-[calc(100%-11px)]" ref={milestone3}>
-							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<TimelineMarker />
-							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[250px]">
-								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2020</h3>
-								<p className="text-[14px] leading-[1.2em]">Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
-							</div>
-						</div>
-						<div className="absolute flex flex-row-reverse top-[59%] right-[calc(100%-11px)]" ref={milestone4}>
-							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<TimelineMarker />
-							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[220px] text-right">
-								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2022</h3>
-								<p className="text-[14px] leading-[1.2em]">Ut labore et dolore magna aliqua. Ut enim ad.</p>
-							</div>
-						</div>
-						<div className="absolute flex flex-row top-[71%] left-[-11px]" ref={milestone5}>
-							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<TimelineMarker />
-							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[250px]">
-								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2023</h3>
-								<p className="text-[14px] leading-[1.2em]">Incididunt ut labore et dolore.</p>
-							</div>
-						</div>
-						<div className="absolute flex flex-row-reverse top-[85%] right-[-11px]" ref={milestone6}>
-							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<TimelineMarker />
-							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[250px] text-right">
-								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2026</h3>
-								<p className="text-[14px] leading-[1.2em]">Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
-							</div>
-						</div>
+						<Milestone
+							title="2016"
+							description="Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad."
+							widthClasses="w-[160px] sm:w-[250px]"
+							variant="left-left"
+							position="5%"
+							milestoneRef={milestone1}
+						/>
+						<Milestone
+							title="2019"
+							description="Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad."
+							widthClasses="w-[160px] sm:w-[250px]"
+							variant="right-right"
+							position="25%"
+							milestoneRef={milestone2}
+						/>
+						<Milestone
+							title="2020"
+							description="Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad."
+							widthClasses="w-[160px] sm:w-[250px]"
+							variant="left-right"
+							position="40%"
+							milestoneRef={milestone3}
+						/>
+						<Milestone
+							title="2022"
+							description="Ut labore et dolore magna aliqua. Ut enim ad."
+							widthClasses="w-[160px] sm:w-[220px]"
+							variant="right-left"
+							position="59%"
+							milestoneRef={milestone4}
+						/>
+						<Milestone
+							title="2023"
+							description="Incididunt ut labore et dolore."
+							widthClasses="w-[160px] sm:w-[250px]"
+							variant="left-left"
+							position="71%"
+							milestoneRef={milestone5}
+						/>
+						<Milestone
+							title="2026"
+							description="Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad."
+							widthClasses="w-[160px] sm:w-[250px]"
+							variant="right-right"
+							position="85%"
+							milestoneRef={milestone6}
+						/>
 					</div>
 				</div>
 				<div ref={bodyCopyRef} className="w-[88%] lg:w-[28%]">
