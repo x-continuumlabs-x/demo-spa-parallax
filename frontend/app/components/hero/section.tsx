@@ -2,11 +2,11 @@
 
 import { Props } from "@/types";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollSmoother, SplitText } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
-import { Input, Button, Label } from "@heroui/react";
+import { Input, Button } from "@heroui/react";
 
 export default function Hero({ wrapperRef }: Props) {
 	const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -30,6 +30,7 @@ export default function Hero({ wrapperRef }: Props) {
 	const imgHeightPortrait = 2532;
 	const heightRatioPortrait = imgHeightPortrait / imgWidthPortrait;
 
+	// Zoom in hero image on page load
 	useGSAP(() => {
 		gsap.fromTo(
 		imageContainerRef.current,
@@ -39,7 +40,7 @@ export default function Hero({ wrapperRef }: Props) {
 	}, { scope: wrapperRef });
 
 	// Viewport detection for responsive data-speed values
-	useGSAP(() => {
+	useEffect(() => {
 		const checkMobile = () => {
 			setIsMobile(window.innerWidth < 640);
 		};
@@ -53,18 +54,17 @@ export default function Hero({ wrapperRef }: Props) {
 		return () => {
 			window.removeEventListener('resize', checkMobile);
 		};
-	}, { scope: wrapperRef });
+	}, []);
 
 	const handleCtaClick = () => {
 		if (ctaFormBgRef.current && formHeadingSmallRef.current && contactHeadingLargeRef.current && formHeadingContainerRef.current) {
-			// Hide the click target
 			gsap.set(ctaClickRef.current, { display: "none" });
 
-			// Calculate responsive width: 90vw on mobile, max 460px on desktop
+			// Calculate responsive width
 			const viewportWidth = window.innerWidth;
 			const targetWidth = Math.min(460, Math.floor(viewportWidth * 0.9));
 
-			// Calculate responsive top position: -400 on mobile, -113 on desktop (sm breakpoint = 640px)
+			// Calculate responsive top position
 			const targetTop = viewportWidth < 640 ? -400 : -113;
 
 			// Animate the form expansion
@@ -150,7 +150,6 @@ export default function Hero({ wrapperRef }: Props) {
 			// Scroll so section bottom aligns with viewport bottom
 			const smoother = ScrollSmoother.get();
 			if (smoother) {
-				// Get the section element
 				const section = ctaFormBgRef.current.closest('section');
 				if (section) {
 					const rect = section.getBoundingClientRect();
@@ -170,7 +169,7 @@ export default function Hero({ wrapperRef }: Props) {
 	};
 
 	const handleCloseClick = (e: React.MouseEvent) => {
-		e.stopPropagation(); // Prevent triggering the parent click handler
+		e.stopPropagation();
 		if (ctaFormBgRef.current && formHeadingSmallRef.current && contactHeadingLargeRef.current && formHeadingContainerRef.current) {
 			// SplitText animation for large heading - animate out
 			const splitLarge = new SplitText(contactHeadingLargeRef.current, { type: "chars" });
