@@ -4,9 +4,11 @@ import { Props } from "@/types";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { gsap, ScrollTrigger } from "@/app/lib/gsap";
+import TimelineMarker from "./TimelineMarker";
 
 export default function About({ wrapperRef }: Props) {
-	const pathRef = useRef<SVGPathElement>(null);
+	const pathRefDesktop = useRef<SVGPathElement>(null);
+	const pathRefMobile = useRef<SVGPathElement>(null);
 	const sectionRef = useRef<HTMLDivElement>(null);
 	const milestone1 = useRef<HTMLDivElement>(null);
 	const milestone2 = useRef<HTMLDivElement>(null);
@@ -17,10 +19,16 @@ export default function About({ wrapperRef }: Props) {
 	const bodyCopyRef = useRef<HTMLDivElement>(null);
 
 	useGSAP(() => {
-		if (!pathRef.current || !sectionRef.current) return;
+		if (!sectionRef.current) return;
+		if (!pathRefDesktop.current && !pathRefMobile.current) return;
 
-		// Start with path not drawn and milestones hidden
-		gsap.set(pathRef.current, { drawSVG: "0%" });
+		// Start with paths not drawn and milestones hidden
+		if (pathRefDesktop.current) {
+			gsap.set(pathRefDesktop.current, { drawSVG: "0%" });
+		}
+		if (pathRefMobile.current) {
+			gsap.set(pathRefMobile.current, { drawSVG: "0%" });
+		}
 		gsap.set(
 			[
 				milestone1.current,
@@ -45,8 +53,9 @@ export default function About({ wrapperRef }: Props) {
 			});
 		});
 
-		// Animate the path drawing as user scrolls
-		gsap.to(pathRef.current, {
+		// Animate the path drawing as user scrolls (both desktop and mobile)
+		const pathTargets = [pathRefDesktop.current, pathRefMobile.current].filter(Boolean);
+		gsap.to(pathTargets, {
 			drawSVG: "100%",
 			ease: "none",
 			scrollTrigger: {
@@ -121,7 +130,10 @@ export default function About({ wrapperRef }: Props) {
 		<section className="relative w-full pt-[8vw] pb-[17vw]">
 			<div ref={sectionRef} className="flex flex-col-reverse items-center lg:items-start lg:justify-evenly lg:flex-row">
 				<div className="w-full lg:w-1/3 flex items-center flex-col">
-					<div className="relative w-2/5 md:w-[30%] overflow-visible" style={{ aspectRatio: '240 / 1480' }}>
+					<div
+						className="relative w-[15%] sm:w-[30%] overflow-visible aspect-[95/1866] sm:aspect-[295/1866]"
+					>
+						{/* Desktop SVG - shown on sm and above */}
 						<svg
 							version="1.2"
 							xmlns="http://www.w3.org/2000/svg"
@@ -130,6 +142,7 @@ export default function About({ wrapperRef }: Props) {
 							height="100%"
 							preserveAspectRatio="xMidYMid meet"
 							overflow="visible"
+							className="hidden sm:block"
 						>
 							<style>
 								{`
@@ -143,236 +156,91 @@ export default function About({ wrapperRef }: Props) {
 								`}
 							</style>
 							<path
-								ref={pathRef}
+								ref={pathRefDesktop}
 								fillRule="evenodd"
 								className="curve-a"
 								d="m3 0.8v323.1c0 0 0.9 33.9 32.9 33.9h222.8c0 0 32.9 0.1 32.9 33.2v597.5c0 0 0 32.6-32.9 32.6h-222.9c0 0-32.9 1.4-32.9 33.2v407.6c0 0 1.3 32.7 32.9 32.7h222.8c0 0 32.9 1 32.9 33.2v338"
 							/>
 						</svg>
+						{/* Mobile SVG - shown below sm breakpoint */}
+						<svg
+							version="1.2"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 95 1866"
+							width="100%"
+							height="100%"
+							preserveAspectRatio="xMidYMid meet"
+							overflow="visible"
+							className="block sm:hidden"
+						>
+							<style>
+								{`
+								.curve-a {
+									fill: none;
+									stroke: #959493;
+									stroke-miterlimit: 100;
+									stroke-width: 5;
+									stroke-dasharray: 2065.36, 0.1;
+								}
+								`}
+							</style>
+							<path
+								ref={pathRefMobile}
+								fillRule="evenodd"
+								className="curve-a"
+								d="m3 0.8v323.1c0 0 0.9 33.9 32.9 33.9h22.8c0 0 32.9 0.1 32.9 33.2v597.5c0 0 0 32.6-32.9 32.6h-22.9c0 0-32.9 1.4-32.9 33.2v407.6c0 0 1.3 32.7 32.9 32.7h22.8c0 0 32.9 1 32.9 33.2v338"
+							/>
+						</svg>
 						<div className="absolute flex flex-row top-[5%] left-[-11px]" ref={milestone1}>
 							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<svg
-									version="1.2"
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 46 46"
-									width="22"
-									height="22"
-									>
-									<style>
-										{`
-										.marker-a { fill: #d7cec4; }
-										.marker-b {
-											fill: none;
-											stroke: #d7cec4;
-											stroke-miterlimit: 100;
-											stroke-width: 2;
-										}
-										`}
-									</style>
-
-									<path
-										fillRule="evenodd"
-										className="marker-a"
-										d="m23.2 38.5c-8.4 0-15.2-6.8-15.2-15.3 0-8.4 6.8-15.2 15.2-15.2 8.5 0 15.3 6.8 15.3 15.2 0 8.5-6.8 15.3-15.3 15.3z"
-									/>
-									<path
-										fillRule="evenodd"
-										className="marker-b"
-										d="m23 45c-12.2 0-22-9.8-22-22 0-12.2 9.8-22 22-22 12.2 0 22 9.8 22 22 0 12.2-9.8 22-22 22z"
-									/>
-								</svg>
+								<TimelineMarker />
 							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[250px]">
+							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[250px]">
 								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2016</h3>
 								<p className="text-[14px] leading-[1.2em]">Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
 							</div>
 						</div>
 						<div className="absolute flex flex-row-reverse top-[25%] right-[-11px]" ref={milestone2}>
 							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<svg
-									version="1.2"
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 46 46"
-									width="22"
-									height="22"
-									>
-									<style>
-										{`
-										.marker-a { fill: #d7cec4; }
-										.marker-b {
-											fill: none;
-											stroke: #d7cec4;
-											stroke-miterlimit: 100;
-											stroke-width: 2;
-										}
-										`}
-									</style>
-
-									<path
-										fillRule="evenodd"
-										className="marker-a"
-										d="m23.2 38.5c-8.4 0-15.2-6.8-15.2-15.3 0-8.4 6.8-15.2 15.2-15.2 8.5 0 15.3 6.8 15.3 15.2 0 8.5-6.8 15.3-15.3 15.3z"
-									/>
-									<path
-										fillRule="evenodd"
-										className="marker-b"
-										d="m23 45c-12.2 0-22-9.8-22-22 0-12.2 9.8-22 22-22 12.2 0 22 9.8 22 22 0 12.2-9.8 22-22 22z"
-									/>
-								</svg>
+								<TimelineMarker />
 							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[250px] text-right">
+							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[250px] text-right">
 								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2019</h3>
 								<p className="text-[14px] leading-[1.2em]">Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
 							</div>
 						</div>
 						<div className="absolute flex flex-row top-[40%] left-[calc(100%-11px)]" ref={milestone3}>
 							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<svg
-									version="1.2"
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 46 46"
-									width="22"
-									height="22"
-									>
-									<style>
-										{`
-										.marker-a { fill: #d7cec4; }
-										.marker-b {
-											fill: none;
-											stroke: #d7cec4;
-											stroke-miterlimit: 100;
-											stroke-width: 2;
-										}
-										`}
-									</style>
-
-									<path
-										fillRule="evenodd"
-										className="marker-a"
-										d="m23.2 38.5c-8.4 0-15.2-6.8-15.2-15.3 0-8.4 6.8-15.2 15.2-15.2 8.5 0 15.3 6.8 15.3 15.2 0 8.5-6.8 15.3-15.3 15.3z"
-									/>
-									<path
-										fillRule="evenodd"
-										className="marker-b"
-										d="m23 45c-12.2 0-22-9.8-22-22 0-12.2 9.8-22 22-22 12.2 0 22 9.8 22 22 0 12.2-9.8 22-22 22z"
-									/>
-								</svg>
+								<TimelineMarker />
 							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[250px]">
+							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[250px]">
 								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2020</h3>
 								<p className="text-[14px] leading-[1.2em]">Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
 							</div>
 						</div>
 						<div className="absolute flex flex-row-reverse top-[59%] right-[calc(100%-11px)]" ref={milestone4}>
 							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<svg
-									version="1.2"
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 46 46"
-									width="22"
-									height="22"
-									>
-									<style>
-										{`
-										.marker-a { fill: #d7cec4; }
-										.marker-b {
-											fill: none;
-											stroke: #d7cec4;
-											stroke-miterlimit: 100;
-											stroke-width: 2;
-										}
-										`}
-									</style>
-
-									<path
-										fillRule="evenodd"
-										className="marker-a"
-										d="m23.2 38.5c-8.4 0-15.2-6.8-15.2-15.3 0-8.4 6.8-15.2 15.2-15.2 8.5 0 15.3 6.8 15.3 15.2 0 8.5-6.8 15.3-15.3 15.3z"
-									/>
-									<path
-										fillRule="evenodd"
-										className="marker-b"
-										d="m23 45c-12.2 0-22-9.8-22-22 0-12.2 9.8-22 22-22 12.2 0 22 9.8 22 22 0 12.2-9.8 22-22 22z"
-									/>
-								</svg>
+								<TimelineMarker />
 							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[220px] text-right">
+							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[220px] text-right">
 								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2022</h3>
 								<p className="text-[14px] leading-[1.2em]">Ut labore et dolore magna aliqua. Ut enim ad.</p>
 							</div>
 						</div>
 						<div className="absolute flex flex-row top-[71%] left-[-11px]" ref={milestone5}>
 							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<svg
-									version="1.2"
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 46 46"
-									width="22"
-									height="22"
-									>
-									<style>
-										{`
-										.marker-a { fill: #d7cec4; }
-										.marker-b {
-											fill: none;
-											stroke: #d7cec4;
-											stroke-miterlimit: 100;
-											stroke-width: 2;
-										}
-										`}
-									</style>
-
-									<path
-										fillRule="evenodd"
-										className="marker-a"
-										d="m23.2 38.5c-8.4 0-15.2-6.8-15.2-15.3 0-8.4 6.8-15.2 15.2-15.2 8.5 0 15.3 6.8 15.3 15.2 0 8.5-6.8 15.3-15.3 15.3z"
-									/>
-									<path
-										fillRule="evenodd"
-										className="marker-b"
-										d="m23 45c-12.2 0-22-9.8-22-22 0-12.2 9.8-22 22-22 12.2 0 22 9.8 22 22 0 12.2-9.8 22-22 22z"
-									/>
-								</svg>
+								<TimelineMarker />
 							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[250px]">
+							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[250px]">
 								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2023</h3>
 								<p className="text-[14px] leading-[1.2em]">Incididunt ut labore et dolore.</p>
 							</div>
 						</div>
 						<div className="absolute flex flex-row-reverse top-[85%] right-[-11px]" ref={milestone6}>
 							<div className="w-[22px] h-[22px] flex-shrink-0">
-								<svg
-									version="1.2"
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 46 46"
-									width="22"
-									height="22"
-									>
-									<style>
-										{`
-										.marker-a { fill: #d7cec4; }
-										.marker-b {
-											fill: none;
-											stroke: #d7cec4;
-											stroke-miterlimit: 100;
-											stroke-width: 2;
-										}
-										`}
-									</style>
-
-									<path
-										fillRule="evenodd"
-										className="marker-a"
-										d="m23.2 38.5c-8.4 0-15.2-6.8-15.2-15.3 0-8.4 6.8-15.2 15.2-15.2 8.5 0 15.3 6.8 15.3 15.2 0 8.5-6.8 15.3-15.3 15.3z"
-									/>
-									<path
-										fillRule="evenodd"
-										className="marker-b"
-										d="m23 45c-12.2 0-22-9.8-22-22 0-12.2 9.8-22 22-22 12.2 0 22 9.8 22 22 0 12.2-9.8 22-22 22z"
-									/>
-								</svg>
+								<TimelineMarker />
 							</div>
-							<div className="pt-[0.04em] px-[0.7em] w-[250px] text-right">
+							<div className="pt-[0.04em] px-[0.7em] w-[160px] sm:w-[250px] text-right">
 								<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">2026</h3>
 								<p className="text-[14px] leading-[1.2em]">Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</p>
 							</div>
