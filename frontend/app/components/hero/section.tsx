@@ -13,9 +13,9 @@ export default function Hero({ wrapperRef }: Props) {
 	const formWrapperRef = useRef<HTMLDivElement>(null);
 	const ctaFormBgRef = useRef<HTMLDivElement>(null);
 	const formHeadingSmallRef = useRef<HTMLDivElement>(null);
-	const formHeadingLargeRef = useRef<HTMLDivElement>(null);
+	const contactHeadingLargeRef = useRef<HTMLHeadingElement>(null);
 	const formHeadingContainerRef = useRef<HTMLDivElement>(null);
-	const formPhoneRef = useRef<HTMLParagraphElement>(null);
+	const contactPhoneRef = useRef<HTMLParagraphElement>(null);
 	const fieldNameRef = useRef<HTMLDivElement>(null);
 	const fieldEmailRef = useRef<HTMLDivElement>(null);
 	const fieldCtaRef = useRef<HTMLDivElement>(null);
@@ -38,7 +38,7 @@ export default function Hero({ wrapperRef }: Props) {
 		);
 
 		// Set initial opacity for form elements
-		gsap.set([formPhoneRef.current, fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current], {
+		gsap.set([fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current], {
 			opacity: 0
 		});
 
@@ -47,7 +47,7 @@ export default function Hero({ wrapperRef }: Props) {
 
 		// Set initial visibility states for headings
 		gsap.set(formHeadingSmallRef.current, { display: "flex" });
-		gsap.set(formHeadingLargeRef.current, { display: "none" });
+		gsap.set([contactHeadingLargeRef.current, contactPhoneRef.current], { display: "none" });
 	}, { scope: wrapperRef });
 
 	// Viewport detection for responsive data-speed values
@@ -68,7 +68,7 @@ export default function Hero({ wrapperRef }: Props) {
 	}, { scope: wrapperRef });
 
 	const handleCtaClick = () => {
-		if (ctaFormBgRef.current && formHeadingSmallRef.current && formHeadingLargeRef.current && formHeadingContainerRef.current) {
+		if (ctaFormBgRef.current && formHeadingSmallRef.current && contactHeadingLargeRef.current && formHeadingContainerRef.current) {
 			// Hide the click target
 			gsap.set(ctaClickRef.current, { display: "none" });
 
@@ -115,14 +115,31 @@ export default function Hero({ wrapperRef }: Props) {
 				duration: 0.4,
 				ease: "power2.in",
 				onComplete: () => {
-					// Hide small heading and show large heading
+					// Hide small heading
 					gsap.set(formHeadingSmallRef.current, { display: "none" });
-					gsap.set(formHeadingLargeRef.current, { display: "flex" });
 
-					// Fade in phone number (starts at same time as form fields)
-					gsap.to(formPhoneRef.current, {
+					// Show large heading and phone
+					gsap.set(contactHeadingLargeRef.current, { display: "block" });
+					gsap.set(contactPhoneRef.current, { display: "block", opacity: 0 });
+
+					// Fade in phone number
+					gsap.to(contactPhoneRef.current, {
 						opacity: 1,
 						duration: 0.5,
+						ease: "power2.out"
+					});
+
+					// SplitText animation for large heading - animate in
+					const splitLarge = new SplitText(contactHeadingLargeRef.current, { type: "chars" });
+
+					// Set starting position (below, invisible)
+					gsap.set(splitLarge.chars, { yPercent: 100, opacity: 0 });
+
+					// Animate large text in from bottom up
+					gsap.to(splitLarge.chars, {
+						yPercent: 0,
+						opacity: 1,
+						duration: 0.4,
 						ease: "power2.out"
 					});
 
@@ -134,24 +151,6 @@ export default function Hero({ wrapperRef }: Props) {
 						opacity: 1,
 						duration: 0.5,
 						stagger: 0.1,
-						ease: "power2.out"
-					});
-
-					// Get the h3 element inside formHeadingLargeRef
-					const largeH3 = formHeadingLargeRef.current!.querySelector('h3');
-					if (!largeH3) return;
-
-					// SplitText animation for large h3 - animate in
-					const splitLarge = new SplitText(largeH3, { type: "chars" });
-
-					// Set starting position (below, invisible)
-					gsap.set(splitLarge.chars, { yPercent: 100, opacity: 0 });
-
-					// Animate large text in from bottom up
-					gsap.to(splitLarge.chars, {
-						yPercent: 0,
-						opacity: 1,
-						duration: 0.4,
 						ease: "power2.out"
 					});
 
@@ -184,52 +183,37 @@ export default function Hero({ wrapperRef }: Props) {
 
 	const handleCloseClick = (e: React.MouseEvent) => {
 		e.stopPropagation(); // Prevent triggering the parent click handler
-		if (ctaFormBgRef.current && formHeadingSmallRef.current && formHeadingLargeRef.current && formHeadingContainerRef.current) {
-			// Fade out form elements (including close button)
-			gsap.to([formPhoneRef.current, fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current, closeButtonRef.current], {
-				opacity: 0,
-				duration: 0.2,
-				ease: "power2.in",
-				onComplete: () => {
-					// Hide close button after fade out
-					gsap.set(closeButtonRef.current, { display: "none" });
-				}
-			});
-
-			gsap.to(ctaFormBgRef.current, {
-				width: 220,
-				height: 68,
-				duration: 0.6,
-				ease: "power4.inOut"
-			});
-
-			// Animate form wrapper back to original position
-			gsap.to(formWrapperRef.current, {
-				top: 0,
-				duration: 0.6,
-				ease: "power4.inOut"
-			});
-
-			// Get the h3 element inside formHeadingLargeRef
-			const largeH3 = formHeadingLargeRef.current.querySelector('h3');
-			if (!largeH3) return;
-
-			// SplitText animation for large h3 - animate out
-			const splitLarge = new SplitText(largeH3, { type: "chars" });
+		if (ctaFormBgRef.current && formHeadingSmallRef.current && contactHeadingLargeRef.current && formHeadingContainerRef.current) {
+			// SplitText animation for large heading - animate out
+			const splitLarge = new SplitText(contactHeadingLargeRef.current, { type: "chars" });
 
 			// Animate large text up and out
 			gsap.to(splitLarge.chars, {
 				yPercent: -100,
+				opacity: 0,
 				duration: 0.4,
+				ease: "power2.in"
+			});
+
+			// Fade out form elements (including close button) and phone
+			gsap.to([contactPhoneRef.current, fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current, closeButtonRef.current], {
+				opacity: 0,
+				duration: 0.2,
 				ease: "power2.in",
 				onComplete: () => {
-					// Hide large heading and show small heading
-					gsap.set(formHeadingLargeRef.current, { display: "none" });
-					gsap.set(formHeadingSmallRef.current, { display: "flex" });
+					// Hide close button and large heading/phone after fade out
+					gsap.set(closeButtonRef.current, { display: "none" });
+					gsap.set([contactHeadingLargeRef.current, contactPhoneRef.current], { display: "none" });
+
+					// Clean up large split
+					splitLarge.revert();
 
 					// Get the h3 element inside formHeadingSmallRef
 					const smallH3 = formHeadingSmallRef.current!.querySelector('h3');
 					if (!smallH3) return;
+
+					// Show small heading
+					gsap.set(formHeadingSmallRef.current, { display: "flex" });
 
 					// SplitText animation for small h3 - animate in
 					const splitSmall = new SplitText(smallH3, { type: "chars" });
@@ -255,10 +239,21 @@ export default function Hero({ wrapperRef }: Props) {
 							gsap.set(ctaClickRef.current, { display: "block" });
 						}
 					});
-
-					// Clean up large split
-					splitLarge.revert();
 				}
+			});
+
+			gsap.to(ctaFormBgRef.current, {
+				width: 220,
+				height: 68,
+				duration: 0.6,
+				ease: "power4.inOut"
+			});
+
+			// Animate form wrapper back to original position
+			gsap.to(formWrapperRef.current, {
+				top: 0,
+				duration: 0.6,
+				ease: "power4.inOut"
 			});
 		}
 	};
@@ -297,7 +292,6 @@ export default function Hero({ wrapperRef }: Props) {
 						priority
 					/>
 				</div>
-
 				
 				<div
 					className="absolute top-[76vh] sm:top-[-13vh] w-full"
@@ -322,7 +316,8 @@ export default function Hero({ wrapperRef }: Props) {
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit,
 						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum dolor sit amet, consec.
 					</p>
-					<div ref={formWrapperRef} className="relative w-[90vw] sm:w-auto max-w-[460px] flex justify-center sm:block mt-[40px]">
+					<div ref={formWrapperRef} className="relative w-[90vw] sm:w-auto max-w-[460px] flex justify-center sm:justify-start sm:block mt-[40px]">
+						
 						<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[68px] rounded-[20px] flex items-start justify-end max-w-[90vw] sm:max-w-none">
 							<button ref={closeButtonRef} onClick={handleCloseClick} className="cursor-pointer">
 								<Image
@@ -344,9 +339,6 @@ export default function Hero({ wrapperRef }: Props) {
 								<div ref={formHeadingSmallRef} className="flex justify-center w-full">
 									<h3 className="text-[12px] relative overflow-hidden py-[2px] pr-[1px]">Contact Us</h3>
 								</div>
-								<div ref={formHeadingLargeRef} className="w-full mt-[20px]">
-									<h3 className="relative overflow-hidden w-[200px] ml-[30px] py-[8px] pr-[1px] text-[26px] tracking-[-0.07em]">Contact Us</h3>
-								</div>
 								<div ref={ctaFormIconRef} className="mr-[8px] bg-black/30 px-[14px] py-[8px] rounded-xl">
 									<Image
 										src="/icon-phone.png"
@@ -358,10 +350,14 @@ export default function Hero({ wrapperRef }: Props) {
 									/>
 								</div>
 							</div>
-							<p ref={formPhoneRef} id="formPhone" className="absolute top-[54px] left-[30px] text-[#d7cec4]/50 font-nominee tracking-[-0.04em]">+34 612 345 678</p>
 						</div>
 
 						<div ref={ctaClickRef} id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[68px] cursor-pointer"></div>
+
+						<div className="absolute w-full uppercase font-nominee tracking-[-0.06em] leading-[1.4em] mt-[28px] text-center sm:text-left sm:ml-[30px]">
+							<h3 ref={contactHeadingLargeRef} className="font-black text-[26px] tracking-[-0.07em]">Contact Us</h3>
+							<p ref={contactPhoneRef} className="text-[#d7cec4]/50 font-nominee tracking-[-0.04em]">+34 123 456 789</p>
+						</div>
 
 						<div className="form absolute w-full top-[200px] px-[30px]">
 							<div ref={fieldNameRef} id="fieldName" className="w-full mb-[15px]">
@@ -370,7 +366,7 @@ export default function Hero({ wrapperRef }: Props) {
 							<div ref={fieldEmailRef} id="fieldEmail" className="w-full mb-[15px]">
 								<Input aria-label="Email" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Email" type="email" />
 							</div>
-							<div ref={fieldCtaRef} id="fieldCta" className="w-full flex justify-end">
+							<div ref={fieldCtaRef} id="fieldCta" className="w-full flex justify-center sm:justify-end">
 								<Button
 									className="font-nominee font-black tracking-[-0.06em] uppercase w-[200px] py-[2em] px-[1.5em] rounded-2xl bg-[#b7b0a8] text-[12px] text-[#1e1c1b] justify-between"
 									>
