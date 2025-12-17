@@ -36,18 +36,6 @@ export default function Hero({ wrapperRef }: Props) {
 		{ width: "107vw" },
 		{ width: "100vw", duration: 3.5, ease: "expo.out" }
 		);
-
-		// Set initial opacity for form elements
-		gsap.set([fieldNameRef.current, fieldEmailRef.current, fieldCtaRef.current], {
-			opacity: 0
-		});
-
-		// Set initial state for close button
-		gsap.set(closeButtonRef.current, { opacity: 0, display: "none" });
-
-		// Set initial visibility states for headings
-		gsap.set(formHeadingSmallRef.current, { display: "flex" });
-		gsap.set([contactHeadingLargeRef.current, contactPhoneRef.current], { display: "none" });
 	}, { scope: wrapperRef });
 
 	// Viewport detection for responsive data-speed values
@@ -319,7 +307,7 @@ export default function Hero({ wrapperRef }: Props) {
 					<div ref={formWrapperRef} className="relative w-[90vw] sm:w-auto max-w-[460px] flex justify-center sm:justify-start sm:block mt-[40px]">
 						
 						<div id="ctaFormBg" ref={ctaFormBgRef} className="absolute bg-[#2b2827] w-[220px] h-[68px] rounded-[20px] flex items-start justify-end max-w-[90vw] sm:max-w-none">
-							<button ref={closeButtonRef} onClick={handleCloseClick} className="cursor-pointer">
+							<button ref={closeButtonRef} onClick={handleCloseClick} className="cursor-pointer opacity-0 hidden">
 								<Image
 									src="/icon-close.png"
 									alt="Close form"
@@ -355,18 +343,18 @@ export default function Hero({ wrapperRef }: Props) {
 						<div ref={ctaClickRef} id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[68px] cursor-pointer"></div>
 
 						<div className="absolute w-full uppercase font-nominee tracking-[-0.06em] leading-[1.4em] mt-[28px] text-center sm:text-left sm:ml-[30px]">
-							<h3 ref={contactHeadingLargeRef} className="font-black text-[26px] tracking-[-0.07em]">Contact Us</h3>
-							<p ref={contactPhoneRef} className="text-[#d7cec4]/50 font-nominee tracking-[-0.04em]">+34 123 456 789</p>
+							<h3 ref={contactHeadingLargeRef} className="font-black text-[26px] tracking-[-0.07em] hidden">Contact Us</h3>
+							<p ref={contactPhoneRef} className="text-[#d7cec4]/50 font-nominee tracking-[-0.04em] hidden">+34 123 456 789</p>
 						</div>
 
 						<div className="form absolute w-full top-[200px] px-[30px]">
-							<div ref={fieldNameRef} id="fieldName" className="w-full mb-[15px]">
+							<div ref={fieldNameRef} id="fieldName" className="w-full mb-[15px] opacity-0">
 								<Input aria-label="Name" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Name" type="text" />
 							</div>
-							<div ref={fieldEmailRef} id="fieldEmail" className="w-full mb-[15px]">
+							<div ref={fieldEmailRef} id="fieldEmail" className="w-full mb-[15px] opacity-0">
 								<Input aria-label="Email" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Email" type="email" />
 							</div>
-							<div ref={fieldCtaRef} id="fieldCta" className="w-full flex justify-center sm:justify-end">
+							<div ref={fieldCtaRef} id="fieldCta" className="w-full flex justify-center sm:justify-end opacity-0">
 								<Button
 									className="font-nominee font-black tracking-[-0.06em] uppercase w-[200px] py-[2em] px-[1.5em] rounded-2xl bg-[#b7b0a8] text-[12px] text-[#1e1c1b] justify-between"
 									>
