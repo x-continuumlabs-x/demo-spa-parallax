@@ -212,11 +212,11 @@ export default function Highlights({ wrapperRef }: Props) {
 
 	}, { scope: wrapperRef });
 	return(
-		<section className="relative w-full overflow-hidden flex items-center justify-center h-[100vh]">
-			<div ref={canvasContainerRef} className="min-w-[100vw] w-[100vw] h-[56.25vw] flex justify-center">
+		<section className="relative w-full overflow-hidden flex items-start sm:items-center justify-center h-[100vh] bg-[#93d5c4] sm:bg-[#2c2827]">
+			<div ref={canvasContainerRef} className="min-w-[200vw] w-[200vw] h-[112.5vw] sm:min-w-[100vw] sm:w-[100vw] sm:h-[56.25vw] flex justify-center">
 				<canvas ref={canvasRef} className="w-full h-full object-contain" />
 			</div>
-			<div className="absolute top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
+			<div className="absolute top-[14vh] sm:top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
 				<div ref={headingRef} className="w-[98vw] aspect-[1299/351] relative flex flex-row overflow-hidden top-[10vh]">
 					
 					<div ref={headingChar1Ref} className="relative w-[27.33%] h-full mr-[0.31%] overflow-hidden">
@@ -278,7 +278,7 @@ export default function Highlights({ wrapperRef }: Props) {
 					</div>
 				</div>
 				<div className="text-center flex flex-col items-center pt-[12vh]">
-					<p ref={paragraphRef} className="w-2/3 text-[20px] text-[#7acfc8] leading-[1.2em]">
+					<p ref={paragraphRef} className="w-2/3 text-[20px] text-[#aff3e1] sm:text-[#7acfc8] leading-[1.2em]">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
 					</p>
 				</div>
