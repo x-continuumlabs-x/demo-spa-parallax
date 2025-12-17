@@ -293,7 +293,7 @@ export default function Highlights({ wrapperRef }: Props) {
 					</div>
 				</div>
 				<div className="text-center flex flex-col items-center pt-[12vh]">
-					<p ref={paragraphRef} className="w-2/3 text-[20px] text-[#aff3e1] sm:text-[#7acfc8] leading-[1.2em]">
+					<p ref={paragraphRef} className="w-2/3 text-[16px] sm:text-[20px] text-[#aff3e1] sm:text-[#7acfc8] leading-[1.2em]">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.
 					</p>
 				</div>

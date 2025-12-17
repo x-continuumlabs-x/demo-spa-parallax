@@ -318,7 +318,7 @@ export default function Hero({ wrapperRef }: Props) {
 							priority
 						/>
 					</div>
-					<p className="w-7/8 sm:w-[25%] text-[18px] text-[#b082db] leading-[1.2em] text-center sm:text-left">
+					<p className="w-7/8 sm:w-[25%] text-[16px] sm:text-[18px] text-[#b082db] leading-[1.2em] text-center sm:text-left">
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit,
 						sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ipsum dolor sit amet, consec.
 					</p>
