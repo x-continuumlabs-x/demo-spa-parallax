@@ -5,11 +5,82 @@ import { useGSAP } from "@gsap/react";
 import { useRef, useState, useEffect } from "react";
 import { gsap, ScrollTrigger, ScrollSmoother, SplitText } from "@/app/lib/gsap";
 import { Tabs } from "@heroui/react";
-import { useViewportHeight } from "@/app/utils/useViewportHeight";
+
+const MOBILE_BREAKPOINT = 640;
+
+const ANIMATION_DURATIONS = {
+	contentFade: 2.0,
+	splitText: 0.8,
+	splitTextStagger: 0.1,
+	paragraphFade: 0.6,
+	paragraphDelay: 0.4,
+} as const;
+
+const TIMING = {
+	resizeDebounce: 50,
+	tabClickTimeout: 1200,
+} as const;
+
+const TAB_SWITCH_THRESHOLDS = {
+	first: 0.33,
+	second: 1.33,
+} as const;
+
+const TIMELINE_DURATION = 2;
+const MIN_GALLERY_SPACING = '182px';
+
+const TAB_MAP: { [key: string]: number } = {
+	img1: 0,
+	img2: 1,
+	img3: 2,
+};
+
+const TAB_KEYS = ["img1", "img2", "img3"];
+
+const createImageAnimations = (
+	tl: gsap.core.Timeline,
+	images: NodeListOf<HTMLImageElement>,
+	galleryHeight: number
+) => {
+	// Animate photoA (last image in DOM, index 2) first
+	if (images[2]) {
+		tl.fromTo(
+			images[2],
+			{ y: 0 },
+			{
+				y: -galleryHeight,
+				ease: "none",
+				duration: 1,
+			},
+			0
+		);
+	}
+
+	// Animate photoB (middle image in DOM, index 1) second
+	if (images[1]) {
+		tl.fromTo(
+			images[1],
+			{ y: 0 },
+			{
+				y: -galleryHeight,
+				ease: "none",
+				duration: 1,
+			},
+			1
+		);
+	}
+};
+
+const calculateTargetTimelineTime = (imageIndex: number): number => {
+	if (imageIndex === 1) {
+		return 1.0;
+	} else if (imageIndex === 2) {
+		return 2.0;
+	}
+	return 0;
+};
 
 export default function Services({ wrapperRef }: Props) {
-	const vh: number = useViewportHeight();
-
 	const [selectedTab, setSelectedTab] = useState("img1");
 	const [isMobile, setIsMobile] = useState(false);
 	const isUserClickingTab = useRef(false);
@@ -23,16 +94,6 @@ export default function Services({ wrapperRef }: Props) {
 	const splitInstancesRef = useRef<{ t1?: SplitText; t2?: SplitText; t3?: SplitText }>({});
 	const previousTabRef = useRef<string>("img1");
 
-	const imgWidthLandscape: number = 2665;
-	const imgHeightLandscape: number = 1468;
-	const imgWidthPortrait: number = 2235;
-	const imgHeightPortrait: number = 1468;
-	const widthRatioLandscape: number = imgWidthLandscape / imgHeightLandscape;
-	const widthRatioPortrait: number = imgWidthPortrait / imgHeightPortrait;
-	const heightRatioLandscape: number = imgHeightLandscape / imgWidthLandscape;
-	const heightRatioPortrait: number = imgHeightPortrait / imgWidthPortrait;
-	const minGallerySpacing: string = '182px';
-
 	useGSAP(() => {
 		const galleryContainer = sectionRef.current?.querySelector<HTMLElement>(
 		"#galleryContainer"
@@ -43,13 +104,8 @@ export default function Services({ wrapperRef }: Props) {
 
 		const galleryHeight = galleryContainer.getBoundingClientRect().height;
 		const numImages = images.length;
-
 		const smoother = ScrollSmoother.get ? ScrollSmoother.get() : null;
-
-		// Total scroll distance for pinning
-		// No stagger overlap: photoA animates from 0-1, photoB animates from 1-2
-		// Total timeline duration = 2, each "unit" represents galleryHeight of scroll
-		const timelineDuration = numImages - 1; // 2 animations, each duration 1
+		const timelineDuration = numImages - 1;
 		const totalScroll = galleryHeight * timelineDuration;
 
 		// Timeline for sequential image animation
@@ -62,124 +118,44 @@ export default function Services({ wrapperRef }: Props) {
 				scroller: smoother?.content(),
 				scrub: true,
 				onLeave: () => {
-					// When scrolling past the end, ensure last tab is selected
-					console.log('ScrollTrigger: onLeave');
 					setSelectedTab("img3");
 				},
 				onLeaveBack: () => {
-					// When scrolling back past the start, ensure first tab is selected
-					console.log('ScrollTrigger: onLeaveBack');
 					setSelectedTab("img1");
 				},
 				onUpdate: (self) => {
-					// Skip automatic tab updates if user is clicking tabs
 					if (isUserClickingTab.current) {
 						return;
 					}
 
-					// Determine which image is currently most visible and update the selected tab
 					const progress = self.progress;
-
-					// Convert scroll progress to timeline time
 					const currentTime = progress * timelineDuration;
 
-					// Determine which image based on timeline time
-					// photoA visible: timeline 0 to 1 (as it animates out)
-					// photoB visible: timeline 1 to 2 (as it animates out)
-					// photoC visible: timeline 2 (both animations complete)
-					// Use 1/3 transitions for balanced switching:
-					// - Switch to photoB at 0.33 (1/3 through photoA animation)
-					// - Switch to photoC at 1.33 (1/3 through photoB animation)
 					let currentImageIndex = 0;
-					if (currentTime >= 1.33) {
+					if (currentTime >= TAB_SWITCH_THRESHOLDS.second) {
 						currentImageIndex = 2;
-					} else if (currentTime >= 0.33) {
+					} else if (currentTime >= TAB_SWITCH_THRESHOLDS.first) {
 						currentImageIndex = 1;
 					}
 
-					// Map image index to tab key
-					const tabKeys = ["img1", "img2", "img3"];
-					const newTab = tabKeys[currentImageIndex];
+					const newTab = TAB_KEYS[currentImageIndex];
 
-					// Debug log
-					console.log('currentTime:', currentTime.toFixed(2), 'currentImageIndex:', currentImageIndex, 'newTab:', newTab, 'selectedTab:', selectedTab);
-
-					// Update selected tab if it changed
 					if (newTab !== selectedTab) {
 						setSelectedTab(newTab);
-					}
-
-					// Calculate progress based on visibility in container, not total animation
-					for (let i = 1; i < numImages; i++) {
-						const currentY = gsap.getProperty(images[i], "y") as number;
-
-						// An image becomes visible when it starts moving (y < 0)
-						// It's fully visible when it has moved galleryHeight pixels up
-						// For all images, visibility is based on moving one galleryHeight
-						const visibilityStart = 0;
-						const visibilityEnd = -galleryHeight;
-
-						// Clamp currentY to the visibility range
-						const clampedY = Math.max(Math.min(currentY, visibilityStart), visibilityEnd);
-						const distanceIntoView = Math.abs(clampedY - visibilityStart);
-						const totalVisibilityDistance = Math.abs(visibilityEnd - visibilityStart);
-						const progress = (distanceIntoView / totalVisibilityDistance) * 100;
-
-						// Only log if image is actively moving into view (between 0% and 100%)
-						if (progress > 0 && progress < 100) {
-							console.log(`Image ${i} is animating - ${progress.toFixed(1)}% complete`);
-						}
 					}
 				},
 			},
 		});
 
-		// Animate images one after another
-		// Images in DOM: [photoC, photoB, photoA] (reverse order)
-		// photoC (images[0]) = bottom layer, stays static
-		// photoB (images[1]) = middle layer, animates second
-		// photoA (images[2]) = top layer, animates first
-		// We need to animate in reverse order: photoA first, then photoB
+		createImageAnimations(tl, images, galleryHeight);
 
-		// Animate photoA (last image in DOM, index 2) first
-		if (images[2]) {
-			tl.fromTo(
-				images[2],
-				{ y: 0 },
-				{
-					y: -galleryHeight,
-					ease: "none",
-					duration: 1,
-				},
-				0 // Start at timeline time 0
-			);
-		}
-
-		// Animate photoB (middle image in DOM, index 1) second
-		// Start AFTER photoA finishes (at timeline time 1)
-		if (images[1]) {
-			tl.fromTo(
-				images[1],
-				{ y: 0 },
-				{
-					y: -galleryHeight,
-					ease: "none",
-					duration: 1,
-				},
-				1 // Start at timeline time 1 (after photoA completes)
-			);
-		}
-
-		// photoC (first image in DOM, index 0) stays static - no animation
-
-		// Store refs for later use
 		timelineRef.current = tl;
 		if (tl.scrollTrigger) {
 			scrollTriggerRef.current = tl.scrollTrigger;
 		}
 	}, { scope: wrapperRef });
 
-	// Tab content animation effect
+	// Tab content animations
 	useEffect(() => {
 		if (!contentRef1.current || !contentRef2.current || !contentRef3.current) return;
 
@@ -217,37 +193,31 @@ export default function Services({ wrapperRef }: Props) {
 			gsap.killTweensOf([contentEl, h2, p]);
 			gsap.set(contentEl, { display: "block", opacity: 0 });
 
-			// Fade in the content block wrapper
 			gsap.to(contentEl, {
 				opacity: 1,
-				duration: 2.0,
+				duration: ANIMATION_DURATIONS.contentFade,
 				ease: "power2.out"
 			});
 
 			if (h2 && p) {
-				// Split h2 into lines
 				const split = new SplitText(h2, { type: "lines", linesClass: "overflow-hidden" });
 				splitInstancesRef.current[newContent.key as keyof typeof splitInstancesRef.current] = split;
 
-				// Set initial state (masked/hidden)
 				gsap.set(split.lines, { yPercent: 100, opacity: 0 });
-				gsap.set(p, { opacity: 0 });
 
-				// Animate lines (staggered)
 				gsap.to(split.lines, {
 					yPercent: 0,
 					opacity: 1,
-					duration: 0.8,
+					duration: ANIMATION_DURATIONS.splitText,
 					ease: "power2.out",
-					stagger: 0.1
+					stagger: ANIMATION_DURATIONS.splitTextStagger
 				});
 
-				// Fade in paragraph (starts shortly after first line)
 				gsap.to(p, {
 					opacity: 0.6,
-					duration: 0.6,
+					duration: ANIMATION_DURATIONS.paragraphFade,
 					ease: "power2.out",
-					delay: 0.4
+					delay: ANIMATION_DURATIONS.paragraphDelay
 				});
 			}
 		}
@@ -255,23 +225,20 @@ export default function Services({ wrapperRef }: Props) {
 		previousTabRef.current = selectedTab;
 	}, [selectedTab]);
 
-	// Viewport detection for responsive gallery width
-	useGSAP(() => {
+	useEffect(() => {
 		const checkMobile = () => {
-			setIsMobile(window.innerWidth < 640);
+			setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
 		};
 		checkMobile();
 		window.addEventListener('resize', checkMobile);
 		return () => {
 			window.removeEventListener('resize', checkMobile);
 		};
-	}, { scope: wrapperRef });
+	}, []);
 
-	// Recalculate animation when isMobile changes
 	useEffect(() => {
 		if (!timelineRef.current) return;
 
-		// Wait for DOM to update with new maxWidth values
 		const timer = setTimeout(() => {
 			const galleryContainer = sectionRef.current?.querySelector<HTMLElement>("#galleryContainer");
 			const images = galleryContainer?.querySelectorAll<HTMLImageElement>("img");
@@ -279,43 +246,13 @@ export default function Services({ wrapperRef }: Props) {
 
 			if (!galleryContainer || !images || images.length < 2 || !tl) return;
 
-			// Get the new gallery height after DOM update
 			const newGalleryHeight = galleryContainer.getBoundingClientRect().height;
 
-			// Clear and rebuild the animations with new values
 			tl.clear();
+			createImageAnimations(tl, images, newGalleryHeight);
 
-			// Recreate photoA animation (index 2)
-			if (images[2]) {
-				tl.fromTo(
-					images[2],
-					{ y: 0 },
-					{
-						y: -newGalleryHeight,
-						ease: "none",
-						duration: 1,
-					},
-					0
-				);
-			}
-
-			// Recreate photoB animation (index 1)
-			if (images[1]) {
-				tl.fromTo(
-					images[1],
-					{ y: 0 },
-					{
-						y: -newGalleryHeight,
-						ease: "none",
-						duration: 1,
-					},
-					1
-				);
-			}
-
-			// Refresh ScrollTrigger to update positions
 			ScrollTrigger.refresh();
-		}, 50);
+		}, TIMING.resizeDebounce);
 
 		return () => clearTimeout(timer);
 	}, [isMobile]);
@@ -332,7 +269,6 @@ export default function Services({ wrapperRef }: Props) {
 	return(
 		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
 			<div className="py-[30px] w-full flex justify-center">
-				{/* data-speed="1.05" */}
 				<Tabs
 					id="tabs" 
 					className="flex-col" 
@@ -340,59 +276,33 @@ export default function Services({ wrapperRef }: Props) {
 					onSelectionChange={(key) => {
 						setSelectedTab(key as string);
 
-						// Set flag to prevent onUpdate from changing tab during animation
 						isUserClickingTab.current = true;
 
-						// Clear any existing timeout
 						if (scrollTimeoutRef.current) {
 							clearTimeout(scrollTimeoutRef.current);
 						}
 
-						// Map tab key to image index
-						const tabMap: { [key: string]: number } = {
-							img1: 0,
-							img2: 1,
-							img3: 2,
-						};
-						const imageIndex = tabMap[key as string];
+						const imageIndex = TAB_MAP[key as string];
 
-						// Calculate scroll position for this image
 						if (scrollTriggerRef.current && sectionRef.current) {
 							const st = scrollTriggerRef.current;
 
-							// Calculate target timeline time for each image
-							// Image 0 (photoA showing): timeline time = 0
-							// Image 1 (photoB showing): timeline time = 1.0 (photoA finished, photoB at midpoint)
-							// Image 2 (photoC showing): timeline time = 2.0 (both finished)
-							let targetTimelineTime = 0;
-							if (imageIndex === 1) {
-								targetTimelineTime = 1.0; // photoB at midpoint
-							} else if (imageIndex === 2) {
-								targetTimelineTime = 2.0; // both animations complete
-							}
+							const targetTimelineTime = calculateTargetTimelineTime(imageIndex);
+							const targetProgress = targetTimelineTime / TIMELINE_DURATION;
 
-							// Timeline duration is 2 (no overlap)
-							const timelineDuration = 2;
-							const targetProgress = targetTimelineTime / timelineDuration;
-
-							// Calculate actual scroll position
 							const scrollStart = st.start;
 							const scrollEnd = st.end;
 							const scrollDistance = scrollEnd - scrollStart;
 							const targetScroll = scrollStart + scrollDistance * targetProgress;
 
-							// Scroll to position using ScrollSmoother
 							const smoother = ScrollSmoother.get();
 							if (smoother) {
 								smoother.scrollTo(targetScroll, true, "power2.inOut");
 							}
 
-							// Re-enable automatic tab updates after animation completes
-							// ScrollSmoother default duration is ~1 second with power2.inOut easing
 							scrollTimeoutRef.current = setTimeout(() => {
 								isUserClickingTab.current = false;
-								console.log("Tab click animation complete - re-enabling auto tab updates");
-							}, 1200); // Slightly longer than animation duration to be safe
+							}, TIMING.tabClickTimeout);
 						}
 					}}
 				>
@@ -436,9 +346,9 @@ export default function Services({ wrapperRef }: Props) {
 					</Tabs.ListContainer>
 				</Tabs>
 			</div>
-			<div 
+			<div
 				className="relative w-full"
-				style={{ height: `calc(100vh - ${minGallerySpacing})` }}
+				style={{ height: `calc(100vh - ${MIN_GALLERY_SPACING})` }}
 			>
 				<div
 					className="absolute right-0 top-0 overflow-hidden [--ar:1.5225] lg:[--ar:1.8154]"
@@ -453,8 +363,8 @@ export default function Services({ wrapperRef }: Props) {
 						<div id="galleryContainer"
 							className="absolute right-0 top-0 overflow-hidden"
 							style={{
-								height: `calc(100vh - ${minGallerySpacing})`,
-								width: `calc((100vh - ${minGallerySpacing}) * var(--ar))`,
+								height: `calc(100vh - ${MIN_GALLERY_SPACING})`,
+								width: `calc((100vh - ${MIN_GALLERY_SPACING}) * var(--ar))`,
 								maxWidth: isMobile ? "100vw" : "76vw",
 								maxHeight: isMobile ? "calc(100vw / var(--ar))" : "calc(76vw / var(--ar))",
 							}}
@@ -504,15 +414,15 @@ export default function Services({ wrapperRef }: Props) {
 				<div className="mx-[6vw] sm:mx-0 mt-[35vh] sm:mt-0 sm:absolute sm:top-[20vh] sm:left-[15vw]">
 					<div ref={contentRef1} className="absolute w-[88vw]">
 						<h2 className="text-[44px] sm:text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br />architecto <br />voluptatem</h2>
-						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam qui.</p>
+						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-0">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam qui.</p>
 					</div>
 					<div ref={contentRef2} className="absolute w-[88vw] hidden">
 						<h2 className="text-[44px] sm:text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$195 Ut <br />consecte <br />sed do</h2>
-						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Mollitia dolores ea mollitia a qui mollitia sit alias. Similique mollitia doloremque fuga qui. Labore consequatur delectus fugiat.</p>
+						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-0">Mollitia dolores ea mollitia a qui mollitia sit alias. Similique mollitia doloremque fuga qui. Labore consequatur delectus fugiat.</p>
 					</div>
 					<div ref={contentRef3} className="absolute w-[88vw] hidden">
 						<h2 className="text-[44px] sm:text-[56px] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$595 Ut <br />adipiscing <br />eiusmod</h2>
-						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci didunt ut labore et dolore magna aliqua ut enim ad minim.</p>
+						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci didunt ut labore et dolore magna aliqua ut enim ad minim.</p>
 					</div>
 				</div>
 			</div>
