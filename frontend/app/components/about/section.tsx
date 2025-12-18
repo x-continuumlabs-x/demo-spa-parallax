@@ -6,6 +6,49 @@ import { useRef } from "react";
 import { gsap, ScrollTrigger } from "@/app/lib/gsap";
 import Milestone from "./Milestone";
 
+const ANIMATION_DURATIONS = {
+	fadeIn: 0.3,
+	fadeOut: 0.2,
+} as const;
+
+const SCROLL_TRIGGER_SETTINGS = {
+	scrub: 1,
+	start: "top center",
+	end: "bottom center",
+} as const;
+
+const PIN_SETTINGS = {
+	start: "top-=10% top",
+	end: "bottom bottom",
+	breakpoint: "(min-width: 1024px)",
+} as const;
+
+const SVG_CURVE_STYLE = `
+	.curve-a {
+		fill: none;
+		stroke: #959493;
+		stroke-miterlimit: 100;
+		stroke-width: 5;
+		stroke-dasharray: 2065.36, 0.1;
+	}
+`;
+
+const animateMilestoneOnProgress = (
+	milestone: HTMLDivElement | null,
+	progress: number,
+	threshold: number
+) => {
+	if (!milestone) return;
+
+	const currentOpacity = gsap.getProperty(milestone, "opacity") as number;
+
+	if (progress >= threshold && currentOpacity < 1) {
+		gsap.to(milestone, { opacity: 1, duration: ANIMATION_DURATIONS.fadeIn });
+	} else if (progress < threshold && currentOpacity > 0) {
+		gsap.to(milestone, { opacity: 0, duration: ANIMATION_DURATIONS.fadeOut });
+	}
+};
+
 export default function About({ wrapperRef }: Props) {
 	const pathRefDesktop = useRef<SVGPathElement>(null);
 	const pathRefMobile = useRef<SVGPathElement>(null);
@@ -17,6 +60,15 @@ export default function About({ wrapperRef }: Props) {
 	const milestone5 = useRef<HTMLDivElement>(null);
 	const milestone6 = useRef<HTMLDivElement>(null);
 	const bodyCopyRef = useRef<HTMLDivElement>(null);
+
+	const milestoneConfig = [
+		{ ref: milestone1, threshold: 0.07 },
+		{ ref: milestone2, threshold: 0.30 },
+		{ ref: milestone3, threshold: 0.45 },
+		{ ref: milestone4, threshold: 0.68 },
+		{ ref: milestone5, threshold: 0.80 },
+		{ ref: milestone6, threshold: 0.90 },
+	];
 
 	useGSAP(() => {
 		if (!sectionRef.current) return;
@@ -30,25 +82,18 @@ export default function About({ wrapperRef }: Props) {
 			gsap.set(pathRefMobile.current, { drawSVG: "0%" });
 		}
 		gsap.set(
-			[
-				milestone1.current,
-				milestone2.current,
-				milestone3.current,
-				milestone4.current,
-				milestone5.current,
-				milestone6.current,
-			],
+			milestoneConfig.map(m => m.ref.current),
 			{ opacity: 0 }
 		);
 
 		// Pin bodyCopyRef for lg breakpoint and above
-		gsap.matchMedia().add("(min-width: 1024px)", () => {
+		gsap.matchMedia().add(PIN_SETTINGS.breakpoint, () => {
 			if (!bodyCopyRef.current || !sectionRef.current) return;
 
 			ScrollTrigger.create({
 				trigger: sectionRef.current,
-				start: "top-=10% top",
-				end: "bottom bottom",
+				start: PIN_SETTINGS.start,
+				end: PIN_SETTINGS.end,
 				pin: bodyCopyRef.current,
 			});
 		});
@@ -60,67 +105,14 @@ export default function About({ wrapperRef }: Props) {
 			ease: "none",
 			scrollTrigger: {
 				trigger: sectionRef.current,
-				start: "top center",
-				end: "bottom center",
-				scrub: 1,
+				start: SCROLL_TRIGGER_SETTINGS.start,
+				end: SCROLL_TRIGGER_SETTINGS.end,
+				scrub: SCROLL_TRIGGER_SETTINGS.scrub,
 				onUpdate: (self) => {
 					const progress = self.progress;
-
-					// Milestone 1: fade in at 17%, fade out below 17%
-					if (milestone1.current) {
-						const currentOpacity = gsap.getProperty(milestone1.current, "opacity") as number;
-						if (progress >= 0.07 && currentOpacity < 1) {
-							gsap.to(milestone1.current, { opacity: 1, duration: 0.3 });
-						} else if (progress < 0.07 && currentOpacity > 0) {
-							gsap.to(milestone1.current, { opacity: 0, duration: 0.2 });
-						}
-					}
-
-					// Milestone 2: fade in at 25%, fade out below 25%
-					if (milestone2.current) {
-						const currentOpacity = gsap.getProperty(milestone2.current, "opacity") as number;
-						if (progress >= 0.30 && currentOpacity < 1) {
-							gsap.to(milestone2.current, { opacity: 1, duration: 0.3 });
-						} else if (progress < 0.30 && currentOpacity > 0) {
-							gsap.to(milestone2.current, { opacity: 0, duration: 0.2 });
-						}
-					}
-
-					// Milestone 3: fade in at 40%, fade out below 40%
-					if (milestone3.current) {
-						const currentOpacity = gsap.getProperty(milestone3.current, "opacity") as number;
-						if (progress >= 0.45 && currentOpacity < 1) {
-							gsap.to(milestone3.current, { opacity: 1, duration: 0.3 });
-						} else if (progress < 0.45 && currentOpacity > 0) {
-							gsap.to(milestone3.current, { opacity: 0, duration: 0.2 });
-						}
-					}
-
-					if (milestone4.current) {
-						const currentOpacity = gsap.getProperty(milestone4.current, "opacity") as number;
-						if (progress >= 0.68 && currentOpacity < 1) {
-							gsap.to(milestone4.current, { opacity: 1, duration: 0.3 });
-						} else if (progress < 0.68 && currentOpacity > 0) {
-							gsap.to(milestone4.current, { opacity: 0, duration: 0.2 });
-						}
-					}
-
-					if (milestone5.current) {
-						const currentOpacity = gsap.getProperty(milestone5.current, "opacity") as number;
-						if (progress >= 0.80 && currentOpacity < 1) {
-							gsap.to(milestone5.current, { opacity: 1, duration: 0.3 });
-						} else if (progress < 0.80 && currentOpacity > 0) {
-							gsap.to(milestone5.current, { opacity: 0, duration: 0.2 });
-						}
-					}
-					if (milestone6.current) {
-						const currentOpacity = gsap.getProperty(milestone6.current, "opacity") as number;
-						if (progress >= 0.90 && currentOpacity < 1) {
-							gsap.to(milestone6.current, { opacity: 1, duration: 0.3 });
-						} else if (progress < 0.90 && currentOpacity > 0) {
-							gsap.to(milestone6.current, { opacity: 0, duration: 0.2 });
-						}
-					}
+					milestoneConfig.forEach(({ ref, threshold }) => {
+						animateMilestoneOnProgress(ref.current, progress, threshold);
+					});
 				},
 			}
 		});
@@ -144,17 +136,7 @@ export default function About({ wrapperRef }: Props) {
 							overflow="visible"
 							className="hidden sm:block"
 						>
-							<style>
-								{`
-								.curve-a {
-									fill: none;
-									stroke: #959493;
-									stroke-miterlimit: 100;
-									stroke-width: 5;
-									stroke-dasharray: 2065.36, 0.1;
-								}
-								`}
-							</style>
+							<style>{SVG_CURVE_STYLE}</style>
 							<path
 								ref={pathRefDesktop}
 								fillRule="evenodd"
@@ -173,17 +155,7 @@ export default function About({ wrapperRef }: Props) {
 							overflow="visible"
 							className="block sm:hidden"
 						>
-							<style>
-								{`
-								.curve-a {
-									fill: none;
-									stroke: #959493;
-									stroke-miterlimit: 100;
-									stroke-width: 5;
-									stroke-dasharray: 2065.36, 0.1;
-								}
-								`}
-							</style>
+							<style>{SVG_CURVE_STYLE}</style>
 							<path
 								ref={pathRefMobile}
 								fillRule="evenodd"
