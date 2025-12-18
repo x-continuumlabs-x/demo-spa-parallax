@@ -141,7 +141,7 @@ frontend/
 │   └── page.tsx                    # Main page composition
 ├── public/
 │   ├── headings/                   # SVG heading assets
-│   ├── local-images/               # Images and frame sequences
+│   ├── images/               # Images and frame sequences
 │   │   └── frames/                 # Canvas animation frames
 │   └── *.png                       # Icons and logos
 └── types/
@@ -237,7 +237,7 @@ The Highlights section uses 157 frames (frame_00036 to frame_00192):
 
 -   Format: JPG
 -   Resolution: 1280x720
--   Location: `/public/local-images/frames/`
+-   Location: `/public/images/frames/`
 
 ## Performance Considerations
 
