@@ -1,6 +1,5 @@
 import { Props } from "@/types";
 import { useRef, useState } from "react";
-import Image from "next/image";
 import { gsap, ScrollTrigger } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -233,7 +232,7 @@ export default function Highlights({ wrapperRef }: Props) {
 			</div>
 			<div className="absolute top-[14vh] sm:top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
 				<div ref={headingRef} className="w-[98vw] aspect-[1299/351] relative flex flex-row overflow-hidden top-[10vh]">
-					
+
 					<div ref={headingChar1Ref} className="relative w-[27.33%] h-full mr-[0.31%] overflow-hidden">
 						<div className="w-[63.24%] h-full absolute">
 							<img
@@ -246,47 +245,38 @@ export default function Highlights({ wrapperRef }: Props) {
 							/>
 						</div>
 					</div>
-					
+
 					<div ref={headingChar2Ref} className="relative w-[19.25%] h-full mr-[1.0%] overflow-hidden">
 						<div className="absolute w-full h-full">
-							<img
-								src="/headings/highlights-h1-e1.svg"
-							/>
+							{/* E shape - vertical bar on left */}
+							<div className="absolute w-[39.4%] h-full bg-[#b0f3e1]"></div>
+							{/* E shape - top horizontal bar */}
+							<div className="absolute w-full h-[24.46%] right-0 bg-[#b0f3e1]"></div>
+							{/* E shape - bottom horizontal bar */}
+							<div className="absolute w-full h-[24.4%] bottom-0 right-0 bg-[#b0f3e1]"></div>
 						</div>
-						<div ref={headingSeg4Ref} className="absolute w-[60.8%] left-[39.4%]">
-							<img
-								src="/headings/highlights-h1-e2.svg"
-							/>
+						<div ref={headingSeg4Ref} className="absolute w-[60.8%] h-[24.66%] left-[39.4%] bg-[#b0f3e1]">
 						</div>
-						<div ref={headingSeg5Ref} className="absolute w-[49%] top-[38.37%] left-[39.4%]">
-							<img
-								src="/headings/highlights-h1-e3.svg"
-							/>
+						<div ref={headingSeg5Ref} className="absolute w-[49%] h-[23.4%] top-[38.37%] left-[39.4%] bg-[#b0f3e1]">
 						</div>
 					</div>
-					
+
 					<div ref={headingChar3Ref} className="relative h-full w-[19.25%] mr-[0.85%] overflow-hidden">
 						<div className="absolute w-full h-full">
-							<img
-								src="/headings/highlights-h1-l1.svg" 
-								className="w-full h-full"
-							/>
+							{/* L shape - vertical bar on left */}
+							<div className="absolute w-[39.4%] h-full bg-[#b0f3e1]"></div>
+							{/* L shape - bottom horizontal bar */}
+							<div className="absolute w-full h-[24.4%] bottom-0 bg-[#b0f3e1]"></div>
 						</div>
 					</div>
-					
+
 					<div ref={headingChar4Ref} className="relative w-[7.58%] h-full mr-[1.0%] overflow-hidden">
-						<div className="absolute w-full h-full">
-							<img
-								src="/headings/highlights-h1-i1.svg"
-							/>
+						<div className="absolute w-full h-full bg-[#b0f3e1]">
 						</div>
 					</div>
-					
+
 					<div ref={headingChar5Ref} className="relative flex flex-row w-[22.56%] h-full justify-center overflow-hidden">
-						<div className="absolute w-[33.79%] top-[24.68%] left-[33.28%]">
-							<img
-								src="/headings/highlights-h1-t1.svg"
-							/>
+						<div className="absolute w-[33.79%] h-[75.32%] top-[24.68%] left-[33.28%] bg-[#b0f3e1]">
 						</div>
 						<div ref={headingSeg9Ref} className="absolute w-full h-[24.68%] bg-[#b0f3e1]">
 						</div>
