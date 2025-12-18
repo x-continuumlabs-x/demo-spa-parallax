@@ -267,7 +267,7 @@ export default function Hero({ wrapperRef }: Props) {
 					className="absolute top-[76vh] sm:top-[-13vh] w-full"
 					data-speed={isMobile ? "0.8" : "0.7"}
 				>
-					<h1 className="text-[30vw] text-[#b082db] uppercase font-nominee font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
+					<h1 className="text-[30vw] text-[#b082db] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
 						Nomin
 					</h1>
 				</div>
@@ -302,7 +302,7 @@ export default function Hero({ wrapperRef }: Props) {
 						</div>
 
 						<div className="absolute w-[220px] h-[68px]">
-							<div id="formHeading" className="w-full h-full relative flex justify-between items-center uppercase font-nominee font-black tracking-[-0.06em] leading-[0.6em] overflow-hidden py-[2px] pr-[1px]">
+							<div id="formHeading" className="w-full h-full relative flex justify-between items-center uppercase font-mainfont font-black tracking-[-0.06em] leading-[0.6em] overflow-hidden py-[2px] pr-[1px]">
 								<div ref={formHeadingSmallRef} className="flex justify-center w-full">
 									<h3 className="text-[12px] relative overflow-hidden py-[2px] pr-[1px]">Contact Us</h3>
 								</div>
@@ -321,9 +321,9 @@ export default function Hero({ wrapperRef }: Props) {
 
 						<div ref={ctaClickRef} id="ctaClick" onClick={handleCtaClick} className="absolute w-[220px] h-[68px] cursor-pointer"></div>
 
-						<div className="absolute w-full uppercase font-nominee tracking-[-0.06em] leading-[1.4em] mt-[28px] text-center sm:text-left sm:ml-[30px]">
+						<div className="absolute w-full uppercase font-mainfont tracking-[-0.06em] leading-[1.4em] mt-[28px] text-center sm:text-left sm:ml-[30px]">
 							<h3 ref={contactHeadingLargeRef} className="font-black text-[26px] tracking-[-0.07em] hidden">Contact Us</h3>
-							<p ref={contactPhoneRef} className="text-[#d7cec4]/50 font-nominee tracking-[-0.04em] hidden">+34 123 456 789</p>
+							<p ref={contactPhoneRef} className="text-[#d7cec4]/50 font-mainfont tracking-[-0.04em] hidden">+34 123 456 789</p>
 						</div>
 
 						<div className="form absolute w-full top-[200px] px-[30px]">
@@ -335,7 +335,7 @@ export default function Hero({ wrapperRef }: Props) {
 							</div>
 							<div ref={fieldCtaRef} id="fieldCta" className="w-full flex justify-center sm:justify-end opacity-0">
 								<Button
-									className="font-nominee font-black tracking-[-0.06em] uppercase w-[200px] py-[2em] px-[1.5em] rounded-2xl bg-[#b7b0a8] text-[12px] text-[#1e1c1b] justify-between"
+									className="font-mainfont font-black tracking-[-0.06em] uppercase w-[200px] py-[2em] px-[1.5em] rounded-2xl bg-[#b7b0a8] text-[12px] text-[#1e1c1b] justify-between"
 									>
 									Submit
 									<Image

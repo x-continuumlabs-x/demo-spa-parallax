@@ -1,20 +1,20 @@
 import localFont from "next/font/local";
 import { Albert_Sans } from "next/font/google";
 
-export const nominee = localFont({
+export const mainfont = localFont({
   src: [
     {
-      path: "../public/fonts/Nominee-Medium.otf",
+      path: "../public/fonts/Mainfont-Medium.otf",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../public/fonts/Nominee-Black.otf",
+      path: "../public/fonts/Mainfont-Black.otf",
       weight: "900",
       style: "normal",
     },
   ],
-  variable: "--font-nominee",
+  variable: "--font-mainfont",
   weight: "500",
 });
 

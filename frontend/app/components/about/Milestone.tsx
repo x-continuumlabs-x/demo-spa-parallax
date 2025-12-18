@@ -52,7 +52,7 @@ export default function Milestone({
 				<TimelineMarker />
 			</div>
 			<div className={`pt-[0.04em] px-[0.7em] ${widthClasses} ${isTextRight ? 'text-right' : ''}`}>
-				<h3 className="mb-[0.3em] text-[22px] uppercase font-nominee font-black tracking-[-0.03em] leading-[0.8em]">
+				<h3 className="mb-[0.3em] text-[22px] uppercase font-mainfont font-black tracking-[-0.03em] leading-[0.8em]">
 					{title}
 				</h3>
 				<p className="text-[14px] leading-[1.2em]">

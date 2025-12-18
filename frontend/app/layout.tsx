@@ -1,7 +1,7 @@
 'use client'
 import { usePathname } from "next/navigation";
 // import type { Metadata } from "next";
-import { nominee, albertSans } from "./fonts";
+import { mainfont, albertSans } from "./fonts";
 import "./globals.css";
 import '@heroui/styles';
 import { Providers } from "./providers";
@@ -45,7 +45,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-			className={`${albertSans.variable} ${nominee.variable} antialiased`}
+			className={`${albertSans.variable} ${mainfont.variable} antialiased`}
 			// style={{ fontFamily: 'var(--font-albert-sans)' }}
 			>
 				<Providers>

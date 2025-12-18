@@ -14,7 +14,7 @@
 	--color-foreground: var(--foreground);
 	--font-sans: var(--font-albert-sans);
 	--font-mono: var(--font-geist-mono);
-	--font-nominee: var(--font-nominee);
+	--font-mainfont: var(--font-mainfont);
 }
 
 @media (prefers-color-scheme: dark) {
