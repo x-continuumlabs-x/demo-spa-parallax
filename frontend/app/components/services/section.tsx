@@ -3,7 +3,7 @@
 import { Props } from "@/types";
 import { useGSAP } from "@gsap/react";
 import { useRef, useState, useEffect } from "react";
-import { gsap, ScrollTrigger, ScrollSmoother, SplitText } from "@/app/lib/gsap";
+import { gsap, ScrollTrigger, ScrollSmoother } from "@/app/lib/gsap";
 import { Tabs } from "@heroui/react";
 
 const MOBILE_BREAKPOINT = 640;
@@ -91,7 +91,6 @@ export default function Services({ wrapperRef }: Props) {
 	const contentRef1 = useRef<HTMLDivElement>(null);
 	const contentRef2 = useRef<HTMLDivElement>(null);
 	const contentRef3 = useRef<HTMLDivElement>(null);
-	const splitInstancesRef = useRef<{ t1?: SplitText; t2?: SplitText; t3?: SplitText }>({});
 	const previousTabRef = useRef<string>("img1");
 	const [galleryHeight, setGalleryHeight] = useState<number>(0);
 
@@ -178,12 +177,6 @@ export default function Services({ wrapperRef }: Props) {
 			const prevPara = prevContent.ref.current.querySelector("p");
 			if (prevPara) gsap.set(prevPara, { opacity: 0 });
 
-			// Cleanup SplitText
-			const prevSplit = splitInstancesRef.current[prevContent.key as keyof typeof splitInstancesRef.current];
-			if (prevSplit) {
-				prevSplit.revert();
-				delete splitInstancesRef.current[prevContent.key as keyof typeof splitInstancesRef.current];
-			}
 		}
 
 		// SHOW & ANIMATE NEW
@@ -202,17 +195,12 @@ export default function Services({ wrapperRef }: Props) {
 			});
 
 			if (h2 && p) {
-				const split = new SplitText(h2, { type: "lines", linesClass: "overflow-hidden" });
-				splitInstancesRef.current[newContent.key as keyof typeof splitInstancesRef.current] = split;
+				gsap.set(h2, { opacity: 0 });
 
-				gsap.set(split.lines, { yPercent: 100, opacity: 0 });
-
-				gsap.to(split.lines, {
-					yPercent: 0,
+				gsap.to(h2, {
 					opacity: 1,
 					duration: ANIMATION_DURATIONS.splitText,
-					ease: "power2.out",
-					stagger: ANIMATION_DURATIONS.splitTextStagger
+					ease: "power2.out"
 				});
 
 				gsap.to(p, {
@@ -259,15 +247,6 @@ export default function Services({ wrapperRef }: Props) {
 
 		return () => clearTimeout(timer);
 	}, [isMobile]);
-
-	// Cleanup on unmount
-	useEffect(() => {
-		return () => {
-			Object.values(splitInstancesRef.current).forEach(split => {
-				if (split) split.revert();
-			});
-		};
-	}, []);
 
 	return(
 		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
@@ -421,15 +400,15 @@ export default function Services({ wrapperRef }: Props) {
 					}}
 				>
 					<div ref={contentRef1} className="absolute w-[88vw]">
-						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br />architecto <br />voluptatem</h2>
+						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br className="hidden sm:inline" />architecto <br className="hidden sm:inline" />voluptatem</h2>
 						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam qui.</p>
 					</div>
 					<div ref={contentRef2} className="absolute w-[88vw] hidden">
-						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$195 Ut <br />consecte <br />sed do</h2>
+						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$195 Ut <br className="hidden sm:inline" />consecte <br className="hidden sm:inline" />sed do</h2>
 						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-0">Mollitia dolores ea mollitia a qui mollitia sit alias. Similique mollitia doloremque fuga qui. Labore consequatur delectus fugiat.</p>
 					</div>
 					<div ref={contentRef3} className="absolute w-[88vw] hidden">
-						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$595 Ut <br />adipiscing <br />eiusmod</h2>
+						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$595 Ut <br className="hidden sm:inline" />adipiscing <br className="hidden sm:inline" />eiusmod</h2>
 						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci didunt ut labore et dolore magna aliqua ut enim ad minim.</p>
 					</div>
 				</div>

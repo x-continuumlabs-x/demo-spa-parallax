@@ -214,7 +214,7 @@ export default function About({ wrapperRef }: Props) {
 					</div>
 				</div>
 				<div ref={bodyCopyRef} className="w-[88%] lg:w-[28%]">
-					<h1 className="text-[34px] sm:text-[5vw] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.8em] mb-[0.5em]">Ut enim <br />ad minim <br />veniam</h1>
+					<h1 className="text-[34px] sm:text-[5vw] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.8em] mb-[0.5em]">Ut enim <br className="hidden sm:inline" />ad minim <br className="hidden sm:inline" />veniam</h1>
 
 					<p className="text-[16px] sm:text-[18px] opacity-60 leading-[1.3em] mb-[1.4em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 
