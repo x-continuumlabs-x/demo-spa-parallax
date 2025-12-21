@@ -421,15 +421,15 @@ export default function Services({ wrapperRef }: Props) {
 					}}
 				>
 					<div ref={contentRef1} className="absolute w-[88vw]">
-						<h2 className="text-[44px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br />architecto <br />voluptatem</h2>
+						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br />architecto <br />voluptatem</h2>
 						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam qui.</p>
 					</div>
 					<div ref={contentRef2} className="absolute w-[88vw] hidden">
-						<h2 className="text-[44px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$195 Ut <br />consecte <br />sed do</h2>
+						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$195 Ut <br />consecte <br />sed do</h2>
 						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-0">Mollitia dolores ea mollitia a qui mollitia sit alias. Similique mollitia doloremque fuga qui. Labore consequatur delectus fugiat.</p>
 					</div>
 					<div ref={contentRef3} className="absolute w-[88vw] hidden">
-						<h2 className="text-[44px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$595 Ut <br />adipiscing <br />eiusmod</h2>
+						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$595 Ut <br />adipiscing <br />eiusmod</h2>
 						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci didunt ut labore et dolore magna aliqua ut enim ad minim.</p>
 					</div>
 				</div>
