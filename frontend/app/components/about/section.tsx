@@ -182,7 +182,7 @@ export default function About({ wrapperRef }: Props) {
 						<Milestone
 							title="2020"
 							description="Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad."
-							widthClasses="w-[160px] sm:w-[250px]"
+							widthClasses="w-[150px] sm:w-[250px]"
 							variant="left-right"
 							position="40%"
 							milestoneRef={milestone3}
