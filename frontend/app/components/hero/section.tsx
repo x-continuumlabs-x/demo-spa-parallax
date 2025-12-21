@@ -80,7 +80,10 @@ const scrollSectionToBottom = (element: HTMLElement) => {
 	const currentScrollY = smoother.scrollTop();
 	const viewportHeight = window.innerHeight;
 	const sectionBottom = rect.bottom + currentScrollY;
-	const targetScroll = sectionBottom - viewportHeight;
+
+	const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+	const offset = isMobile ? 100 : 0;
+	const targetScroll = sectionBottom - viewportHeight - offset;
 
 	smoother.scrollTo(targetScroll, true, "power2.inOut");
 };
