@@ -32,7 +32,7 @@ const FORM_POSITIONS = {
 
 const IMAGE_DIMENSIONS = {
 	landscape: { width: 3200, height: 2883 },
-	portrait: { width: 1170, height: 2532 },
+	portrait: { width: 1170, height: 2201 },
 } as const;
 
 const animateSplitTextOut = (element: HTMLElement, onComplete?: () => void) => {
