@@ -93,6 +93,7 @@ export default function Services({ wrapperRef }: Props) {
 	const contentRef3 = useRef<HTMLDivElement>(null);
 	const splitInstancesRef = useRef<{ t1?: SplitText; t2?: SplitText; t3?: SplitText }>({});
 	const previousTabRef = useRef<string>("img1");
+	const [galleryHeight, setGalleryHeight] = useState<number>(0);
 
 	useGSAP(() => {
 		const galleryContainer = sectionRef.current?.querySelector<HTMLElement>(
@@ -103,6 +104,7 @@ export default function Services({ wrapperRef }: Props) {
 		if (!galleryContainer || !images || images.length < 2) return;
 
 		const galleryHeight = galleryContainer.getBoundingClientRect().height;
+		setGalleryHeight(galleryHeight);
 		const numImages = images.length;
 		const smoother = ScrollSmoother.get ? ScrollSmoother.get() : null;
 		const timelineDuration = numImages - 1;
@@ -247,6 +249,7 @@ export default function Services({ wrapperRef }: Props) {
 			if (!galleryContainer || !images || images.length < 2 || !tl) return;
 
 			const newGalleryHeight = galleryContainer.getBoundingClientRect().height;
+			setGalleryHeight(newGalleryHeight);
 
 			tl.clear();
 			createImageAnimations(tl, images, newGalleryHeight);
@@ -411,7 +414,12 @@ export default function Services({ wrapperRef }: Props) {
 					</div>
 				</div>
 				
-				<div className="mx-[6vw] sm:mx-0 mt-[35vh] sm:mt-0 sm:absolute sm:top-[20vh] sm:left-[15vw]">
+				<div
+					className="mx-[6vw] sm:mx-0 sm:absolute sm:top-[20vh] sm:left-[15vw]"
+					style={{
+						marginTop: isMobile && galleryHeight > 0 ? `${galleryHeight + 30}px` : undefined
+					}}
+				>
 					<div ref={contentRef1} className="absolute w-[88vw]">
 						<h2 className="text-[44px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br />architecto <br />voluptatem</h2>
 						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam qui.</p>
