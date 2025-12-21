@@ -230,7 +230,7 @@ export default function Highlights({ wrapperRef }: Props) {
 			<div ref={canvasContainerRef} className="min-w-[200vw] w-[200vw] h-[112.5vw] sm:min-w-[100vw] sm:w-[100vw] sm:h-[56.25vw] flex justify-center">
 				<canvas ref={canvasRef} className="w-full h-full object-contain" />
 			</div>
-			<div className="absolute top-[14vh] sm:top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
+			<div className="absolute top-[19vh] sm:top-0 left-0 w-full h-[100vh] flex flex-col items-center justify-center">
 				<div ref={headingRef} className="w-[98vw] aspect-[1299/351] relative flex flex-row overflow-hidden top-[10vh]">
 
 					<div ref={headingChar1Ref} className="relative w-[27.33%] h-full mr-[0.31%] overflow-hidden">
