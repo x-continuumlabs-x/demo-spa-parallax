@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+/* Hide scrollbar by default on page load */
+html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
 /* You no longer need @plugin or @source for HeroUI */
 
 @custom-variant dark (&:is(.dark *));
