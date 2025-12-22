@@ -119,13 +119,13 @@ export default function About({ wrapperRef }: Props) {
 	}, { scope: wrapperRef });
 
 	return(
-		<section className="relative w-full pt-[8vw] pb-[17vw]">
+		<section className="relative w-full pt-[22vw] sm:pt-[8vw] pb-[17vw] border-t border-white/15 sm:border-0">
 			<div ref={sectionRef} className="flex flex-col-reverse items-center lg:items-start lg:justify-evenly lg:flex-row">
 				<div className="w-full lg:w-1/3 flex items-center flex-col">
 					<div
 						className="relative w-[15%] sm:w-[30%] overflow-visible aspect-[95/1866] sm:aspect-[295/1866]"
 					>
-						{/* Desktop SVG - shown on sm and above */}
+						{/* Landscape SVG - shown on sm and above */}
 						<svg
 							version="1.2"
 							xmlns="http://www.w3.org/2000/svg"
