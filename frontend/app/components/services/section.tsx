@@ -250,7 +250,7 @@ export default function Services({ wrapperRef }: Props) {
 
 	return(
 		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
-			<div className="py-[30px] w-full flex justify-center">
+			<div className="pt-[30px] pb-[20px] sm:py-[30px] w-full flex justify-center">
 				<Tabs
 					id="tabs" 
 					className="flex-col" 
