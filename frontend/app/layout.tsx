@@ -3,6 +3,7 @@ import { mainfont, albertSans } from "./fonts";
 import "./globals.css";
 import '@heroui/styles';
 import SmoothScroll from "./components/SmoothScroll";
+import LoadingScreen from "./components/LoadingScreen";
 
 export const metadata: Metadata = {
 	title: "Single Page Parallax App",
@@ -17,10 +18,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-			className={`${albertSans.variable} ${mainfont.variable} antialiased`}>
+			className={`${albertSans.variable} ${mainfont.variable} antialiased relative`}>
 				<SmoothScroll>
 					{children}
 				</SmoothScroll>
+				<LoadingScreen />
 			</body>
 		</html>
 	);
