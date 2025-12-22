@@ -331,10 +331,10 @@ export default function Hero({ wrapperRef }: Props) {
 
 						<div className="form absolute w-full top-[200px] px-[30px]">
 							<div ref={fieldNameRef} id="fieldName" className="w-full mb-[15px] opacity-0">
-								<Input aria-label="Name" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Name" type="text" />
+								<Input aria-label="Name" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] text-[16px] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Name" type="text" />
 							</div>
 							<div ref={fieldEmailRef} id="fieldEmail" className="w-full mb-[15px] opacity-0">
-								<Input aria-label="Email" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Email" type="email" />
+								<Input aria-label="Email" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] text-[16px] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Email" type="email" />
 							</div>
 							<div ref={fieldCtaRef} id="fieldCta" className="w-full flex justify-center sm:justify-end opacity-0">
 								<Button
