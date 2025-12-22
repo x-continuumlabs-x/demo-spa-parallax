@@ -301,10 +301,11 @@ export default function Services({ wrapperRef }: Props) {
 								*:min-w-[82vw] 
 								*:sm:min-w-[220px] 
 								*:px-6 
-								*:h-[40px] 
+								*:h-[30px] 
 								*:sm:h-14 
 								*:text-left 
-								*:text-[13px] 
+								*:text-[12px] 
+								*:sm:text-[13px] 
 								*:uppercase 
 								*:font-mainfont 
 								*:font-black 
