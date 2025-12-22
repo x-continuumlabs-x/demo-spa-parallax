@@ -329,7 +329,7 @@ export default function Hero({ wrapperRef }: Props) {
 							<p ref={contactPhoneRef} className="text-[#d7cec4]/50 font-mainfont tracking-[-0.04em] hidden">+34 123 456 789</p>
 						</div>
 
-						<div className="form absolute w-full top-[200px] px-[30px]">
+						<div className="form absolute w-full top-[180px] sm:top-[200px] px-[30px]">
 							<div ref={fieldNameRef} id="fieldName" className="w-full mb-[15px] opacity-0">
 								<Input aria-label="Name" className="w-full py-[1.3em] px-[1.5em] bg-[#322f2e] text-[16px] placeholder:text-[#d7cec4]/30 text-[#d7cec4] shadow-none" placeholder="Name" type="text" />
 							</div>
