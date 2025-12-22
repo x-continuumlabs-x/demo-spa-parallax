@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { mainfont, albertSans } from "./fonts";
 import "./globals.css";
 import '@heroui/styles';
-import { Providers } from "./providers";
 import SmoothScroll from "./components/SmoothScroll";
 
 export const metadata: Metadata = {
@@ -19,11 +18,9 @@ export default function RootLayout({
 		<html lang="en">
 			<body
 			className={`${albertSans.variable} ${mainfont.variable} antialiased`}>
-				<Providers>
-					<SmoothScroll>
-						{children}
-					</SmoothScroll>
-				</Providers>
+				<SmoothScroll>
+					{children}
+				</SmoothScroll>
 			</body>
 		</html>
 	);
