@@ -18,7 +18,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 			content: smoothContent.current!,
 			smooth: 1.0,
 			effects: true,
-			smoothTouch: 0.1,
+			smoothTouch: false,
 		});
 
 		return () => {
