@@ -2,7 +2,7 @@
 
 import { useRef, ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
-import { ScrollSmoother } from "@/app/lib/gsap";
+import { ScrollSmoother, gsap } from "@/app/lib/gsap";
 
 interface SmoothScrollProps {
 	children: ReactNode;
@@ -16,19 +16,46 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 		// Detect if mobile device
 		const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-		// Only create ScrollSmoother on desktop
-		if (isMobile) return;
+		if (isMobile) {
+			// Mobile: Create manual parallax for data-speed elements
+			const dataSpeedElements = document.querySelectorAll<HTMLElement>('[data-speed]');
 
-		const smoother = ScrollSmoother.create({
-			wrapper: smoothWrapper.current!,
-			content: smoothContent.current!,
-			smooth: 1.0,
-			effects: true,
-		});
+			dataSpeedElements.forEach((element) => {
+				const speed = parseFloat(element.getAttribute('data-speed') || '1');
 
-		return () => {
-			smoother.kill();
-		};
+				// Calculate parallax movement
+				// speed < 1 = moves slower than scroll (background effect)
+				// speed > 1 = moves faster than scroll (foreground effect)
+				const movement = (1 - speed) * 100;
+
+				gsap.fromTo(element,
+					{ y: 0 },
+					{
+						y: movement,
+						ease: "none",
+						scrollTrigger: {
+							trigger: element,
+							start: "top bottom", // when top of element enters bottom of viewport
+							end: "bottom top", // when bottom of element exits top of viewport
+							scrub: true, // smooth scrubbing
+							invalidateOnRefresh: true
+						}
+					}
+				);
+			});
+		} else {
+			// Desktop: Use ScrollSmoother
+			const smoother = ScrollSmoother.create({
+				wrapper: smoothWrapper.current!,
+				content: smoothContent.current!,
+				smooth: 1.0,
+				effects: true, // This handles data-speed on desktop
+			});
+
+			return () => {
+				smoother.kill();
+			};
+		}
 	}, []);
 
 	// Always render wrapper divs for consistent DOM structure
