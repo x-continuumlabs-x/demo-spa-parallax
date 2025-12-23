@@ -33,17 +33,18 @@ export default function LoadingScreen({ staticImages, frameImages }: LoadingScre
 
     useEffect(() => {
         if (!isLoading) {
-            // Get ScrollSmoother instance and scroll to top instantly
+            // Try to get ScrollSmoother instance (desktop only)
             const smoother = ScrollSmoother.get();
             if (smoother) {
                 smoother.scrollTo(0, false); // false = no animation
+            } else {
+                // Mobile: use native scroll
+                window.scrollTo({ top: 0, behavior: 'instant' });
+                document.documentElement.scrollTop = 0;
+                document.body.scrollTop = 0;
             }
 
-            // Fallback: also directly set scroll positions
-            window.scrollTo({ top: 0, behavior: 'instant' });
-            document.documentElement.scrollTop = 0;
-            document.body.scrollTop = 0;
-
+            // Desktop: reset smooth wrapper scroll positions
             const smoothWrapper = document.getElementById('smooth-wrapper');
             const smoothContent = document.getElementById('smooth-content');
             if (smoothWrapper) smoothWrapper.scrollTop = 0;
