@@ -355,10 +355,10 @@ export default function Services({ wrapperRef }: Props) {
 							<picture>
 								<source
 									media="(min-width: 640px)"
-									srcSet="/images/services-gallery-desktop-3.jpg"
+									srcSet="/images/preloaded/services-gallery-desktop-3.jpg"
 								/>
 								<img
-									src="/images/services-gallery-3.jpg"
+									src="/images/preloaded/services-gallery-3.jpg"
 									id="photoC" 
 									alt="Photo portrait of an old man" 
 									className="absolute top-0 left-0 h-full w-full object-cover"
@@ -367,10 +367,10 @@ export default function Services({ wrapperRef }: Props) {
 							<picture>
 								<source
 									media="(min-width: 640px)"
-									srcSet="/images/services-gallery-desktop-2.jpg"
+									srcSet="/images/preloaded/services-gallery-desktop-2.jpg"
 								/>
 								<img
-									src="/images/services-gallery-2.jpg"
+									src="/images/preloaded/services-gallery-2.jpg"
 									id="photoB" 
 									alt="Photo portrait of an old man" 
 									className="absolute top-0 left-0 h-full w-full object-cover"
@@ -379,10 +379,10 @@ export default function Services({ wrapperRef }: Props) {
 							<picture>
 								<source
 									media="(min-width: 640px)"
-									srcSet="/images/services-gallery-desktop-1.jpg"
+									srcSet="/images/preloaded/services-gallery-desktop-1.jpg"
 								/>
 								<img
-									src="/images/services-gallery-1.jpg"
+									src="/images/preloaded/services-gallery-1.jpg"
 									id="photoA" 
 									alt="Photo portrait of an old man" 
 									className="absolute top-0 left-0 h-full w-full object-cover"

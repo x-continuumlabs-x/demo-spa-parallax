@@ -67,7 +67,7 @@ export default function Expertise({ wrapperRef }: Props){
 					<div id="expertiseImg">
 						{/* Landscape image */}
 						<Image
-							src="/images/section-bg-expertise.jpg"
+							src="/images/preloaded/section-bg-expertise.jpg"
 							alt="Photo portrait of a young man"
 							width={IMAGE_DIMENSIONS.landscape.width}
 							height={IMAGE_DIMENSIONS.landscape.height}
@@ -80,7 +80,7 @@ export default function Expertise({ wrapperRef }: Props){
 						/>
 						{/* Portrait image */}
 						<Image
-							src="/images/section-bg-expertise-portrait.jpg"
+							src="/images/preloaded/section-bg-expertise-portrait.jpg"
 							alt="Photo portrait of a young man"
 							width={IMAGE_DIMENSIONS.portrait.width}
 							height={IMAGE_DIMENSIONS.portrait.height}
@@ -117,7 +117,7 @@ export default function Expertise({ wrapperRef }: Props){
 						</Card.Header>
 						<div className="hidden sm:block">
 							<Image
-								src="/images/card-ai.jpg"
+								src="/images/preloaded/card-ai.jpg"
 								alt="Card 2"
 								width={CARD_IMAGE_DIMENSIONS.width}
 								height={CARD_IMAGE_DIMENSIONS.height}
@@ -132,7 +132,7 @@ export default function Expertise({ wrapperRef }: Props){
 						</Card.Header>
 						<div className="hidden sm:block">
 							<Image
-								src="/images/card-casting.jpg"
+								src="/images/preloaded/card-casting.jpg"
 								alt="Card 2"
 								width={CARD_IMAGE_DIMENSIONS.width}
 								height={CARD_IMAGE_DIMENSIONS.height}
@@ -147,7 +147,7 @@ export default function Expertise({ wrapperRef }: Props){
 						</Card.Header>
 						<div className="hidden sm:block">
 							<Image
-								src="/images/card-lighting.jpg"
+								src="/images/preloaded/card-lighting.jpg"
 								alt="Card 2"
 								width={CARD_IMAGE_DIMENSIONS.width}
 								height={CARD_IMAGE_DIMENSIONS.height}

@@ -3,41 +3,19 @@ import { useImagePreloader } from '../hooks/useImagePreloader';
 import { useState, useEffect } from 'react';
 import { ScrollSmoother } from '@/app/lib/gsap';
 
-export default function LoadingScreen() {
+interface LoadingScreenProps {
+    staticImages: string[];
+    frameImages: string[];
+}
+
+export default function LoadingScreen({ staticImages, frameImages }: LoadingScreenProps) {
     const [isVisible, setIsVisible] = useState(true);
-
-    // Build array of all critical image paths
-    const staticImages = [
-        '/images/section-bg-hero.jpg',
-        '/images/section-bg-hero-portrait.jpg',
-        '/images/section-bg-expertise.jpg',
-        '/images/section-bg-expertise-portrait.jpg',
-        '/images/section-bg-highlights.jpg',
-        '/images/card-ai.jpg',
-        '/images/card-casting.jpg',
-        '/images/card-lighting.jpg',
-        '/images/services-gallery-1.jpg',
-        '/images/services-gallery-2.jpg',
-        '/images/services-gallery-3.jpg',
-        '/images/services-gallery-desktop-1.jpg',
-        '/images/services-gallery-desktop-2.jpg',
-        '/images/services-gallery-desktop-3.jpg',
-    ];
-
-    // First 20 frames (frame_00036 through frame_00055)
-    const frameImages = Array.from({ length: 20 }, (_, i) => {
-        const frameNumber = 36 + i; // Start at 36
-        return `/images/frames/frame_${String(frameNumber).padStart(5, '0')}.jpg`;
-    });
-
-    const allImages = [...staticImages, ...frameImages]; // 14 + 20 = 34 total
-
+    const allImages = [...staticImages, ...frameImages];
     const { isLoading, progress } = useImagePreloader(allImages);
 
-    // Restore scrollbar when loading completes (CSS hides it by default)
+    // Restore scrollbar when loading completes
     useEffect(() => {
         if (!isLoading) {
-            // Add CSS to show scrollbar (override globals.css)
             const style = document.createElement('style');
             style.id = 'show-scrollbar';
             style.innerHTML = `
@@ -55,10 +33,10 @@ export default function LoadingScreen() {
 
     useEffect(() => {
         if (!isLoading) {
-            // Get ScrollSmoother instance and scroll to top instantly (no animation)
+            // Get ScrollSmoother instance and scroll to top instantly
             const smoother = ScrollSmoother.get();
             if (smoother) {
-                smoother.scrollTo(0, false); // false = instant, no animation
+                smoother.scrollTo(0, false); // false = no animation
             }
 
             // Fallback: also directly set scroll positions
@@ -75,7 +53,7 @@ export default function LoadingScreen() {
             document.body.style.overflow = '';
             document.documentElement.style.overflow = '';
 
-            // Then fade out the loading screen
+            // Fade out the loading screen
             const timer = setTimeout(() => {
                 setIsVisible(false);
             }, 300);

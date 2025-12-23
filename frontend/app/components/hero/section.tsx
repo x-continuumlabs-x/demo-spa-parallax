@@ -247,7 +247,7 @@ export default function Hero({ wrapperRef }: Props) {
 					className="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] h-full" 
 				>
 					<Image
-						src="/images/section-bg-hero.jpg"
+						src="/images/preloaded/section-bg-hero.jpg"
 						alt="Hero"
 						width={IMAGE_DIMENSIONS.landscape.width}
 						height={IMAGE_DIMENSIONS.landscape.height}
@@ -256,7 +256,7 @@ export default function Hero({ wrapperRef }: Props) {
 						priority
 					/>
 					<Image
-						src="/images/section-bg-hero-portrait.jpg"
+						src="/images/preloaded/section-bg-hero-portrait.jpg"
 						alt="Hero portrait"
 						width={IMAGE_DIMENSIONS.portrait.width}
 						height={IMAGE_DIMENSIONS.portrait.height}
