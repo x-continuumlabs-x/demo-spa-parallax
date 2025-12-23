@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, ReactNode, useState, useEffect } from "react";
+import { useRef, ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import { ScrollSmoother } from "@/app/lib/gsap";
 
@@ -11,17 +11,11 @@ interface SmoothScrollProps {
 export default function SmoothScroll({ children }: SmoothScrollProps) {
 	const smoothWrapper = useRef<HTMLDivElement>(null);
 	const smoothContent = useRef<HTMLDivElement>(null);
-	const [isMobile, setIsMobile] = useState(false);
-
-	// Detect mobile on mount
-	useEffect(() => {
-		const checkMobile = () => {
-			setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
-		};
-		checkMobile();
-	}, []);
 
 	useGSAP(() => {
+		// Detect if mobile device
+		const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
 		// Only create ScrollSmoother on desktop
 		if (isMobile) return;
 
@@ -35,14 +29,9 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 		return () => {
 			smoother.kill();
 		};
-	}, [isMobile]);
+	}, []);
 
-	// On mobile, just render children without ScrollSmoother wrapper
-	if (isMobile) {
-		return <>{children}</>;
-	}
-
-	// On desktop, use ScrollSmoother wrapper
+	// Always render wrapper divs for consistent DOM structure
 	return (
 		<div ref={smoothWrapper} id="smooth-wrapper">
 			<div ref={smoothContent} id="smooth-content">
