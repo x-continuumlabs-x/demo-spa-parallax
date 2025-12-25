@@ -21,28 +21,31 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 			const PARALLAX_INTENSITY = 0.5; // Adjust this value (0.1 = subtle, 1.0 = full viewport)
 			const dataSpeedElements = document.querySelectorAll<HTMLElement>('[data-speed]');
 
+			// Calculate total scrollable distance
+			const pageHeight = document.body.scrollHeight;
+			const viewportHeight = window.innerHeight;
+			const scrollDistance = pageHeight - viewportHeight;
+
 			dataSpeedElements.forEach((element) => {
 				const speed = parseFloat(element.getAttribute('data-speed') || '1');
 
-				// Calculate parallax movement based on viewport height
+				// Calculate total movement over entire page scroll
+				// Negative because we want to move up as we scroll down
 				// speed < 1 = moves slower than scroll (background effect)
 				// speed > 1 = moves faster than scroll (foreground effect)
-				const movement = (1 - speed) * window.innerHeight * PARALLAX_INTENSITY;
+				const movement = -(scrollDistance * (1 - speed) * PARALLAX_INTENSITY);
 
-				gsap.fromTo(element,
-					{ y: 0 },
-					{
-						y: movement,
-						ease: "none",
-						scrollTrigger: {
-							trigger: element,
-							start: "top bottom", // when top of element enters bottom of viewport
-							end: `+=${window.innerHeight}`, // fixed scroll distance for consistent speed
-							scrub: true, // smooth scrubbing
-							invalidateOnRefresh: true
-						}
+				gsap.to(element, {
+					y: movement,
+					ease: "none",
+					scrollTrigger: {
+						trigger: document.body,     // Use entire page as trigger
+						start: "top top",            // Start of page
+						end: "bottom bottom",        // End of page
+						scrub: true,                 // Smooth scrubbing
+						invalidateOnRefresh: true
 					}
-				);
+				});
 			});
 		} else {
 			// Desktop: Use ScrollSmoother
