@@ -18,15 +18,16 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 
 		if (isMobile) {
 			// Mobile: Create manual parallax for data-speed elements
+			const PARALLAX_INTENSITY = 0.5; // Adjust this value (0.1 = subtle, 1.0 = full viewport)
 			const dataSpeedElements = document.querySelectorAll<HTMLElement>('[data-speed]');
 
 			dataSpeedElements.forEach((element) => {
 				const speed = parseFloat(element.getAttribute('data-speed') || '1');
 
-				// Calculate parallax movement
+				// Calculate parallax movement based on viewport height
 				// speed < 1 = moves slower than scroll (background effect)
 				// speed > 1 = moves faster than scroll (foreground effect)
-				const movement = (1 - speed) * 100;
+				const movement = (1 - speed) * window.innerHeight * PARALLAX_INTENSITY;
 
 				gsap.fromTo(element,
 					{ y: 0 },
