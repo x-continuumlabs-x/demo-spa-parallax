@@ -1,5 +1,5 @@
 import { Props } from "@/types";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { gsap, ScrollTrigger } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -17,16 +17,8 @@ export default function Highlights({ wrapperRef }: Props) {
 	const headingSeg5Ref = useRef<HTMLDivElement>(null);
 	const headingSeg9Ref = useRef<HTMLDivElement>(null);
 	const paragraphRef = useRef<HTMLParagraphElement>(null);
-	const [isMobile, setIsMobile] = useState(false);
 
 	useGSAP(() => {
-		// Detect mobile viewport
-		const checkMobile = () => {
-			setIsMobile(window.innerWidth < 640);
-		};
-		checkMobile();
-		window.addEventListener('resize', checkMobile);
-
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 		const context = canvas.getContext("2d");
@@ -218,11 +210,6 @@ export default function Highlights({ wrapperRef }: Props) {
 				}, 0.5); // Start at position 0.5 in timeline
 			}
 		}
-
-		// Cleanup event listener
-		return () => {
-			window.removeEventListener('resize', checkMobile);
-		};
 
 	}, { scope: wrapperRef });
 	return(

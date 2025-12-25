@@ -2,10 +2,11 @@
 
 import { Props } from "@/types";
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { ScrollTrigger } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { Card } from "@heroui/react";
+import { useIsMobile } from "@/app/hooks/useIsMobile";
 
 const MOBILE_BREAKPOINT = 640;
 
@@ -27,7 +28,7 @@ const CARD_IMAGE_DIMENSIONS = {
 
 export default function Expertise({ wrapperRef }: Props){
 	const cards = useRef<HTMLDivElement>(null);
-	const [isMobile, setIsMobile] = useState(false);
+	const isMobile = useIsMobile();
 
 	const heightRatioLandscape = IMAGE_DIMENSIONS.landscape.height / IMAGE_DIMENSIONS.landscape.width;
 	const heightRatioPortrait = IMAGE_DIMENSIONS.portrait.height / IMAGE_DIMENSIONS.portrait.width;
@@ -43,17 +44,6 @@ export default function Expertise({ wrapperRef }: Props){
 			end: `+=${SCROLL_TRIGGER_SETTINGS.pinEndDistance}`,
 		});
 	}, { scope: wrapperRef });
-
-	useEffect(() => {
-		const checkMobile = () => {
-			setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-		};
-		checkMobile();
-		window.addEventListener('resize', checkMobile);
-		return () => {
-			window.removeEventListener('resize', checkMobile);
-		};
-	}, []);
 
 	return(
 		<section className="z-10 relative w-full overflow-hidden pt-[100px] sm:pt-0 bg-[#a39285]">

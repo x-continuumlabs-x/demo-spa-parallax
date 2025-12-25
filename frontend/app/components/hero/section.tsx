@@ -2,11 +2,12 @@
 
 import { Props } from "@/types";
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollSmoother, SplitText } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { Input, Button } from "@heroui/react";
+import { useIsMobile } from "@/app/hooks/useIsMobile";
 
 const ANIMATION_DURATIONS = {
 	imageZoom: 3.5,
@@ -101,7 +102,7 @@ export default function Hero({ wrapperRef }: Props) {
 	const ctaFormIconRef = useRef<HTMLDivElement>(null);
 	const closeButtonRef = useRef<HTMLButtonElement>(null);
 	const ctaClickRef = useRef<HTMLDivElement>(null);
-	const [isMobile, setIsMobile] = useState(false);
+	const isMobile = useIsMobile();
 
 	const heightRatioLandscape = IMAGE_DIMENSIONS.landscape.height / IMAGE_DIMENSIONS.landscape.width;
 	const heightRatioPortrait = IMAGE_DIMENSIONS.portrait.height / IMAGE_DIMENSIONS.portrait.width;
@@ -113,21 +114,6 @@ export default function Hero({ wrapperRef }: Props) {
 			{ width: "100vw", duration: ANIMATION_DURATIONS.imageZoom, ease: "expo.out" }
 		);
 	}, { scope: wrapperRef });
-
-	useEffect(() => {
-		const checkMobile = () => {
-			setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-		};
-
-		// Check on mount
-		checkMobile();
-
-		window.addEventListener('resize', checkMobile);
-
-		return () => {
-			window.removeEventListener('resize', checkMobile);
-		};
-	}, []);
 
 	const handleCtaClick = () => {
 		if (!ctaFormBgRef.current || !formHeadingSmallRef.current || !contactHeadingLargeRef.current) return;

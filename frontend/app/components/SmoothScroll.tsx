@@ -3,6 +3,7 @@
 import { useRef, ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import { ScrollSmoother, gsap } from "@/app/lib/gsap";
+import { useIsMobile } from "../hooks/useIsMobile";
 
 interface SmoothScrollProps {
 	children: ReactNode;
@@ -11,10 +12,9 @@ interface SmoothScrollProps {
 export default function SmoothScroll({ children }: SmoothScrollProps) {
 	const smoothWrapper = useRef<HTMLDivElement>(null);
 	const smoothContent = useRef<HTMLDivElement>(null);
+	const isMobile = useIsMobile();
 
 	useGSAP(() => {
-		// Detect if mobile device
-		const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 		if (isMobile) {
 			// Mobile: Create manual parallax for data-speed elements
@@ -35,17 +35,20 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 				// speed > 1 = moves faster than scroll (foreground effect)
 				const movement = -(scrollDistance * (1 - speed) * PARALLAX_INTENSITY);
 
-				gsap.to(element, {
-					y: movement,
-					ease: "none",
-					scrollTrigger: {
-						trigger: document.body,     // Use entire page as trigger
-						start: "top top",            // Start of page
-						end: "bottom bottom",        // End of page
-						scrub: true,                 // Smooth scrubbing
-						invalidateOnRefresh: true
+				gsap.fromTo(element,
+					{ y: 0 },  // Explicitly set starting position
+					{
+						y: movement,
+						ease: "none",
+						scrollTrigger: {
+							trigger: document.body,     // Use entire page as trigger
+							start: "top top",            // Start of page
+							end: "bottom bottom",        // End of page
+							scrub: true,                 // Smooth scrubbing
+							invalidateOnRefresh: true
+						}
 					}
-				});
+				);
 			});
 		} else {
 			// Desktop: Use ScrollSmoother
@@ -60,7 +63,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 				smoother.kill();
 			};
 		}
-	}, []);
+	}, [isMobile]);
 
 	// Always render wrapper divs for consistent DOM structure
 	return (
