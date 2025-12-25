@@ -3,18 +3,20 @@
 import { useRef, ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import { ScrollSmoother, gsap } from "@/app/lib/gsap";
-import { useIsMobile } from "../hooks/useIsMobile";
 
 interface SmoothScrollProps {
 	children: ReactNode;
 }
 
+const MOBILE_BREAKPOINT = 640;
+
 export default function SmoothScroll({ children }: SmoothScrollProps) {
 	const smoothWrapper = useRef<HTMLDivElement>(null);
 	const smoothContent = useRef<HTMLDivElement>(null);
-	const isMobile = useIsMobile();
 
 	useGSAP(() => {
+		// Check if mobile viewport (must check inside useGSAP to avoid re-runs)
+		const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
 
 		if (isMobile) {
 			// Mobile: Create manual parallax for data-speed elements
@@ -63,7 +65,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 				smoother.kill();
 			};
 		}
-	}, [isMobile]);
+	}, []);
 
 	// Always render wrapper divs for consistent DOM structure
 	return (
