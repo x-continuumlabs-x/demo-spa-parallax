@@ -37,7 +37,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 						scrollTrigger: {
 							trigger: element,
 							start: "top bottom", // when top of element enters bottom of viewport
-							end: "bottom top", // when bottom of element exits top of viewport
+							end: `+=${window.innerHeight}`, // fixed scroll distance for consistent speed
 							scrub: true, // smooth scrubbing
 							invalidateOnRefresh: true
 						}
