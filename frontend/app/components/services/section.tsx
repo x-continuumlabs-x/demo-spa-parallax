@@ -7,8 +7,6 @@ import { gsap, ScrollTrigger, ScrollSmoother } from "@/app/lib/gsap";
 import { Tabs } from "@heroui/react";
 import { isTouchLowPowerDevice } from "@/app/utils/deviceCapability";
 
-const MOBILE_BREAKPOINT = 640;
-
 const ANIMATION_DURATIONS = {
 	contentFade: 2.0,
 	splitText: 0.8,
@@ -43,7 +41,6 @@ const createImageAnimations = (
 	images: NodeListOf<HTMLImageElement>,
 	galleryHeight: number
 ) => {
-	// Animate photoA (last image in DOM, index 2) first
 	if (images[2]) {
 		tl.fromTo(
 			images[2],
@@ -56,8 +53,6 @@ const createImageAnimations = (
 			0
 		);
 	}
-
-	// Animate photoB (middle image in DOM, index 1) second
 	if (images[1]) {
 		tl.fromTo(
 			images[1],
@@ -83,7 +78,6 @@ const calculateTargetTimelineTime = (imageIndex: number): number => {
 
 export default function Services({ wrapperRef }: Props) {
 	const [selectedTab, setSelectedTab] = useState("img1");
-	const [isMobile, setIsMobile] = useState(false);
 	const isUserClickingTab = useRef(false);
 	const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 	const sectionRef = useRef<HTMLElement>(null);
@@ -217,17 +211,6 @@ export default function Services({ wrapperRef }: Props) {
 	}, [selectedTab]);
 
 	useEffect(() => {
-		const checkMobile = () => {
-			setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-		};
-		checkMobile();
-		window.addEventListener('resize', checkMobile);
-		return () => {
-			window.removeEventListener('resize', checkMobile);
-		};
-	}, []);
-
-	useEffect(() => {
 		if (!timelineRef.current) return;
 
 		const timer = setTimeout(() => {
@@ -247,7 +230,7 @@ export default function Services({ wrapperRef }: Props) {
 		}, TIMING.resizeDebounce);
 
 		return () => clearTimeout(timer);
-	}, [isMobile]);
+	}, []);
 
 	return(
 		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
@@ -341,22 +324,32 @@ export default function Services({ wrapperRef }: Props) {
 				style={{ height: `calc(100vh - ${MIN_GALLERY_SPACING})` }}
 			>
 				<div
-					className="absolute right-0 top-0 overflow-hidden [--ar:1.5225] lg:[--ar:1.8154]"
-					style={{
-						maxWidth: isMobile ? `88vw` : `76vw`,
-						margin: isMobile ? `0 6vw` : `0`,
-						height: `100%`,
-						aspectRatio: `var(--ar) / 1`,
-					}}
+					className="
+						absolute 
+						right-0 
+						top-0 
+						overflow-hidden 
+						h-full 
+						aspect-[var(--ar)/1] 
+						max-w-[88vw] 
+						mx-[6vw] 
+						sm:max-w-[76vw] 
+						sm:mx-0 
+						[--ar:1.5225] 
+						lg:[--ar:1.8154]"
 				>
 					<div className="relative w-full h-full overflow-hidden">
 						<div id="galleryContainer"
-							className="absolute right-0 top-0 overflow-hidden"
+							className="
+								absolute right-0 top-0 overflow-hidden
+								max-w-[100vw]
+								max-h-[calc(100vw/var(--ar))]
+								sm:max-w-[76vw]
+								sm:max-h-[calc(76vw/var(--ar))]
+							"
 							style={{
 								height: `calc(100vh - ${MIN_GALLERY_SPACING})`,
 								width: `calc((100vh - ${MIN_GALLERY_SPACING}) * var(--ar))`,
-								maxWidth: isMobile ? "100vw" : "76vw",
-								maxHeight: isMobile ? "calc(100vw / var(--ar))" : "calc(76vw / var(--ar))",
 							}}
 						>
 							<picture>
@@ -402,10 +395,18 @@ export default function Services({ wrapperRef }: Props) {
 				</div>
 				
 				<div
-					className="mx-[6vw] sm:mx-0 sm:absolute sm:top-[20vh] sm:left-[15vw]"
+					className="
+						mx-[6vw]
+						sm:mx-0
+						sm:absolute 
+						sm:top-[20vh] 
+						sm:left-[15vw]
+					"
 					style={{
-						marginTop: isMobile && galleryHeight > 0 ? `${galleryHeight + 30}px` : undefined
-					}}
+						marginTop: galleryHeight
+							? `${galleryHeight + 30}px`
+							: undefined,
+						}}
 				>
 					<div ref={contentRef1} className="absolute w-[88vw]">
 						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br className="hidden sm:inline" />architecto <br className="hidden sm:inline" />voluptatem</h2>
