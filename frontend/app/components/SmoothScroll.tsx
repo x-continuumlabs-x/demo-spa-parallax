@@ -31,9 +31,6 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 
 				// Calculate total movement over entire page scroll
 				// Positive Y offset makes elements lag behind (slower scroll)
-				// Negative Y offset makes elements move ahead (faster scroll)
-				// speed < 1 = positive movement = slower than scroll (background effect)
-				// speed > 1 = negative movement = faster than scroll (foreground effect)
 				const movement = (scrollDistance * (1 - speed) * PARALLAX_INTENSITY);
 
 				gsap.fromTo(element,
@@ -42,10 +39,10 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 						y: movement,
 						ease: "none",
 						scrollTrigger: {
-							trigger: document.body,     // Use entire page as trigger
-							start: "top top",            // Start of page
-							end: "bottom bottom",        // End of page
-							scrub: true,                 // Smooth scrubbing
+							trigger: document.body,
+							start: "top top",
+							end: "bottom bottom",
+							scrub: true,
 							invalidateOnRefresh: true
 						}
 					}
@@ -57,7 +54,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 				wrapper: smoothWrapper.current!,
 				content: smoothContent.current!,
 				smooth: 1.0,
-				effects: true, // This handles data-speed on desktop
+				effects: true,
 			});
 
 			return () => {
@@ -66,7 +63,6 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 		}
 	}, []);
 
-	// Always render wrapper divs for consistent DOM structure
 	return (
 		<div ref={smoothWrapper} id="smooth-wrapper">
 			<div ref={smoothContent} id="smooth-content">
