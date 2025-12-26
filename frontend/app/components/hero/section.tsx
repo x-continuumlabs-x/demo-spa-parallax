@@ -7,7 +7,6 @@ import { gsap } from "gsap";
 import { ScrollSmoother, SplitText } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { Input, Button } from "@heroui/react";
-import { useIsMobile } from "@/app/hooks/useIsMobile";
 
 const ANIMATION_DURATIONS = {
 	imageZoom: 3.5,
@@ -102,7 +101,6 @@ export default function Hero({ wrapperRef }: Props) {
 	const ctaFormIconRef = useRef<HTMLDivElement>(null);
 	const closeButtonRef = useRef<HTMLButtonElement>(null);
 	const ctaClickRef = useRef<HTMLDivElement>(null);
-	const isMobile = useIsMobile();
 
 	const heightRatioLandscape = IMAGE_DIMENSIONS.landscape.height / IMAGE_DIMENSIONS.landscape.width;
 	const heightRatioPortrait = IMAGE_DIMENSIONS.portrait.height / IMAGE_DIMENSIONS.portrait.width;
@@ -254,14 +252,14 @@ export default function Hero({ wrapperRef }: Props) {
 				
 				<div
 					className="absolute top-[76vh] sm:top-[-13vh] w-full"
-					data-speed={isMobile ? "0.8" : "0.7"}
+					data-speed="0.7"
 				>
 					<h1 className="text-[30vw] text-[#b082db] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
 						Nomin
 					</h1>
 				</div>
 
-				<div className="absolute top-[92vh] sm:top-[35vw] sm:left-[10vw] w-full flex flex-col items-center sm:block" data-speed={isMobile ? "0.8" : "0.5"}>
+				<div className="absolute top-[92vh] sm:top-[35vw] sm:left-[10vw] w-full flex flex-col items-center sm:block" data-speed="0.5">
 					<div className="w-[65vw] max-w-[203px] mb-2">
 						<Image
 							src="/logo-1.png"
