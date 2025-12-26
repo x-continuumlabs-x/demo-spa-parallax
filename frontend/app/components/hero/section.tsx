@@ -253,13 +253,14 @@ export default function Hero({ wrapperRef }: Props) {
 				<div
 					className="absolute top-[76vh] sm:top-[-13vh] w-full"
 					data-speed="0.7"
+				data-speed-mobile="0.8"
 				>
 					<h1 className="text-[30vw] text-[#b082db] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
 						Nomin
 					</h1>
 				</div>
 
-				<div className="absolute top-[92vh] sm:top-[35vw] sm:left-[10vw] w-full flex flex-col items-center sm:block" data-speed="0.5">
+				<div className="absolute top-[92vh] sm:top-[35vw] sm:left-[10vw] w-full flex flex-col items-center sm:block" data-speed="0.5" data-speed-mobile="0.8">
 					<div className="w-[65vw] max-w-[203px] mb-2">
 						<Image
 							src="/logo-1.png"

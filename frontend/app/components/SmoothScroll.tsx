@@ -25,7 +25,9 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 			const scrollDistance = pageHeight - viewportHeight;
 
 			dataSpeedElements.forEach((element) => {
-				const speed = parseFloat(element.getAttribute('data-speed') || '1');
+				// Check for mobile-specific speed first, fall back to desktop speed
+			const mobileSpeedAttr = element.getAttribute('data-speed-mobile');
+			const speed = parseFloat(mobileSpeedAttr || element.getAttribute('data-speed') || '1');
 
 				// Calculate total movement over entire page scroll
 				// Negative because we want to move up as we scroll down
