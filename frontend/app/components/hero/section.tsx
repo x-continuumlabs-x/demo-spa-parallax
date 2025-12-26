@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollSmoother, SplitText } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { Input, Button } from "@heroui/react";
+import { isTouchLowPowerDevice } from "@/app/utils/deviceCapability";
 
 const ANIMATION_DURATIONS = {
 	imageZoom: 3.5,
@@ -70,14 +71,11 @@ const getResponsiveFormDimensions = () => {
 };
 
 const scrollSectionToBottom = (element: HTMLElement) => {
-	const smoother = ScrollSmoother.get();
-	if (!smoother) return;
-
 	const section = element.closest('section');
 	if (!section) return;
 
 	const rect = section.getBoundingClientRect();
-	const currentScrollY = smoother.scrollTop();
+	const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
 	const viewportHeight = window.innerHeight;
 	const sectionBottom = rect.bottom + currentScrollY;
 
@@ -85,7 +83,16 @@ const scrollSectionToBottom = (element: HTMLElement) => {
 	const offset = isMobile ? 100 : 0;
 	const targetScroll = sectionBottom - viewportHeight - offset;
 
-	smoother.scrollTo(targetScroll, true, "power2.inOut");
+	if (isTouchLowPowerDevice()) {
+		// Mobile: Use native scroll
+		window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+	} else {
+		// Desktop: Use ScrollSmoother
+		const smoother = ScrollSmoother.get();
+		if (smoother) {
+			smoother.scrollTo(targetScroll, true, "power2.inOut");
+		}
+	}
 };
 
 export default function Hero({ wrapperRef }: Props) {

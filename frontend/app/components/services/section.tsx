@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { useRef, useState, useEffect } from "react";
 import { gsap, ScrollTrigger, ScrollSmoother } from "@/app/lib/gsap";
 import { Tabs } from "@heroui/react";
+import { isTouchLowPowerDevice } from "@/app/utils/deviceCapability";
 
 const MOBILE_BREAKPOINT = 640;
 
@@ -277,9 +278,15 @@ export default function Services({ wrapperRef }: Props) {
 							const scrollDistance = scrollEnd - scrollStart;
 							const targetScroll = scrollStart + scrollDistance * targetProgress;
 
-							const smoother = ScrollSmoother.get();
-							if (smoother) {
-								smoother.scrollTo(targetScroll, true, "power2.inOut");
+							if (isTouchLowPowerDevice()) {
+								// Mobile: Use native scroll
+								window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+							} else {
+								// Desktop: Use ScrollSmoother
+								const smoother = ScrollSmoother.get();
+								if (smoother) {
+									smoother.scrollTo(targetScroll, true, "power2.inOut");
+								}
 							}
 
 							scrollTimeoutRef.current = setTimeout(() => {
