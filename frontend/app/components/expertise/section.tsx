@@ -83,18 +83,18 @@ export default function Expertise({ wrapperRef }: Props){
 				</div>
 			</div>
 
-			<div className="absolute top-[30vh] sm:top-[-11vw] left-1/2 -translate-x-1/2 w-[100vw]" data-speed="0.7" data-speed-mobile="0.8">
+			<div className="absolute top-[-11vh] sm:top-[-11vw] left-1/2 -translate-x-1/2 w-[100vw]" data-speed="0.7" data-speed-mobile="0.7">
 				<h1 className="text-[35vw] sm:text-[30vw] text-[#b8bc92] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.8em] text-center m-0 ml-[-0.08em]">Amet</h1>
 			</div>
 
-			<div className="absolute top-[50vh] sm:top-[27vw] sm:left-[8.7vw] px-[8%] sm:px-0 sm:w-[28%] text-center sm:text-left text-[#b8bc92]" data-speed="0.6" data-speed-mobile="0.8">
+			<div className="absolute top-[5vh] sm:top-[27vw] sm:left-[8.7vw] px-[8%] sm:px-0 sm:w-[28%] text-center sm:text-left text-[#b8bc92]" data-speed="0.6" data-speed-mobile="0.6">
 				<h3 className="font-mainfont font-black text-[18px] tracking-[-0.06em] uppercase">Magna Aliqua</h3>
 				<p className="text-[16px] sm:text-[18px] leading-[1.2em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</p>
 			</div>
 
 			<div
 				ref={cards} id="cardsID"
-				className="absolute top-[140vh] sm:top-[105vw] w-full"
+				className="absolute top-[79vh] sm:top-[105vw] w-full"
 				data-speed="0.6"
 				data-speed-mobile="0.8"
 			>

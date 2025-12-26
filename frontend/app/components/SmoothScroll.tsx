@@ -30,10 +30,11 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 			const speed = parseFloat(mobileSpeedAttr || element.getAttribute('data-speed') || '1');
 
 				// Calculate total movement over entire page scroll
-				// Negative because we want to move up as we scroll down
-				// speed < 1 = moves slower than scroll (background effect)
-				// speed > 1 = moves faster than scroll (foreground effect)
-				const movement = -(scrollDistance * (1 - speed) * PARALLAX_INTENSITY);
+				// Positive Y offset makes elements lag behind (slower scroll)
+				// Negative Y offset makes elements move ahead (faster scroll)
+				// speed < 1 = positive movement = slower than scroll (background effect)
+				// speed > 1 = negative movement = faster than scroll (foreground effect)
+				const movement = (scrollDistance * (1 - speed) * PARALLAX_INTENSITY);
 
 				gsap.fromTo(element,
 					{ y: 0 },  // Explicitly set starting position
