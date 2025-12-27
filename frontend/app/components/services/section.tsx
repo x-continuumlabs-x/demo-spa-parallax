@@ -27,7 +27,6 @@ const TAB_SWITCH_THRESHOLDS = {
 } as const;
 
 const TIMELINE_DURATION = 2;
-const MIN_GALLERY_SPACING = '182px';
 
 const TAB_MAP: { [key: string]: number } = {
 	img1: 0,
@@ -39,7 +38,7 @@ const TAB_KEYS = ["img1", "img2", "img3"];
 
 const createImageAnimations = (
 	tl: gsap.core.Timeline,
-	images: NodeListOf<HTMLImageElement>,
+	images: HTMLImageElement[],
 	galleryHeight: number
 ) => {
 	if (images[2]) {
@@ -94,9 +93,14 @@ export default function Services({ wrapperRef }: Props) {
 		const galleryContainer = sectionRef.current?.querySelector<HTMLElement>(
 		"#galleryContainer"
 		);
-		const images = galleryContainer?.querySelectorAll<HTMLImageElement>("img");
+		// Get all images, then filter to only visible ones (not display: none)
+		const allImages = galleryContainer?.querySelectorAll<HTMLImageElement>("img");
+		const images = allImages ? Array.from(allImages).filter(img => {
+			// offsetParent is null for elements with display: none
+			return img.offsetParent !== null;
+		}) : [];
 
-		if (!galleryContainer || !images || images.length < 2) return;
+		if (!galleryContainer || images.length < 2) return;
 
 		const galleryHeight = galleryContainer.getBoundingClientRect().height;
 		setGalleryHeight(galleryHeight);
@@ -216,10 +220,13 @@ export default function Services({ wrapperRef }: Props) {
 
 		const timer = setTimeout(() => {
 			const galleryContainer = sectionRef.current?.querySelector<HTMLElement>("#galleryContainer");
-			const images = galleryContainer?.querySelectorAll<HTMLImageElement>("img");
+			const allImages = galleryContainer?.querySelectorAll<HTMLImageElement>("img");
+			const images = allImages ? Array.from(allImages).filter(img => {
+				return img.offsetParent !== null;
+			}) : [];
 			const tl = timelineRef.current;
 
-			if (!galleryContainer || !images || images.length < 2 || !tl) return;
+			if (!galleryContainer || images.length < 2 || !tl) return;
 
 			const newGalleryHeight = galleryContainer.getBoundingClientRect().height;
 			setGalleryHeight(newGalleryHeight);
@@ -340,25 +347,50 @@ export default function Services({ wrapperRef }: Props) {
 						className="
 							relative overflow-hidden 
 							w-full 
-							aspect-2665/1468 
+							aspect-2235/1468 
+							sm:aspect-2665/1468 
 							sm:max-h-[calc(100vh-168px)]
 						"
 					>
+						<Image
+							src="/images/preloaded/services-gallery-3.jpg"
+							id="photoC"
+							width={2235} 
+							height={1468} 
+							alt="Photo of a young woman" 
+							className="block sm:hidden absolute top-0 left-0 h-full w-full object-cover"
+						/>
 						<Image
 							src="/images/preloaded/services-gallery-desktop-3.jpg"
 							id="photoC"
 							width={2665} 
 							height={1468} 
-							alt="Photo portrait of an old man" 
-							className="absolute top-0 left-0 h-full w-full object-cover"
+							alt="Photo of a young woman" 
+							className="hidden sm:block absolute top-0 left-0 h-full w-full object-cover"
+						/>
+						<Image
+							src="/images/preloaded/services-gallery-2.jpg"
+							id="photoB"
+							width={2235} 
+							height={1468} 
+							alt="Photo of a young man" 
+							className="block sm:hidden absolute top-0 left-0 h-full w-full object-cover"
 						/>
 						<Image
 							src="/images/preloaded/services-gallery-desktop-2.jpg"
 							id="photoB" 
 							width={2665} 
 							height={1468} 
+							alt="Photo of a young man" 
+							className="hidden sm:block absolute top-0 left-0 h-full w-full object-cover"
+						/>
+						<Image
+							src="/images/preloaded/services-gallery-1.jpg"
+							id="photoA"
+							width={2235} 
+							height={1468} 
 							alt="Photo portrait of an old man" 
-							className="absolute top-0 left-0 h-full w-full object-cover"
+							className="block sm:hidden absolute top-0 left-0 h-full w-full object-cover"
 						/>
 						<Image
 							src="/images/preloaded/services-gallery-desktop-1.jpg"
@@ -366,7 +398,7 @@ export default function Services({ wrapperRef }: Props) {
 							width={2665} 
 							height={1468} 
 							alt="Photo portrait of an old man" 
-							className="absolute top-0 left-0 h-full w-full object-cover"
+							className="hidden sm:block absolute top-0 left-0 h-full w-full object-cover"
 						/>
 					</div>
 				</div>
