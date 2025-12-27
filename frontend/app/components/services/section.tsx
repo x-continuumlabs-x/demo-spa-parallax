@@ -11,7 +11,6 @@ import { isTouchLowPowerDevice } from "@/app/utils/deviceCapability";
 const ANIMATION_DURATIONS = {
 	contentFade: 2.0,
 	splitText: 0.8,
-	splitTextStagger: 0.1,
 	paragraphFade: 0.6,
 	paragraphDelay: 0.4,
 } as const;
@@ -87,7 +86,6 @@ export default function Services({ wrapperRef }: Props) {
 	const contentRef2 = useRef<HTMLDivElement>(null);
 	const contentRef3 = useRef<HTMLDivElement>(null);
 	const previousTabRef = useRef<string>("img1");
-	const [galleryHeight, setGalleryHeight] = useState<number>(0);
 
 	useGSAP(() => {
 		const galleryContainer = sectionRef.current?.querySelector<HTMLElement>(
@@ -103,7 +101,6 @@ export default function Services({ wrapperRef }: Props) {
 		if (!galleryContainer || images.length < 2) return;
 
 		const galleryHeight = galleryContainer.getBoundingClientRect().height;
-		setGalleryHeight(galleryHeight);
 		const numImages = images.length;
 		const smoother = ScrollSmoother.get ? ScrollSmoother.get() : null;
 		const timelineDuration = numImages - 1;
@@ -161,27 +158,27 @@ export default function Services({ wrapperRef }: Props) {
 		if (!contentRef1.current || !contentRef2.current || !contentRef3.current) return;
 
 		const contentMap = {
-			img1: { ref: contentRef1, key: "t1" },
-			img2: { ref: contentRef2, key: "t2" },
-			img3: { ref: contentRef3, key: "t3" }
+			img1: contentRef1,
+			img2: contentRef2,
+			img3: contentRef3
 		};
 
-		const prevContent = contentMap[previousTabRef.current as keyof typeof contentMap];
-		const newContent = contentMap[selectedTab as keyof typeof contentMap];
+		const prevContent = contentMap[previousTabRef.current as keyof typeof contentMap]?.current;
+		const newContent = contentMap[selectedTab as keyof typeof contentMap]?.current;
 
 		if (previousTabRef.current === selectedTab) return;
 
 		// HIDE PREVIOUS (instant - no animation)
-		if (prevContent?.ref.current) {
-			gsap.set(prevContent.ref.current, { display: "none" });
-			const prevPara = prevContent.ref.current.querySelector("p");
+		if (prevContent) {
+			gsap.set(prevContent, { display: "none" });
+			const prevPara = prevContent.querySelector("p");
 			if (prevPara) gsap.set(prevPara, { opacity: 0 });
 
 		}
 
 		// SHOW & ANIMATE NEW
-		if (newContent?.ref.current) {
-			const contentEl = newContent.ref.current;
+		if (newContent) {
+			const contentEl = newContent;
 			const h2 = contentEl.querySelector("h2");
 			const p = contentEl.querySelector("p");
 
@@ -229,7 +226,6 @@ export default function Services({ wrapperRef }: Props) {
 			if (!galleryContainer || images.length < 2 || !tl) return;
 
 			const newGalleryHeight = galleryContainer.getBoundingClientRect().height;
-			setGalleryHeight(newGalleryHeight);
 
 			tl.clear();
 			createImageAnimations(tl, images, newGalleryHeight);
@@ -332,7 +328,6 @@ export default function Services({ wrapperRef }: Props) {
 			>
 				<div
 					className="
-						
 						overflow-hidden 
 						h-auto 
 						w-full
