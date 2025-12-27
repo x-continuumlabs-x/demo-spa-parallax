@@ -1,8 +1,9 @@
 "use client";
 
 import { Props } from "@/types";
-import { useGSAP } from "@gsap/react";
 import { useRef, useState, useEffect } from "react";
+import Image  from "next/image";
+import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger, ScrollSmoother } from "@/app/lib/gsap";
 import { Tabs } from "@heroui/react";
 import { isTouchLowPowerDevice } from "@/app/utils/deviceCapability";
@@ -320,106 +321,79 @@ export default function Services({ wrapperRef }: Props) {
 				</Tabs>
 			</div>
 			<div
-				className="relative w-full"
-				style={{ height: `calc(100vh - ${MIN_GALLERY_SPACING})` }}
+				className="relative flex justify-end w-full h-auto"
 			>
 				<div
 					className="
-						absolute 
-						right-0 
-						top-0 
+						
 						overflow-hidden 
-						h-full 
-						aspect-[var(--ar)/1] 
+						h-auto 
+						w-full
 						max-w-[88vw] 
 						mx-[6vw] 
 						sm:max-w-[76vw] 
 						sm:mx-0 
-						[--ar:1.5225] 
-						lg:[--ar:1.8154]"
+						"
 				>
-					<div className="relative w-full h-full overflow-hidden">
-						<div id="galleryContainer"
-							className="
-								absolute right-0 top-0 overflow-hidden
-								max-w-[100vw]
-								max-h-[calc(100vw/var(--ar))]
-								sm:max-w-[76vw]
-								sm:max-h-[calc(76vw/var(--ar))]
-							"
-							style={{
-								height: `calc(100vh - ${MIN_GALLERY_SPACING})`,
-								width: `calc((100vh - ${MIN_GALLERY_SPACING}) * var(--ar))`,
-							}}
-						>
-							<picture>
-								<source
-									media="(min-width: 640px)"
-									srcSet="/images/preloaded/services-gallery-desktop-3.jpg"
-								/>
-								<img
-									src="/images/preloaded/services-gallery-3.jpg"
-									id="photoC" 
-									alt="Photo portrait of an old man" 
-									className="absolute top-0 left-0 h-full w-full object-cover"
-								/>
-							</picture>
-							<picture>
-								<source
-									media="(min-width: 640px)"
-									srcSet="/images/preloaded/services-gallery-desktop-2.jpg"
-								/>
-								<img
-									src="/images/preloaded/services-gallery-2.jpg"
-									id="photoB" 
-									alt="Photo portrait of an old man" 
-									className="absolute top-0 left-0 h-full w-full object-cover"
-								/>
-							</picture>
-							<picture>
-								<source
-									media="(min-width: 640px)"
-									srcSet="/images/preloaded/services-gallery-desktop-1.jpg"
-								/>
-								<img
-									src="/images/preloaded/services-gallery-1.jpg"
-									id="photoA" 
-									alt="Photo portrait of an old man" 
-									className="absolute top-0 left-0 h-full w-full object-cover"
-								/>
-							</picture>
-						</div>
-						
-						
+					<div 
+						id="galleryContainer"
+						className="
+							relative overflow-hidden 
+							w-full 
+							aspect-2665/1468 
+							sm:max-h-[calc(100vh-168px)]
+						"
+					>
+						<Image
+							src="/images/preloaded/services-gallery-desktop-3.jpg"
+							id="photoC"
+							width={2665} 
+							height={1468} 
+							alt="Photo portrait of an old man" 
+							className="absolute top-0 left-0 h-full w-full object-cover"
+						/>
+						<Image
+							src="/images/preloaded/services-gallery-desktop-2.jpg"
+							id="photoB" 
+							width={2665} 
+							height={1468} 
+							alt="Photo portrait of an old man" 
+							className="absolute top-0 left-0 h-full w-full object-cover"
+						/>
+						<Image
+							src="/images/preloaded/services-gallery-desktop-1.jpg"
+							id="photoA" 
+							width={2665} 
+							height={1468} 
+							alt="Photo portrait of an old man" 
+							className="absolute top-0 left-0 h-full w-full object-cover"
+						/>
 					</div>
 				</div>
-				
-				<div
-					className="
-						mx-[6vw]
-						sm:mx-0
-						sm:absolute 
-						sm:top-[20vh] 
-						sm:left-[15vw]
-					"
-					style={{
-						marginTop: galleryHeight
-							? `${galleryHeight + 30}px`
-							: undefined,
-						}}
-				>
-					<div ref={contentRef1} className="absolute w-[88vw]">
-						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br className="hidden sm:inline" />architecto <br className="hidden sm:inline" />voluptatem</h2>
-						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam qui.</p>
-					</div>
-					<div ref={contentRef2} className="absolute w-[88vw] hidden">
-						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$195 Ut <br className="hidden sm:inline" />consecte <br className="hidden sm:inline" />sed do</h2>
-						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-0">Mollitia dolores ea mollitia a qui mollitia sit alias. Similique mollitia doloremque fuga qui. Labore consequatur delectus fugiat.</p>
-					</div>
-					<div ref={contentRef3} className="absolute w-[88vw] hidden">
-						<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$595 Ut <br className="hidden sm:inline" />adipiscing <br className="hidden sm:inline" />eiusmod</h2>
-						<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci didunt ut labore et dolore magna aliqua ut enim ad minim.</p>
-					</div>
+			</div>
+			<div
+				id="contentContainer" 
+				className="
+					mx-[6vw]
+					mt-[25px]
+					sm:mt-0
+					sm:mx-0
+					sm:absolute 
+					sm:top-[32vh] 
+					sm:left-[15vw]
+				"
+			>
+				<div ref={contentRef1} className="absolute w-[88vw]">
+					<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$95 Ut <br className="hidden sm:inline" />architecto <br className="hidden sm:inline" />voluptatem</h2>
+					<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-60">Nesciunt repellat pariatur voluptas facilis nisi alias. Repellat magni sit deserunt corporis odit. Eaque ad amet nam qui.</p>
+				</div>
+				<div ref={contentRef2} className="absolute w-[88vw] hidden">
+					<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$195 Ut <br className="hidden sm:inline" />consecte <br className="hidden sm:inline" />sed do</h2>
+					<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-0">Mollitia dolores ea mollitia a qui mollitia sit alias. Similique mollitia doloremque fuga qui. Labore consequatur delectus fugiat.</p>
+				</div>
+				<div ref={contentRef3} className="absolute w-[88vw] hidden">
+					<h2 className="text-[34px] sm:text-[56px] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.9em] mb-[15px]">$595 Ut <br className="hidden sm:inline" />adipiscing <br className="hidden sm:inline" />eiusmod</h2>
+					<p className="w-full sm:w-[25vw] sm:max-w-[360px] text-[18px] leading-[1.2em] opacity-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci didunt ut labore et dolore magna aliqua ut enim ad minim.</p>
 				</div>
 			</div>
 		</section>
