@@ -3,12 +3,10 @@
 import { Props } from "@/types";
 import Image from "next/image";
 import { useRef } from "react";
-import { ScrollTrigger } from "@/app/lib/gsap";
+import { gsap, ScrollTrigger } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 import { Card } from "@heroui/react";
 import { isTouchLowPowerDevice } from "@/app/utils/deviceCapability";
-
-const MOBILE_BREAKPOINT = 640;
 
 const IMAGE_DIMENSIONS = {
 	landscape: { width: 3200, height: 3274 },
@@ -28,24 +26,25 @@ const CARD_IMAGE_DIMENSIONS = {
 
 export default function Expertise({ wrapperRef }: Props){
 	const cards = useRef<HTMLDivElement>(null);
-
 	const heightRatioLandscape = IMAGE_DIMENSIONS.landscape.height / IMAGE_DIMENSIONS.landscape.width;
 	const heightRatioPortrait = IMAGE_DIMENSIONS.portrait.height / IMAGE_DIMENSIONS.portrait.width;
 
 	useGSAP( () => {
-		// Only pin on desktop, not on mobile/touch devices
-		if (!isTouchLowPowerDevice()) {
-			const startPosition = window.innerWidth < MOBILE_BREAKPOINT
-				? SCROLL_TRIGGER_SETTINGS.startPositionMobile
-				: SCROLL_TRIGGER_SETTINGS.startPositionDesktop;
+		// Only pin on desktop
+		if (isTouchLowPowerDevice()) return;
+		const startPosition = window.matchMedia("(max-width: 639px)").matches
+			? SCROLL_TRIGGER_SETTINGS.startPositionMobile
+			: SCROLL_TRIGGER_SETTINGS.startPositionDesktop;
+		const ctx = gsap.context(() => {
 			ScrollTrigger.create({
-				trigger: '#cardsID',
+				trigger: cards.current!,
 				pin: true,
 				start: startPosition,
 				end: `+=${SCROLL_TRIGGER_SETTINGS.pinEndDistance}`,
 			});
-		}
-	}, { scope: wrapperRef });
+		}, wrapperRef);
+    	return () => ctx.revert();
+	});
 
 	return(
 		<section className="z-10 relative w-full overflow-hidden pt-[100px] sm:pt-0 bg-[#a39285]">
@@ -88,7 +87,7 @@ export default function Expertise({ wrapperRef }: Props){
 			</div>
 
 			<div className="absolute top-[-11vh] sm:top-[-11vw] left-1/2 -translate-x-1/2 w-[100vw]" data-speed="0.7" data-speed-mobile="0.7">
-				<h1 className="text-[35vw] sm:text-[30vw] text-[#b8bc92] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.8em] text-center m-0 ml-[-0.08em]">Amet</h1>
+				<h2 className="text-[35vw] sm:text-[30vw] text-[#b8bc92] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.8em] text-center m-0 ml-[-0.08em]">Amet</h2>
 			</div>
 
 			<div className="absolute top-[5vh] sm:top-[27vw] sm:left-[8.7vw] px-[8%] sm:px-0 sm:w-[28%] text-center sm:text-left text-[#b8bc92]" data-speed="0.6" data-speed-mobile="0.65">

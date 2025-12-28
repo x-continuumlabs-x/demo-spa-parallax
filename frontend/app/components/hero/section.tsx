@@ -74,22 +74,25 @@ const scrollSectionToBottom = (element: HTMLElement) => {
 	const section = element.closest('section');
 	if (!section) return;
 
-	const rect = section.getBoundingClientRect();
-	const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
 	const viewportHeight = window.innerHeight;
-	const sectionBottom = rect.bottom + currentScrollY;
-
 	const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
 	const offset = isMobile ? 100 : 0;
-	const targetScroll = sectionBottom - viewportHeight - offset;
 
 	if (isTouchLowPowerDevice()) {
-		// Mobile: Use native scroll
+		// Mobile: Use native scroll with offsetTop
+		const sectionTop = section.offsetTop;
+		const sectionHeight = section.offsetHeight;
+		const sectionBottom = sectionTop + sectionHeight;
+		const targetScroll = sectionBottom - viewportHeight - offset;
 		window.scrollTo({ top: targetScroll, behavior: 'smooth' });
 	} else {
-		// Desktop: Use ScrollSmoother
-		const smoother = ScrollSmoother.get();
-		if (smoother) {
+		// Desktop: Use ScrollSmoother - check scrollTrigger is initialized
+		const smoother = ScrollSmoother.get?.();
+		if (smoother?.scrollTrigger) {
+			const sectionTop = section.offsetTop;
+			const sectionHeight = section.offsetHeight;
+			const sectionBottom = sectionTop + sectionHeight;
+			const targetScroll = sectionBottom - viewportHeight - offset;
 			smoother.scrollTo(targetScroll, true, "power2.inOut");
 		}
 	}
@@ -243,7 +246,7 @@ export default function Hero({ wrapperRef }: Props) {
 						width={IMAGE_DIMENSIONS.landscape.width}
 						height={IMAGE_DIMENSIONS.landscape.height}
 						style={{ width: "100%", height: "auto" }}
-						className="portrait:hidden"
+						className="block portrait:hidden"
 						priority
 					/>
 					<Image
@@ -262,9 +265,9 @@ export default function Hero({ wrapperRef }: Props) {
 					data-speed="0.7"
 				data-speed-mobile="0.6"
 				>
-					<h1 className="text-[30vw] text-[#b082db] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
+					<h2 className="text-[30vw] text-[#b082db] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
 						Nomin
-					</h1>
+					</h2>
 				</div>
 
 				<div className="absolute top-[82.5vh] sm:top-[35vw] sm:left-[10vw] w-full flex flex-col items-center sm:block" data-speed="0.5" data-speed-mobile="0.6">

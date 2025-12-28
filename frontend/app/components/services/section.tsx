@@ -78,7 +78,7 @@ const calculateTargetTimelineTime = (imageIndex: number): number => {
 export default function Services({ wrapperRef }: Props) {
 	const [selectedTab, setSelectedTab] = useState("img1");
 	const isUserClickingTab = useRef(false);
-	const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+	const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const sectionRef = useRef<HTMLElement>(null);
 	const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 	const timelineRef = useRef<gsap.core.Timeline | null>(null);
@@ -86,71 +86,74 @@ export default function Services({ wrapperRef }: Props) {
 	const contentRef2 = useRef<HTMLDivElement>(null);
 	const contentRef3 = useRef<HTMLDivElement>(null);
 	const previousTabRef = useRef<string>("img1");
+	const selectedTabRef = useRef(selectedTab);
 
 	useGSAP(() => {
-		const galleryContainer = sectionRef.current?.querySelector<HTMLElement>(
-		"#galleryContainer"
-		);
-		// Get all images, then filter to only visible ones (not display: none)
-		const allImages = galleryContainer?.querySelectorAll<HTMLImageElement>("img");
-		const images = allImages ? Array.from(allImages).filter(img => {
-			// offsetParent is null for elements with display: none
-			return img.offsetParent !== null;
-		}) : [];
+		if (!sectionRef.current) return;
+ 		const ctx = gsap.context(() => {
+			const galleryContainer = sectionRef.current?.querySelector<HTMLElement>("#galleryContainer");
+			// Get all images, then filter to only visible ones (not display: none)
+			const allImages = galleryContainer?.querySelectorAll<HTMLImageElement>("img");
+			const images = allImages ? Array.from(allImages).filter(img => {
+				// offsetParent is null for elements with display: none
+				return img.offsetParent !== null;
+			}) : [];
 
-		if (!galleryContainer || images.length < 2) return;
+			if (!galleryContainer || images.length < 2) return;
 
-		const galleryHeight = galleryContainer.getBoundingClientRect().height;
-		const numImages = images.length;
-		const smoother = ScrollSmoother.get ? ScrollSmoother.get() : null;
-		const timelineDuration = numImages - 1;
-		const totalScroll = galleryHeight * timelineDuration;
+			const galleryHeight = galleryContainer.getBoundingClientRect().height;
+			const numImages = images.length;
+			const smoother = ScrollSmoother.get ? ScrollSmoother.get() : null;
+			const timelineDuration = numImages - 1;
+			const totalScroll = galleryHeight * timelineDuration;
 
-		// Timeline for sequential image animation
-		const tl = gsap.timeline({
-			scrollTrigger: {
-				trigger: sectionRef.current,
-				pin: true,
-				start: "top top",
-				end: `+=${totalScroll}`,
-				scroller: smoother?.content(),
-				scrub: true,
-				onLeave: () => {
-					setSelectedTab("img3");
+			// Timeline for sequential image animation
+			const tl = gsap.timeline({
+				scrollTrigger: {
+					trigger: sectionRef.current,
+					pin: true,
+					start: "top top",
+					end: `+=${totalScroll}`,
+					scroller: smoother?.content(),
+					scrub: true,
+					onLeave: () => {
+						setSelectedTab("img3");
+					},
+					onLeaveBack: () => {
+						setSelectedTab("img1");
+					},
+					onUpdate: (self) => {
+						if (isUserClickingTab.current) {
+							return;
+						}
+
+						const progress = self.progress;
+						const currentTime = progress * timelineDuration;
+
+						let currentImageIndex = 0;
+						if (currentTime >= TAB_SWITCH_THRESHOLDS.second) {
+							currentImageIndex = 2;
+						} else if (currentTime >= TAB_SWITCH_THRESHOLDS.first) {
+							currentImageIndex = 1;
+						}
+
+						const newTab = TAB_KEYS[currentImageIndex];
+						if (newTab !== selectedTabRef.current) {
+							selectedTabRef.current = newTab;
+							setSelectedTab(newTab);
+						}
+					},
 				},
-				onLeaveBack: () => {
-					setSelectedTab("img1");
-				},
-				onUpdate: (self) => {
-					if (isUserClickingTab.current) {
-						return;
-					}
+			});
 
-					const progress = self.progress;
-					const currentTime = progress * timelineDuration;
+			createImageAnimations(tl, images, galleryHeight);
 
-					let currentImageIndex = 0;
-					if (currentTime >= TAB_SWITCH_THRESHOLDS.second) {
-						currentImageIndex = 2;
-					} else if (currentTime >= TAB_SWITCH_THRESHOLDS.first) {
-						currentImageIndex = 1;
-					}
-
-					const newTab = TAB_KEYS[currentImageIndex];
-
-					if (newTab !== selectedTab) {
-						setSelectedTab(newTab);
-					}
-				},
-			},
-		});
-
-		createImageAnimations(tl, images, galleryHeight);
-
-		timelineRef.current = tl;
-		if (tl.scrollTrigger) {
-			scrollTriggerRef.current = tl.scrollTrigger;
-		}
+			timelineRef.current = tl;
+			if (tl.scrollTrigger) {
+				scrollTriggerRef.current = tl.scrollTrigger;
+			}
+		}, sectionRef);
+    	return () => ctx.revert();
 	}, { scope: wrapperRef });
 
 	// Tab content animations
@@ -213,28 +216,41 @@ export default function Services({ wrapperRef }: Props) {
 	}, [selectedTab]);
 
 	useEffect(() => {
-		if (!timelineRef.current) return;
+		let resizeTimer: ReturnType<typeof setTimeout>;
 
-		const timer = setTimeout(() => {
-			const galleryContainer = sectionRef.current?.querySelector<HTMLElement>("#galleryContainer");
-			const allImages = galleryContainer?.querySelectorAll<HTMLImageElement>("img");
-			const images = allImages ? Array.from(allImages).filter(img => {
-				return img.offsetParent !== null;
-			}) : [];
-			const tl = timelineRef.current;
+		const handleResize = () => {
+			clearTimeout(resizeTimer);
+			resizeTimer = setTimeout(() => {
+				if (!timelineRef.current) return;
 
-			if (!galleryContainer || images.length < 2 || !tl) return;
+				const galleryContainer = sectionRef.current?.querySelector<HTMLElement>("#galleryContainer");
+				if (!galleryContainer) return;
 
-			const newGalleryHeight = galleryContainer.getBoundingClientRect().height;
+				const images = Array.from(
+					galleryContainer.querySelectorAll<HTMLImageElement>("img")
+				).filter(img => img.offsetParent !== null);
 
-			tl.clear();
-			createImageAnimations(tl, images, newGalleryHeight);
+				if (images.length < 2) return;
 
-			ScrollTrigger.refresh();
-		}, TIMING.resizeDebounce);
+				const newGalleryHeight = galleryContainer.getBoundingClientRect().height;
 
-		return () => clearTimeout(timer);
+				timelineRef.current.clear();
+				createImageAnimations(timelineRef.current, images, newGalleryHeight);
+				ScrollTrigger.refresh();
+			}, TIMING.resizeDebounce);
+		};
+
+		window.addEventListener("resize", handleResize);
+
+		return () => {
+			clearTimeout(resizeTimer);
+			window.removeEventListener("resize", handleResize);
+		};
 	}, []);
+
+	useEffect(() => {
+		selectedTabRef.current = selectedTab;
+	}, [selectedTab]);
 
 	return(
 		<section ref={sectionRef} id="services" className="w-full h-screen overflow-hidden flex flex-col">
@@ -270,7 +286,7 @@ export default function Services({ wrapperRef }: Props) {
 								window.scrollTo({ top: targetScroll, behavior: 'smooth' });
 							} else {
 								// Desktop: Use ScrollSmoother
-								const smoother = ScrollSmoother.get();
+								const smoother = ScrollSmoother.get?.();
 								if (smoother) {
 									smoother.scrollTo(targetScroll, true, "power2.inOut");
 								}
@@ -349,23 +365,20 @@ export default function Services({ wrapperRef }: Props) {
 					>
 						<Image
 							src="/images/preloaded/services-gallery-3.jpg"
-							id="photoC"
 							width={2235} 
 							height={1468} 
 							alt="Photo of a young woman" 
-							className="block sm:hidden absolute top-0 left-0 h-full w-full object-cover"
+							className="block portrait:hidden absolute top-0 left-0 h-full w-full object-cover"
 						/>
 						<Image
 							src="/images/preloaded/services-gallery-desktop-3.jpg"
-							id="photoC"
 							width={2665} 
 							height={1468} 
 							alt="Photo of a young woman" 
-							className="hidden sm:block absolute top-0 left-0 h-full w-full object-cover"
+							className="hidden portrait:block absolute top-0 left-0 h-full w-full object-cover"
 						/>
 						<Image
 							src="/images/preloaded/services-gallery-2.jpg"
-							id="photoB"
 							width={2235} 
 							height={1468} 
 							alt="Photo of a young man" 
@@ -373,7 +386,6 @@ export default function Services({ wrapperRef }: Props) {
 						/>
 						<Image
 							src="/images/preloaded/services-gallery-desktop-2.jpg"
-							id="photoB" 
 							width={2665} 
 							height={1468} 
 							alt="Photo of a young man" 
@@ -381,7 +393,6 @@ export default function Services({ wrapperRef }: Props) {
 						/>
 						<Image
 							src="/images/preloaded/services-gallery-1.jpg"
-							id="photoA"
 							width={2235} 
 							height={1468} 
 							alt="Photo portrait of an old man" 
@@ -389,7 +400,6 @@ export default function Services({ wrapperRef }: Props) {
 						/>
 						<Image
 							src="/images/preloaded/services-gallery-desktop-1.jpg"
-							id="photoA" 
 							width={2665} 
 							height={1468} 
 							alt="Photo portrait of an old man" 

@@ -23,16 +23,6 @@ const PIN_SETTINGS = {
 	breakpoint: "(min-width: 1024px)",
 } as const;
 
-const SVG_CURVE_STYLE = `
-	.curve-a {
-		fill: none;
-		stroke: #959493;
-		stroke-miterlimit: 100;
-		stroke-width: 5;
-		stroke-dasharray: 2065.36, 0.1;
-	}
-`;
-
 const animateMilestoneOnProgress = (
 	milestone: HTMLDivElement | null,
 	progress: number,
@@ -72,50 +62,54 @@ export default function About({ wrapperRef }: Props) {
 
 	useGSAP(() => {
 		if (!sectionRef.current) return;
-		if (!pathRefDesktop.current && !pathRefMobile.current) return;
+		const ctx = gsap.context(() => {
+			if (!pathRefDesktop.current && !pathRefMobile.current) return;
 
-		// Start with paths not drawn and milestones hidden
-		if (pathRefDesktop.current) {
-			gsap.set(pathRefDesktop.current, { drawSVG: "0%" });
-		}
-		if (pathRefMobile.current) {
-			gsap.set(pathRefMobile.current, { drawSVG: "0%" });
-		}
-		gsap.set(
-			milestoneConfig.map(m => m.ref.current),
-			{ opacity: 0 }
-		);
-
-		// Pin bodyCopyRef for lg breakpoint and above
-		gsap.matchMedia().add(PIN_SETTINGS.breakpoint, () => {
-			if (!bodyCopyRef.current || !sectionRef.current) return;
-
-			ScrollTrigger.create({
-				trigger: sectionRef.current,
-				start: PIN_SETTINGS.start,
-				end: PIN_SETTINGS.end,
-				pin: bodyCopyRef.current,
-			});
-		});
-
-		// Animate the path drawing as user scrolls (both desktop and mobile)
-		const pathTargets = [pathRefDesktop.current, pathRefMobile.current].filter(Boolean);
-		gsap.to(pathTargets, {
-			drawSVG: "100%",
-			ease: "none",
-			scrollTrigger: {
-				trigger: sectionRef.current,
-				start: SCROLL_TRIGGER_SETTINGS.start,
-				end: SCROLL_TRIGGER_SETTINGS.end,
-				scrub: SCROLL_TRIGGER_SETTINGS.scrub,
-				onUpdate: (self) => {
-					const progress = self.progress;
-					milestoneConfig.forEach(({ ref, threshold }) => {
-						animateMilestoneOnProgress(ref.current, progress, threshold);
-					});
-				},
+			// Start with paths not drawn and milestones hidden
+			if (pathRefDesktop.current) {
+				gsap.set(pathRefDesktop.current, { drawSVG: "0%" });
 			}
-		});
+			if (pathRefMobile.current) {
+				gsap.set(pathRefMobile.current, { drawSVG: "0%" });
+			}
+			gsap.set(
+				milestoneConfig.map(m => m.ref.current),
+				{ opacity: 0 }
+			);
+
+			// Pin bodyCopyRef for lg breakpoint and above
+			gsap.matchMedia().add(PIN_SETTINGS.breakpoint, () => {
+				if (!bodyCopyRef.current || !sectionRef.current) return;
+
+				ScrollTrigger.create({
+					trigger: sectionRef.current,
+					start: PIN_SETTINGS.start,
+					end: PIN_SETTINGS.end,
+					pin: bodyCopyRef.current,
+				});
+			});
+
+			// Animate the path drawing as user scrolls (both desktop and mobile)
+			const pathTargets = [pathRefDesktop.current, pathRefMobile.current].filter(Boolean);
+			gsap.to(pathTargets, {
+				drawSVG: "100%",
+				ease: "none",
+				scrollTrigger: {
+					trigger: sectionRef.current,
+					start: SCROLL_TRIGGER_SETTINGS.start,
+					end: SCROLL_TRIGGER_SETTINGS.end,
+					scrub: SCROLL_TRIGGER_SETTINGS.scrub,
+					onUpdate: (self) => {
+						const progress = self.progress;
+						milestoneConfig.forEach(({ ref, threshold }) => {
+							animateMilestoneOnProgress(ref.current, progress, threshold);
+						});
+					},
+				}
+			});
+		}, sectionRef);
+
+    	return () => ctx.revert();
 	}, { scope: wrapperRef });
 
 	return(
@@ -136,12 +130,17 @@ export default function About({ wrapperRef }: Props) {
 							overflow="visible"
 							className="hidden sm:block"
 						>
-							<style>{SVG_CURVE_STYLE}</style>
 							<path
 								ref={pathRefDesktop}
 								fillRule="evenodd"
-								className="curve-a"
 								d="m3 0.8v323.1c0 0 0.9 33.9 32.9 33.9h222.8c0 0 32.9 0.1 32.9 33.2v597.5c0 0 0 32.6-32.9 32.6h-222.9c0 0-32.9 1.4-32.9 33.2v407.6c0 0 1.3 32.7 32.9 32.7h222.8c0 0 32.9 1 32.9 33.2v338"
+								style={{
+									fill: 'none',
+									stroke: '#959493',
+									strokeMiterlimit: 100,
+									strokeWidth: 5,
+									strokeDasharray: '2065.36, 0.1'
+								}}
 							/>
 						</svg>
 						{/* Mobile SVG - shown below sm breakpoint */}
@@ -155,12 +154,17 @@ export default function About({ wrapperRef }: Props) {
 							overflow="visible"
 							className="block sm:hidden"
 						>
-							<style>{SVG_CURVE_STYLE}</style>
 							<path
 								ref={pathRefMobile}
 								fillRule="evenodd"
-								className="curve-a"
 								d="m3 0.8v323.1c0 0 0.9 33.9 32.9 33.9h22.8c0 0 32.9 0.1 32.9 33.2v597.5c0 0 0 32.6-32.9 32.6h-22.9c0 0-32.9 1.4-32.9 33.2v407.6c0 0 1.3 32.7 32.9 32.7h22.8c0 0 32.9 1 32.9 33.2v338"
+								style={{
+									fill: 'none',
+									stroke: '#959493',
+									strokeMiterlimit: 100,
+									strokeWidth: 5,
+									strokeDasharray: '2065.36, 0.1'
+								}}
 							/>
 						</svg>
 						<Milestone
@@ -214,14 +218,10 @@ export default function About({ wrapperRef }: Props) {
 					</div>
 				</div>
 				<div ref={bodyCopyRef} className="w-[88%] lg:w-[28%]">
-					<h1 className="text-[34px] sm:text-[5vw] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.8em] mb-[0.5em]">Ut enim <br className="hidden sm:inline" />ad minim <br className="hidden sm:inline" />veniam</h1>
-
+					<h2 className="text-[34px] sm:text-[5vw] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.8em] mb-[0.5em]">Ut enim <br className="hidden sm:inline" />ad minim <br className="hidden sm:inline" />veniam</h2>
 					<p className="text-[16px] sm:text-[18px] opacity-60 leading-[1.3em] mb-[1.4em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
-
 					<p className="text-[16px] sm:text-[18px] opacity-60 leading-[1.3em] mb-[1.4em]">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.</p>
-				
 					<h2 className="text-[24px] sm:text-[2vw] font-mainfont font-medium tracking-[-0.03em] leading-[1.0em] mt-[1.5em] mb-[0.5em]">Ullamco Laboris</h2>
-
 					<p className="text-[16px] sm:text-[18px] opacity-60 leading-[1.3em] mb-[1.4em]">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
 				</div>
 			</div>
