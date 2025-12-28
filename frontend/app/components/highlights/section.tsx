@@ -36,7 +36,7 @@ export default function Highlights({ wrapperRef }: Props) {
 			const images: HTMLImageElement[] = [];
 			const state = { frame: 0 };
 			const currentFrame = (index: number) =>
-			`/images/frames/frame_${String(index).padStart(5, "0")}.jpg`;
+			`/images/frames/frame_${String(index).padStart(5, "0")}.webp`;
 
 			// Preload frames
 			for (let i = startFrame; i <= endFrame; i++) {

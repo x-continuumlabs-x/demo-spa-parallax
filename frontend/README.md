@@ -235,7 +235,7 @@ The About section uses a variant-based milestone system:
 
 The Highlights section uses 157 frames (frame_00036 to frame_00192):
 
--   Format: JPG
+-   Format: WebP
 -   Resolution: 1280x720
 -   Location: `/public/images/frames/`
 
