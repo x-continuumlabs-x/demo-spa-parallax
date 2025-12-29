@@ -15,7 +15,7 @@ export default function Home() {
 		<div ref={wRef}>
 			<Hero wrapperRef={wRef} />
 			<Expertise wrapperRef={wRef} />
-			{/* <Services wrapperRef={wRef} /> */}
+			<Services wrapperRef={wRef} />
 			<About wrapperRef={wRef} />
 			<Highlights wrapperRef={wRef} />
 			<Footer />

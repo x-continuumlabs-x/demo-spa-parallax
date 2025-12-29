@@ -105,7 +105,7 @@ export default function Services({ wrapperRef }: Props) {
 			const numImages = images.length;
 			const smoother = ScrollSmoother.get ? ScrollSmoother.get() : null;
 			const timelineDuration = numImages - 1;
-			const totalScroll = galleryHeight * timelineDuration;
+			const totalScroll = isTouchLowPowerDevice() ? "+=200vh" : galleryHeight * timelineDuration;
 
 			// Timeline for sequential image animation
 			const tl = gsap.timeline({
