@@ -15,51 +15,51 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 
 	useGSAP(() => {
 		if (isTouchLowPowerDevice()) {
-			const sections = Array.from(
-				document.querySelectorAll<HTMLElement>("[data-parallax-section]")
-			);
+			// const sections = Array.from(
+			// 	document.querySelectorAll<HTMLElement>("[data-parallax-section]")
+			// );
 
-			const items = sections.map(section => {
-				const rect = section.getBoundingClientRect();
-				const top = rect.top + window.scrollY;
-				const height = rect.height;
+			// const items = sections.map(section => {
+			// 	const rect = section.getBoundingClientRect();
+			// 	const top = rect.top + window.scrollY;
+			// 	const height = rect.height;
 
-				const elements = Array.from(section.querySelectorAll<HTMLElement>("[data-parallax]")).map(el => {
-					const speed = parseFloat(el.dataset.speedMobile || el.dataset.speed || "1");
-					return { el, speed };
-				});
+			// 	const elements = Array.from(section.querySelectorAll<HTMLElement>("[data-parallax]")).map(el => {
+			// 		const speed = parseFloat(el.dataset.speedMobile || el.dataset.speed || "1");
+			// 		return { el, speed };
+			// 	});
 
-				return { top, height, elements };
-			});
+			// 	return { top, height, elements };
+			// });
 
-			let ticking = false;
+			// let ticking = false;
 
-			const update = () => {
-				const scrollY = window.scrollY;
-				const vh = window.innerHeight;
+			// const update = () => {
+			// 	const scrollY = window.scrollY;
+			// 	const vh = window.innerHeight;
 
-				for (let i = 0; i < items.length; i++) {
-					const section = items[i];
-					const progress =
-						(scrollY + vh - section.top) / (section.height + vh);
+			// 	for (let i = 0; i < items.length; i++) {
+			// 		const section = items[i];
+			// 		const progress =
+			// 			(scrollY + vh - section.top) / (section.height + vh);
 
-					if (progress <= 0 || progress >= 1) continue;
+			// 		if (progress <= 0 || progress >= 1) continue;
 
-					for (let j = 0; j < section.elements.length; j++) {
-						const { el, speed } = section.elements[j];
-						el.style.transform = `translate3d(0, ${progress * (1 - speed) * 100}px, 0)`;
-					}
-				}
-				ticking = false;
-			};
+			// 		for (let j = 0; j < section.elements.length; j++) {
+			// 			const { el, speed } = section.elements[j];
+			// 			el.style.transform = `translate3d(0, ${progress * (1 - speed) * 100}px, 0)`;
+			// 		}
+			// 	}
+			// 	ticking = false;
+			// };
 
-			const onScroll = () => {
-				if (!ticking) {
-					ticking = true;
-					requestAnimationFrame(update);
-				}
-			};
-			window.addEventListener("scroll", onScroll, { passive: true });
+			// const onScroll = () => {
+			// 	if (!ticking) {
+			// 		ticking = true;
+			// 		requestAnimationFrame(update);
+			// 	}
+			// };
+			// window.addEventListener("scroll", onScroll, { passive: true });
 
 		} else {
 			// Desktop: Use ScrollSmoother
