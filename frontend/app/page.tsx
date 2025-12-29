@@ -17,7 +17,7 @@ export default function Home() {
 			<Expertise wrapperRef={wRef} />
 			{/* <Services wrapperRef={wRef} /> */}
 			<About wrapperRef={wRef} />
-			{/* <Highlights wrapperRef={wRef} /> */}
+			<Highlights wrapperRef={wRef} />
 			<Footer />
 		</div>
 	);
