@@ -19,9 +19,9 @@ export default function RootLayout({
 		<html lang="en">
 			<body
 			className={`${albertSans.variable} ${mainfont.variable} antialiased relative`}>
-				<SmoothScroll>
+				{/* <SmoothScroll> */}
 					{children}
-				</SmoothScroll>
+				{/* </SmoothScroll> */}
 				<LoadingScreenWrapper />
 			</body>
 		</html>

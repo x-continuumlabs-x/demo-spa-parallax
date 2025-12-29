@@ -14,10 +14,13 @@ export default function Home() {
 	return (
 		<div ref={wRef}>
 			<Hero wrapperRef={wRef} />
-			<Expertise wrapperRef={wRef} />
+			<Hero wrapperRef={wRef} />
+			<Hero wrapperRef={wRef} />
+			<Hero wrapperRef={wRef} />
+			{/* <Expertise wrapperRef={wRef} />
 			<Services wrapperRef={wRef} />
 			<About wrapperRef={wRef} />
-			<Highlights wrapperRef={wRef} />
+			<Highlights wrapperRef={wRef} /> */}
 			<Footer />
 		</div>
 	);
