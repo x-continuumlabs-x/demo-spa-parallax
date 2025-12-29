@@ -115,14 +115,14 @@ export default function Services({ wrapperRef }: Props) {
 					pin: true,
 					start: "top top",
 					end: `+=${totalScroll}`,
-					scroller: smoother?.content(),
-					scrub: true,
-					onLeave: () => {
-						setSelectedTab("img3");
-					},
-					onLeaveBack: () => {
-						setSelectedTab("img1");
-					},
+					// scroller: smoother?.content(),
+					// scrub: true,
+					// onLeave: () => {
+					// 	setSelectedTab("img3");
+					// },
+					// onLeaveBack: () => {
+					// 	setSelectedTab("img1");
+					// },
 					// onUpdate: (self) => {
 					// 	if (isUserClickingTab.current) {
 					// 		return;
