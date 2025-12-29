@@ -17,11 +17,10 @@ export default function Home() {
 			<Hero wrapperRef={wRef} />
 			<Hero wrapperRef={wRef} />
 			<Hero wrapperRef={wRef} />
-			{/* <Expertise wrapperRef={wRef} />
-			<Services wrapperRef={wRef} />
+			<Expertise wrapperRef={wRef} />
+			{/* <Services wrapperRef={wRef} />
 			<About wrapperRef={wRef} />
 			<Highlights wrapperRef={wRef} /> */}
-			<Footer />
 			<Footer />
 		</div>
 	);
