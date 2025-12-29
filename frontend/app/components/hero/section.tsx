@@ -226,7 +226,7 @@ export default function Hero({ wrapperRef }: Props) {
 	};
 
 	return (
-		<section className="w-full overflow-hidden bg-[#b5aca3]">
+		<section data-parallax-section className="w-full overflow-hidden bg-[#b5aca3]">
 			<div
 				className="relative w-full h-[var(--height-landscape)] portrait:h-[var(--height-portrait)]"
 				style={
@@ -260,17 +260,13 @@ export default function Hero({ wrapperRef }: Props) {
 					/>
 				</div>
 				
-				<div
-					className="absolute top-[70vh] sm:top-[-13vh] w-full"
-					data-speed="0.7"
-				data-speed-mobile="0.6"
-				>
+				<div data-parallax data-speed="0.7" data-speed-mobile="0.6" className="absolute top-[70vh] sm:top-[-13vh] w-full">
 					<h2 className="text-[30vw] text-[#b082db] uppercase font-mainfont font-black tracking-[-0.08em] leading-[0.6em] text-center m-0 ml-[-0.08em]">
 						Nomin
 					</h2>
 				</div>
 
-				<div className="absolute top-[82.5vh] sm:top-[35vw] sm:left-[10vw] w-full flex flex-col items-center sm:block" data-speed="0.5" data-speed-mobile="0.6">
+				<div data-parallax data-speed="0.5" data-speed-mobile="0.6" className="absolute top-[82.5vh] sm:top-[35vw] sm:left-[10vw] w-full flex flex-col items-center sm:block">
 					<div className="w-[65vw] max-w-[203px] mb-2">
 						<Image
 							src="/logo-1.png"

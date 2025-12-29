@@ -15,38 +15,52 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
 
 	useGSAP(() => {
 		if (isTouchLowPowerDevice()) {
-			// Mobile: Manual parallax effect for reduced performance devices
-			const PARALLAX_INTENSITY = 0.5; // Adjust this value (0.1 = subtle, 1.0 = full viewport)
-			const dataSpeedElements = document.querySelectorAll<HTMLElement>('[data-speed]');
+			const sections = Array.from(
+				document.querySelectorAll<HTMLElement>("[data-parallax-section]")
+			);
 
-			// Calculate total scrollable distance
-			const pageHeight = document.body.scrollHeight;
-			const viewportHeight = window.innerHeight;
-			const scrollDistance = pageHeight - viewportHeight;
+			const items = sections.map(section => {
+				const rect = section.getBoundingClientRect();
+				const top = rect.top + window.scrollY;
+				const height = rect.height;
 
-			dataSpeedElements.forEach((element) => {
-				// Check for mobile-specific speed first, fall back to desktop speed
-				const mobileSpeedAttr = element.getAttribute('data-speed-mobile');
-				const speed = parseFloat(mobileSpeedAttr || element.getAttribute('data-speed') || '1');
+				const elements = Array.from(section.querySelectorAll<HTMLElement>("[data-parallax]")).map(el => {
+					const speed = parseFloat(el.dataset.speedMobile || el.dataset.speed || "1");
+					return { el, speed };
+				});
 
-				// Calculate total movement over entire page scroll
-				const movement = (scrollDistance * (1 - speed) * PARALLAX_INTENSITY);
-
-				gsap.fromTo(element,
-					{ y: 0 },
-					{
-						y: movement,
-						ease: "none",
-						scrollTrigger: {
-							trigger: document.body,
-							start: "top top",
-							end: "bottom bottom",
-							scrub: true,
-							invalidateOnRefresh: true
-						}
-					}
-				);
+				return { top, height, elements };
 			});
+
+			let ticking = false;
+
+			const update = () => {
+				const scrollY = window.scrollY;
+				const vh = window.innerHeight;
+
+				for (let i = 0; i < items.length; i++) {
+					const section = items[i];
+					const progress =
+						(scrollY + vh - section.top) / (section.height + vh);
+
+					if (progress <= 0 || progress >= 1) continue;
+
+					for (let j = 0; j < section.elements.length; j++) {
+						const { el, speed } = section.elements[j];
+						el.style.transform = `translate3d(0, ${progress * (1 - speed) * 100}px, 0)`;
+					}
+				}
+				ticking = false;
+			};
+
+			const onScroll = () => {
+				if (!ticking) {
+					ticking = true;
+					requestAnimationFrame(update);
+				}
+			};
+			window.addEventListener("scroll", onScroll, { passive: true });
+
 		} else {
 			// Desktop: Use ScrollSmoother
 			const smoother = ScrollSmoother.create({
