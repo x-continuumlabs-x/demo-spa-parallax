@@ -116,34 +116,34 @@ export default function Services({ wrapperRef }: Props) {
 					start: "top top",
 					end: `+=${totalScroll}`,
 					scroller: smoother?.content(),
-					scrub: false,
+					scrub: true,
 					onLeave: () => {
 						setSelectedTab("img3");
 					},
 					onLeaveBack: () => {
 						setSelectedTab("img1");
 					},
-					onUpdate: (self) => {
-						if (isUserClickingTab.current) {
-							return;
-						}
+					// onUpdate: (self) => {
+					// 	if (isUserClickingTab.current) {
+					// 		return;
+					// 	}
 
-						const progress = self.progress;
-						const currentTime = progress * timelineDuration;
+					// 	const progress = self.progress;
+					// 	const currentTime = progress * timelineDuration;
 
-						let currentImageIndex = 0;
-						if (currentTime >= TAB_SWITCH_THRESHOLDS.second) {
-							currentImageIndex = 2;
-						} else if (currentTime >= TAB_SWITCH_THRESHOLDS.first) {
-							currentImageIndex = 1;
-						}
+					// 	let currentImageIndex = 0;
+					// 	if (currentTime >= TAB_SWITCH_THRESHOLDS.second) {
+					// 		currentImageIndex = 2;
+					// 	} else if (currentTime >= TAB_SWITCH_THRESHOLDS.first) {
+					// 		currentImageIndex = 1;
+					// 	}
 
-						const newTab = TAB_KEYS[currentImageIndex];
-						if (newTab !== selectedTabRef.current) {
-							selectedTabRef.current = newTab;
-							setSelectedTab(newTab);
-						}
-					},
+					// 	const newTab = TAB_KEYS[currentImageIndex];
+					// 	if (newTab !== selectedTabRef.current) {
+					// 		selectedTabRef.current = newTab;
+					// 		setSelectedTab(newTab);
+					// 	}
+					// },
 				},
 			});
 
