@@ -22,6 +22,8 @@ export default function Home() {
 			{/* <About wrapperRef={wRef} /> */}
 			{/* <Highlights wrapperRef={wRef} /> */}
 			<Footer />
+			<Footer />
+			<Footer />
 		</div>
 	);
 }
