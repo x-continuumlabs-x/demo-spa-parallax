@@ -105,7 +105,8 @@ export default function Services({ wrapperRef }: Props) {
 			const numImages = images.length;
 			const smoother = ScrollSmoother.get ? ScrollSmoother.get() : null;
 			const timelineDuration = numImages - 1;
-			const totalScroll = isTouchLowPowerDevice() ? "+=2000px" : galleryHeight * timelineDuration;
+			const isMobile = isTouchLowPowerDevice();
+			const totalScroll = isMobile ? "+=250vh" : galleryHeight * timelineDuration;
 
 			// Timeline for sequential image animation
 			const tl = gsap.timeline({
@@ -115,7 +116,7 @@ export default function Services({ wrapperRef }: Props) {
 					start: "top top",
 					end: `+=${totalScroll}`,
 					scroller: smoother?.content(),
-					scrub: true,
+					scrub: false,
 					onLeave: () => {
 						setSelectedTab("img3");
 					},
