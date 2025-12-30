@@ -91,6 +91,20 @@ export default function Services({ wrapperRef }: Props) {
 	useGSAP(() => {
 		if (!sectionRef.current) return;
  		const ctx = gsap.context(() => {
+			const isMobile = isTouchLowPowerDevice();
+
+			// Mobile: Simple pinning without animations or scroll-based tab updates
+			if (isMobile) {
+				ScrollTrigger.create({
+					trigger: sectionRef.current,
+					pin: true,
+					start: "top top",
+					end: "+=400vh",
+				});
+				return;
+			}
+
+			// Desktop: Full ScrollTrigger with image animations and scroll-synced tabs
 			const galleryContainer = sectionRef.current?.querySelector<HTMLElement>("#galleryContainer");
 			// Get all images, then filter to only visible ones (not display: none)
 			const allImages = galleryContainer?.querySelectorAll<HTMLImageElement>("img");
@@ -105,8 +119,7 @@ export default function Services({ wrapperRef }: Props) {
 			const numImages = images.length;
 			const smoother = ScrollSmoother.get ? ScrollSmoother.get() : null;
 			const timelineDuration = numImages - 1;
-			const isMobile = isTouchLowPowerDevice();
-			const totalScroll = isMobile ? "+=250vh" : galleryHeight * timelineDuration;
+			const totalScroll = galleryHeight * timelineDuration;
 
 			// Timeline for sequential image animation
 			const tl = gsap.timeline({
@@ -115,35 +128,35 @@ export default function Services({ wrapperRef }: Props) {
 					pin: true,
 					start: "top top",
 					end: `+=${totalScroll}`,
-					// scroller: smoother?.content(),
-					// scrub: true,
-					// onLeave: () => {
-					// 	setSelectedTab("img3");
-					// },
-					// onLeaveBack: () => {
-					// 	setSelectedTab("img1");
-					// },
-					// onUpdate: (self) => {
-					// 	if (isUserClickingTab.current) {
-					// 		return;
-					// 	}
+					scroller: smoother?.content(),
+					scrub: true,
+					onLeave: () => {
+						setSelectedTab("img3");
+					},
+					onLeaveBack: () => {
+						setSelectedTab("img1");
+					},
+					onUpdate: (self) => {
+						if (isUserClickingTab.current) {
+							return;
+						}
 
-					// 	const progress = self.progress;
-					// 	const currentTime = progress * timelineDuration;
+						const progress = self.progress;
+						const currentTime = progress * timelineDuration;
 
-					// 	let currentImageIndex = 0;
-					// 	if (currentTime >= TAB_SWITCH_THRESHOLDS.second) {
-					// 		currentImageIndex = 2;
-					// 	} else if (currentTime >= TAB_SWITCH_THRESHOLDS.first) {
-					// 		currentImageIndex = 1;
-					// 	}
+						let currentImageIndex = 0;
+						if (currentTime >= TAB_SWITCH_THRESHOLDS.second) {
+							currentImageIndex = 2;
+						} else if (currentTime >= TAB_SWITCH_THRESHOLDS.first) {
+							currentImageIndex = 1;
+						}
 
-					// 	const newTab = TAB_KEYS[currentImageIndex];
-					// 	if (newTab !== selectedTabRef.current) {
-					// 		selectedTabRef.current = newTab;
-					// 		setSelectedTab(newTab);
-					// 	}
-					// },
+						const newTab = TAB_KEYS[currentImageIndex];
+						if (newTab !== selectedTabRef.current) {
+							selectedTabRef.current = newTab;
+							setSelectedTab(newTab);
+						}
+					},
 				},
 			});
 
@@ -216,6 +229,31 @@ export default function Services({ wrapperRef }: Props) {
 		previousTabRef.current = selectedTab;
 	}, [selectedTab]);
 
+	// Mobile-only: Show/hide images based on active tab
+	useEffect(() => {
+		if (!isTouchLowPowerDevice()) return; // Desktop uses ScrollTrigger
+
+		const galleryContainer = sectionRef.current?.querySelector("#galleryContainer");
+		if (!galleryContainer) return;
+
+		const images = Array.from(galleryContainer.querySelectorAll("img"));
+		const imageIndex = TAB_MAP[selectedTab];
+
+		images.forEach((img, index) => {
+			// Each tab has 2 images (portrait + landscape variants)
+			// img1: indices 4-5 (bottom of stack)
+			// img2: indices 2-3 (middle)
+			// img3: indices 0-1 (top)
+			const imgTabIndex = Math.floor((images.length - 1 - index) / 2);
+
+			if (imgTabIndex === imageIndex) {
+				gsap.set(img, { display: 'block' });
+			} else {
+				gsap.set(img, { display: 'none' });
+			}
+		});
+	}, [selectedTab]);
+
 	useEffect(() => {
 		let resizeTimer: ReturnType<typeof setTimeout>;
 
@@ -263,40 +301,38 @@ export default function Services({ wrapperRef }: Props) {
 					onSelectionChange={(key) => {
 						setSelectedTab(key as string);
 
-						isUserClickingTab.current = true;
+						// Desktop: Scroll to position
+						if (!isTouchLowPowerDevice()) {
+							isUserClickingTab.current = true;
 
-						if (scrollTimeoutRef.current) {
-							clearTimeout(scrollTimeoutRef.current);
-						}
+							if (scrollTimeoutRef.current) {
+								clearTimeout(scrollTimeoutRef.current);
+							}
 
-						const imageIndex = TAB_MAP[key as string];
+							const imageIndex = TAB_MAP[key as string];
 
-						if (scrollTriggerRef.current && sectionRef.current) {
-							const st = scrollTriggerRef.current;
+							if (scrollTriggerRef.current && sectionRef.current) {
+								const st = scrollTriggerRef.current;
 
-							const targetTimelineTime = calculateTargetTimelineTime(imageIndex);
-							const targetProgress = targetTimelineTime / TIMELINE_DURATION;
+								const targetTimelineTime = calculateTargetTimelineTime(imageIndex);
+								const targetProgress = targetTimelineTime / TIMELINE_DURATION;
 
-							const scrollStart = st.start;
-							const scrollEnd = st.end;
-							const scrollDistance = scrollEnd - scrollStart;
-							const targetScroll = scrollStart + scrollDistance * targetProgress;
+								const scrollStart = st.start;
+								const scrollEnd = st.end;
+								const scrollDistance = scrollEnd - scrollStart;
+								const targetScroll = scrollStart + scrollDistance * targetProgress;
 
-							if (isTouchLowPowerDevice()) {
-								// Mobile: Use native scroll
-								window.scrollTo({ top: targetScroll, behavior: 'smooth' });
-							} else {
-								// Desktop: Use ScrollSmoother
 								const smoother = ScrollSmoother.get?.();
 								if (smoother) {
 									smoother.scrollTo(targetScroll, true, "power2.inOut");
 								}
-							}
 
-							scrollTimeoutRef.current = setTimeout(() => {
-								isUserClickingTab.current = false;
-							}, TIMING.tabClickTimeout);
+								scrollTimeoutRef.current = setTimeout(() => {
+									isUserClickingTab.current = false;
+								}, TIMING.tabClickTimeout);
+							}
 						}
+						// Mobile: Just set tab, image switching handled by useEffect
 					}}
 				>
 					<Tabs.ListContainer className="rounded-2xl ">
