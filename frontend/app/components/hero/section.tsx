@@ -1,6 +1,5 @@
 "use client";
 
-import { Props } from "@/types";
 import Image from "next/image";
 import { useRef } from "react";
 import { gsap } from "gsap";
@@ -98,7 +97,7 @@ const scrollSectionToBottom = (element: HTMLElement) => {
 	}
 };
 
-export default function Hero({}: Props) {
+export default function Hero() {
 	const imageContainerRef = useRef<HTMLDivElement>(null);
 	const formWrapperRef = useRef<HTMLDivElement>(null);
 	const ctaFormBgRef = useRef<HTMLDivElement>(null);

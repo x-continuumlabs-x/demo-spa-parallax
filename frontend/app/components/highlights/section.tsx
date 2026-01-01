@@ -1,9 +1,8 @@
-import { Props } from "@/types";
 import { useRef } from "react";
 import { gsap, ScrollTrigger } from "@/app/lib/gsap";
 import { useGSAP } from "@gsap/react";
 
-export default function Highlights({ wrapperRef }: Props) {
+export default function Highlights() {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const canvasContainerRef = useRef<HTMLDivElement>(null);
 	const headingRef = useRef<HTMLDivElement>(null);
@@ -207,7 +206,7 @@ export default function Highlights({ wrapperRef }: Props) {
 					}, 0.5); // Start at position 0.5 in timeline
 				}
 			}
-		}, wrapperRef);
+		});
 	return () => ctx.revert();
 	}, []);
 

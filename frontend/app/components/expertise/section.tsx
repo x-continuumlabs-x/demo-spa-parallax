@@ -1,6 +1,5 @@
 "use client";
 
-import { Props } from "@/types";
 import Image from "next/image";
 import { useRef } from "react";
 import { gsap, ScrollTrigger } from "@/app/lib/gsap";
@@ -24,7 +23,7 @@ const CARD_IMAGE_DIMENSIONS = {
 	height: 300,
 } as const;
 
-export default function Expertise({ wrapperRef }: Props){
+export default function Expertise(){
 	const cards = useRef<HTMLDivElement>(null);
 	const heightRatioLandscape = IMAGE_DIMENSIONS.landscape.height / IMAGE_DIMENSIONS.landscape.width;
 	const heightRatioPortrait = IMAGE_DIMENSIONS.portrait.height / IMAGE_DIMENSIONS.portrait.width;
@@ -42,7 +41,7 @@ export default function Expertise({ wrapperRef }: Props){
 				start: startPosition,
 				end: `+=${SCROLL_TRIGGER_SETTINGS.pinEndDistance}`,
 			});
-		}, wrapperRef);
+		});
     	return () => ctx.revert();
 	});
 

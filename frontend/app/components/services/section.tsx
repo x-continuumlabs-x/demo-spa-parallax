@@ -1,6 +1,5 @@
 "use client";
 
-import { Props } from "@/types";
 import { useRef, useState, useEffect } from "react";
 import Image  from "next/image";
 import { useGSAP } from "@gsap/react";
@@ -75,7 +74,7 @@ const calculateTargetTimelineTime = (imageIndex: number): number => {
 	return 0;
 };
 
-export default function Services({}: Props) {
+export default function Services() {
 	const [selectedTab, setSelectedTab] = useState("img1");
 	const isUserClickingTab = useRef(false);
 	const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);

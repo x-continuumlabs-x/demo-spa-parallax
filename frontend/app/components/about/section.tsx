@@ -1,6 +1,5 @@
 "use client";
 
-import { Props } from "@/types";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
 import { gsap, ScrollTrigger } from "@/app/lib/gsap";
@@ -39,7 +38,7 @@ const animateMilestoneOnProgress = (
 	}
 };
 
-export default function About({}: Props) {
+export default function About() {
 	const pathRefDesktop = useRef<SVGPathElement>(null);
 	const pathRefMobile = useRef<SVGPathElement>(null);
 	const sectionRef = useRef<HTMLDivElement>(null);
