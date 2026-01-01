@@ -39,7 +39,7 @@ const animateMilestoneOnProgress = (
 	}
 };
 
-export default function About({ wrapperRef }: Props) {
+export default function About({}: Props) {
 	const pathRefDesktop = useRef<SVGPathElement>(null);
 	const pathRefMobile = useRef<SVGPathElement>(null);
 	const sectionRef = useRef<HTMLDivElement>(null);
@@ -110,7 +110,7 @@ export default function About({ wrapperRef }: Props) {
 		}, sectionRef);
 
     	return () => ctx.revert();
-	}, { scope: wrapperRef });
+	});
 
 	return(
 		<section className="relative w-full pt-[22vw] sm:pt-[8vw] pb-[17vw] border-t border-white/15 sm:border-0">

@@ -75,7 +75,7 @@ const calculateTargetTimelineTime = (imageIndex: number): number => {
 	return 0;
 };
 
-export default function Services({ wrapperRef }: Props) {
+export default function Services({}: Props) {
 	const [selectedTab, setSelectedTab] = useState("img1");
 	const isUserClickingTab = useRef(false);
 	const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -168,7 +168,7 @@ export default function Services({ wrapperRef }: Props) {
 			}
 		}, sectionRef);
     	return () => ctx.revert();
-	}, { scope: wrapperRef });
+	});
 
 	// Tab content animations
 	useEffect(() => {

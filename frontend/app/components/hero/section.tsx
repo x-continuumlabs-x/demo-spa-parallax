@@ -98,7 +98,7 @@ const scrollSectionToBottom = (element: HTMLElement) => {
 	}
 };
 
-export default function Hero({ wrapperRef }: Props) {
+export default function Hero({}: Props) {
 	const imageContainerRef = useRef<HTMLDivElement>(null);
 	const formWrapperRef = useRef<HTMLDivElement>(null);
 	const ctaFormBgRef = useRef<HTMLDivElement>(null);
@@ -121,7 +121,7 @@ export default function Hero({ wrapperRef }: Props) {
 			{ width: "107vw" },
 			{ width: "100vw", duration: ANIMATION_DURATIONS.imageZoom, ease: "expo.out" }
 		);
-	}, { scope: wrapperRef });
+	});
 
 	const handleCtaClick = () => {
 		if (!ctaFormBgRef.current || !formHeadingSmallRef.current || !contactHeadingLargeRef.current) return;
