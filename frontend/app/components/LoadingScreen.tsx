@@ -1,6 +1,6 @@
 'use client'
 import { useImagePreloader } from '../hooks/useImagePreloader';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ScrollSmoother } from '@/app/lib/gsap';
 
 interface LoadingScreenProps {
@@ -10,7 +10,10 @@ interface LoadingScreenProps {
 
 export default function LoadingScreen({ staticImages, frameImages }: LoadingScreenProps) {
     const [isVisible, setIsVisible] = useState(true);
-    const allImages = [...staticImages, ...frameImages];
+    const allImages = useMemo(
+        () => [...staticImages, ...frameImages],
+        [staticImages, frameImages]
+    );
     const { isLoading, progress } = useImagePreloader(allImages);
 
     // Restore scrollbar when loading completes
